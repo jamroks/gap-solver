@@ -13,6 +13,7 @@ read_gap(S_gap_instance *gap)
 char fichier[80] ;
 FILE *fic ;
 int valeur ;
+int agt,job ;
 printf("Nom du fichier de paramètrage ? :") ; 
 scanf("%s",&fichier); 
 printf("lecture du fichier %s ...\n",fichier) ;  
@@ -23,15 +24,40 @@ if (fic==NULL)
 	} 
   else
 	{
-	fscanf (fic, "%f", gap->agent_count);
+	fscanf (fic, "%d", &gap->agent_count);
 	if (gap->agent_count >= MAX_AGENT) return 2 ;
-	fscanf (fic, "%f", gap->job_count);
+	fscanf (fic, "%d", &gap->job_count);
 	if (gap->job_count >= MAX_JOB) return 3 ;
-	
-	while(!feof(fic)) 
+	printf("nb agents=%d  & nb jobs=%d\n",gap->agent_count,gap->job_count);
+	/* lecture des couts (c(it)) */
+	for (agt=1;agt <= gap->agent_count;agt++)
 		{
-		fscanf (fic, "%f", &valeur);
-		}
-	}
-fclose(fic) ;
+		for (job=1;job <= gap->job_count;job++)
+			{
+			fscanf (fic, "%d", &valeur);
+	// printf("cout[%d,%d]=%d   ",agt,job,valeur) ;
+			gap->cost[agt][job]=valeur ;
+			}
+	// printf("\n") ;
+		};
+	/* lecture des ressources (r(it)) */
+	for (agt=1;agt <= gap->agent_count;agt++)
+		{
+		for (job=1;job <= gap->job_count;job++)
+			{
+			fscanf (fic, "%d", &valeur);
+			gap->gain[agt][job]=valeur ;
+			}
+	// printf("\n") ;
+		};
+	/* lecture des capacités des agents (b(i)) */
+	for (agt=1;agt <= gap->agent_count;agt++)
+		{
+		fscanf (fic, "%d", &valeur);
+		gap->capacity[agt]=valeur ;
+	// printf("b[%d]=%d   ",agt,valeur) ;
+		};
+	// while(!feof(fic)) { return 4 ;} ;
+	fclose(fic) ;
+	};
 }
