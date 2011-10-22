@@ -7,7 +7,7 @@
 #include "../header/function.h"
 
 short 
-read_gap(t_gap_instance * instance, char * file_name)
+read_orlibrary_input_file(char * file_name, t_gap_instance * instance, t_gap_solution * solution)
 {
   FILE *file ;
   int value ;
