@@ -1,5 +1,5 @@
 short
-instance_allocate_memory (t_gap_instance * instance, int agent_count, int job_count)
+memory_allocation_gap_instance (t_gap_instance * instance, int agent_count, int job_count)
 {
   int i;
   instance->agent_count = agent_count ;
@@ -26,7 +26,7 @@ instance_allocate_memory (t_gap_instance * instance, int agent_count, int job_co
 }
 
 short
-solution_allocate_memory (t_gap_solution * solution, int agent_count, int job_count)
+memory_allocation_gap_solution (t_gap_solution * solution, int agent_count, int job_count)
 {
   int i;
   solution->agent_count = agent_count ;
@@ -46,7 +46,7 @@ solution_allocate_memory (t_gap_solution * solution, int agent_count, int job_co
 }
 
 short
-instance_free_memory (t_gap_instance * instance)
+memory_free_gap_instance (t_gap_instance * instance)
 {
   int i;
   free (instance->capacity) ;
@@ -61,7 +61,7 @@ instance_free_memory (t_gap_instance * instance)
 }
 
 short
-solution_free_memory(t_gap_instance * solution)
+memory_free_gap_solution (t_gap_instance * solution)
 {
   int i ;
   free (solution->capacity_left) ;

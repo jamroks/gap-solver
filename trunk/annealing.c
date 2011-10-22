@@ -7,9 +7,9 @@
 #include <math.h>
 #include <time.h>
 /* ============================ */
-#include "annealing_structures.c"
+#include "header/type.h"
 /* ============================ */
-#include "annealing_headers.h"
+#include "header/function.h"
 /* ============================ */
 t_gap_instance gap_inst ;
 t_gap_solution gap_res ;
