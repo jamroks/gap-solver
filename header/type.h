@@ -47,10 +47,25 @@ typedef enum {
   HELP ;
 } t_gap_solver_action;
 
+typedef enum {
+  PIPE ;
+  FILE ;
+} t_input_type;
+
+typedef enum {
+
+} t_verbosity;
+
 typedef struct {
-  long max_execution_time ;
-  long max_iteration_count ;
-  long start_time ;
+  long iterations ;
+  long temperature_start ;
+  long temperature_decrease_function ;
+  long time_start ;
+  long time_max_duration ;
+  short neighborhood_exploration_mode ;
+  short input_mode ;
+  short input_type ;
+  short verbosity ;
   short ( * input_function) (char *, t_gap_instance *, t_gap_solution *) ;
   t_gap_solver_action action ;
 } t_gap_solver_context ;
