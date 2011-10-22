@@ -1,17 +1,17 @@
 short
-instance_allocate_memory(t_gap_instance *, int, int);
+instance_allocate_memory(t_gap_instance *, int, int) ;
 
 short
-solution_allocate_memory(t_gap_solution *, int, int);
+solution_allocate_memory(t_gap_solution *, int, int) ;
 
 short 
-instance_free_memory(t_gap_instance *);
+instance_free_memory(t_gap_instance *) ;
 
 short
-solution_free_memory(t_gap_solution *);
+solution_free_memory(t_gap_solution *) ;
 
 short 
-read_gap(t_gap_instance *gap) ;
+read_orlibrary_input_file(char *, t_gap_instance *, t_gap_solution *) ;
 
 short 
 print_results(t_gap_instance *gap_i,t_gap_solution *gap_r) ;

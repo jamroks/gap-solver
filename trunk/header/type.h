@@ -35,9 +35,9 @@ typedef struct {
   char name[50] ;
   int job_count ;
   int agent_count ;
-  t_cost *capacity ;
-  t_gain **gain ;
-  t_cost **cost ;
+  t_cost * capacity ;  // D1 : agent
+  t_gain ** gain ; // D1 : agent, D2 : job
+  t_cost ** cost ; // D1 : agent, D2 : job
 } t_gap_instance ;	
 			
 typedef struct {
@@ -45,8 +45,8 @@ typedef struct {
   int job_count ;
   int agent_count ;
   t_gain value ;
-  t_bool **assignment ;
-  t_cost *capacity_left ;
+  t_cost * capacity_left ;  // D1 : agent
+  t_bool ** assignment ; // D1 : agent, D2 : job
 } t_gap_solution ;
 
 #endif
