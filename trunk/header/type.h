@@ -41,11 +41,6 @@ typedef struct {
   t_bool ** assignment ; // D1 : agent, D2 : job
 } t_gap_solution ;
 
-
-typedef enum {
-
-} t_verbosity;
-
 typedef struct {
   long iterations ;
   long temperature_start ;

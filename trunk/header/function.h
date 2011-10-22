@@ -1,8 +1,7 @@
-#include "../header/common.h"
-
 #ifndef FUNCTION_H
-  #define FUNCTION_H
 
+#define FUNCTION_H
+#include "../header/common.h"
 short 
 print_results (t_gap_instance *gap_i,t_gap_solution *gap_r) ;
 
@@ -26,16 +25,16 @@ unavailable (t_error err) ;
 // <[Start]> Memory allocation
 
 short
-memory_allocation_gap_instance (t_gap_instance *, int, int) ;
+alloc_gap_instance (t_gap_instance *, int, int) ;
 
 short
-memory_allocation_gap_solution (t_gap_solution *, int, int) ;
+alloc_gap_solution (t_gap_solution *, int, int) ;
 
 short 
-memory_free_gap_instance (t_gap_instance *) ;
+free_gap_instance (t_gap_instance *) ;
 
 short
-memory_free_gap_solution (t_gap_solution *) ;
+free_gap_solution (t_gap_solution *) ;
 
 // <[End]> Memory allocation
 
@@ -55,5 +54,4 @@ parse_cli_arguments (int, char **, t_gap_solver_context *);
 
 // <[End]> CLI
 
-# endif;
-
+#endif
