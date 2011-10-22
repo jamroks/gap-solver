@@ -10,7 +10,7 @@
 #include "annealing_structures.c"
 /* ============================ */
 t_list 
-list_of_jobs_agt(S_gap_instance *gap)
+list_of_jobs_agt(t_gap_instance *gap)
 {
 int agt,job ;
 t_list list_of_jobs ;
