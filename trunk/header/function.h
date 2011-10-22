@@ -48,7 +48,7 @@ read_orlibrary_input_file(char *, t_gap_instance *, t_gap_solution *) ;
 // <[Start]> CLI
 
 short
-parse_cli_arguments(t_gap_solver_context *);
+parse_cli_arguments(int, char **, t_gap_solver_context *);
 
 // <[End]> CLI
 
