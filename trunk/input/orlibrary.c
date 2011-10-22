@@ -5,22 +5,19 @@
 #include <time.h>
 #include "../header/type.h"
 
-#define INPUT_BUFFER_SIZE 1000
-
 short
 instance_allocate_memory(t_gap_instance *, int, int);
 
 short 
 read_gap(t_gap_instance * instance, char * file_name)
 {
-  char buffer[INPUT_BUFFER_SIZE] ;
   FILE *file ;
   int value ;
   int agent, job ;
   file = fopen(file_name, "rt"); 
   if (file == NULL)
     return 1 ; 
-  strcpy (instance->name, buffer) ;
+  strcpy (instance->name, file_name) ;
   fscanf (file, "%d", & instance->agent_count);
   fscanf (file, "%d", & instance->job_count);
   instance_allocate_memory(instance, instance->agent_count, instance->job_count);
@@ -56,6 +53,8 @@ instance_allocate_memory(t_gap_instance * instance, int agent_count, int job_cou
   // Memory allocation
   instance->agent_count = agent_count;
   instance->job_count = job_count;
+  if ( ! instance->capacity)
+    return 0;
   instance->capacity = calloc (sizeof(t_cost*), instance->agent_count);
   instance->cost = (t_cost**) calloc (sizeof(t_cost*), instance->agent_count);
   if ( ! instance->cost)
