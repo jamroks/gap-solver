@@ -1,16 +1,8 @@
+#include "../header/common.h"
+
 #ifndef TYPE_H
   #define TYPE_H
-/* ============================ */
-#define UNEVALUATED 	2  	// valeur de travail; ne doit pas apparaître en début ou fin d'itération 
-/* Structures de voisinage      */
-#define TRANSFERT	1
-#define SWAP		2
-#define ROTATION	3
-/* liste des codes erreurs possibles */
-#define NO_JOB		1	// pas de tâche disponible pour le calcul du voisinage 
-#define NO_AGT 		2	// pas de d'agent disponible pour le calcul du voisinage 
 
-/* ============================ */
 typedef short t_error ;
 
 typedef unsigned int t_elt ;
@@ -48,5 +40,19 @@ typedef struct {
   t_cost * capacity_left ;  // D1 : agent
   t_bool ** assignment ; // D1 : agent, D2 : job
 } t_gap_solution ;
+
+typedef enum {
+  SOLVE ;
+  VERSION ;
+  HELP ;
+} t_gap_solver_action;
+
+typedef struct {
+  long max_execution_time ;
+  long max_iteration_count ;
+  long start_time ;
+  short ( * input_function) (char *, t_gap_instance *, t_gap_solution *) ;
+  t_gap_solver_action action ;
+} t_gap_solver_context ;
 
 #endif
