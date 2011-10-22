@@ -3,19 +3,19 @@
 short
 parse_cli_arguments (int argc, char ** argv, t_gap_solver_context *gap_solver_context)
 {
-  FILE file;
+  FILE *file;
   if (argc < 2)
     {
       fprintf (stderr, "%s", "un nom de fichier est attendu\n") ;
       exit (1) ;
     }
   gap_solver_context->input_file = argv[argc - 1] ;
-  if (NULL == (file = fopen (gap_solver_context->input_file)))
+  if (NULL == (file = fopen (gap_solver_context->input_file, "rt")))
     {
       fprintf (
         stderr,
         "%s : \"%s\"",
-        "fichier introuvable : ",
+        "erreur lors de l'ouverture de : ",
         gap_solver_context->input_file
       ) ;
       exit (1) ;
