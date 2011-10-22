@@ -19,7 +19,7 @@ int
 main()
 /* ============================ */ 
 {
-i=read_gap(&gap_inst) ;
+i=read_gap(&gap_inst, &gap_res) ;
 switch (i) 
 	{
 	case 1 : { printf("\n Fichier non trouvé\n")    ; } break ;
