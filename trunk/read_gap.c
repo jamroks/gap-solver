@@ -5,7 +5,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
-#include "structures.c"
+/* ============================ */
+#include "annealing_structures.c"
 /* ============================ */
 short 
 read_gap(S_gap_instance *gap)
@@ -24,15 +25,16 @@ if (fic==NULL)
 	} 
   else
 	{
+	strcpy(gap->name,fichier) ;
 	fscanf (fic, "%d", &gap->agent_count);
 	if (gap->agent_count >= MAX_AGENT) return 2 ;
 	fscanf (fic, "%d", &gap->job_count);
 	if (gap->job_count >= MAX_JOB) return 3 ;
 	printf("nb agents=%d  & nb jobs=%d\n",gap->agent_count,gap->job_count);
 	/* lecture des couts (c(it)) */
-	for (agt=1;agt <= gap->agent_count;agt++)
+	for (agt=0;agt < gap->agent_count;agt++)
 		{
-		for (job=1;job <= gap->job_count;job++)
+		for (job=0;job < gap->job_count;job++)
 			{
 			fscanf (fic, "%d", &valeur);
 	// printf("cout[%d,%d]=%d   ",agt,job,valeur) ;
@@ -41,9 +43,9 @@ if (fic==NULL)
 	// printf("\n") ;
 		};
 	/* lecture des ressources (r(it)) */
-	for (agt=1;agt <= gap->agent_count;agt++)
+	for (agt=0; agt < gap->agent_count;agt++)
 		{
-		for (job=1;job <= gap->job_count;job++)
+		for (job=0;job < gap->job_count;job++)
 			{
 			fscanf (fic, "%d", &valeur);
 			gap->gain[agt][job]=valeur ;
@@ -51,7 +53,7 @@ if (fic==NULL)
 	// printf("\n") ;
 		};
 	/* lecture des capacités des agents (b(i)) */
-	for (agt=1;agt <= gap->agent_count;agt++)
+	for (agt=0;agt < gap->agent_count;agt++)
 		{
 		fscanf (fic, "%d", &valeur);
 		gap->capacity[agt]=valeur ;
@@ -60,4 +62,5 @@ if (fic==NULL)
 	// while(!feof(fic)) { return 4 ;} ;
 	fclose(fic) ;
 	};
+return 0 ;
 }
