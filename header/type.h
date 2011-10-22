@@ -41,16 +41,6 @@ typedef struct {
   t_bool ** assignment ; // D1 : agent, D2 : job
 } t_gap_solution ;
 
-typedef enum {
-  SOLVE ;
-  VERSION ;
-  HELP ;
-} t_gap_solver_action;
-
-typedef enum {
-  PIPE ;
-  FILE ;
-} t_input_type;
 
 typedef enum {
 
@@ -63,11 +53,9 @@ typedef struct {
   long time_start ;
   long time_max_duration ;
   short neighborhood_exploration_mode ;
-  short input_mode ;
-  short input_type ;
   short verbosity ;
-  short ( * input_function) (char *, t_gap_instance *, t_gap_solution *) ;
-  t_gap_solver_action action ;
+  char * input_file ;
+  short ( * get_input) (char *, t_gap_instance *, t_gap_solution *) ;
 } t_gap_solver_context ;
 
 #endif
