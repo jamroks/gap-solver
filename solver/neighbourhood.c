@@ -13,7 +13,7 @@
 #include "annealing_structures.c"
 /* ============================ */
 short 
-neighbourhood(S_gap_instance *gap_inst, S_gap_solution *gap_cur, S_gap_solution *gap_next, 
+neighbourhood(t_gap_instance *gap_inst, t_gap_solution *gap_cur, t_gap_solution *gap_next, 
 		t_method method, void (*f_evaluation)() , t_elt (*f_take_choice)() )
 /* f_evaluation : fonction d'evaluation influançant la distribution de probabilité d'un élément agt ou job */
 /* f_take_choice : fonction de calcul d'un élément, sur tirage aléatoire (usage de f_evaluation)  */
@@ -25,7 +25,7 @@ neighbourhood(S_gap_instance *gap_inst, S_gap_solution *gap_cur, S_gap_solution 
 t_list list_of_values ;
 int agt_1, agt_2,job ;
 /* copie de la solution de départ vers la solution suivante, avant modification */
-memcpy(gap_cur, gap_next, sizeof(S_gap_solution)) ;
+memcpy(gap_cur, gap_next, sizeof(t_gap_solution)) ;
 /* Sélection de la structure de voisinage */ 
 switch (method) 
 	{

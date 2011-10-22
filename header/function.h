@@ -1,11 +1,11 @@
 short 
-read_gap(S_gap_instance *gap) ;
+read_gap(t_gap_instance *gap) ;
 
 short 
-print_results(S_gap_instance *gap_i,S_gap_solution *gap_r) ;
+print_results(t_gap_instance *gap_i,t_gap_solution *gap_r) ;
 
 short 
-neighbourhood(S_gap_instance *gap_inst, S_gap_solution *gap_cur, S_gap_solution *gap_next, 
+neighbourhood(t_gap_instance *gap_inst, t_gap_solution *gap_cur, t_gap_solution *gap_next, 
                 t_method method, void (*f_evaluation)() , t_elt (*f_take_choice)());
 
 t_list 

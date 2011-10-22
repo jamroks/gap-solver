@@ -11,8 +11,8 @@
 /* ============================ */
 #include "annealing_headers.h"
 /* ============================ */
-S_gap_instance gap_inst ;
-S_gap_solution gap_res ;
+t_gap_instance gap_inst ;
+t_gap_solution gap_res ;
 short i ;
 /* ============================ */ 
 int 

@@ -10,7 +10,7 @@
 #include "annealing_structures.c"
 /* ============================ */
 t_list 
-list_of_agents (S_gap_instance *gap_inst,void (*f_evaluation)())
+list_of_agents (t_gap_instance *gap_inst,void (*f_evaluation)())
 {
 t_list list_agents ;
 int agt ;
