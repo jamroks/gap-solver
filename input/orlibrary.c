@@ -4,7 +4,7 @@
 #include <math.h>
 #include <time.h>
 #include "../header/type.h"
-#include "memory_allocation.h"
+#include "../header/function.h"
 
 short 
 read_gap(t_gap_instance * instance, char * file_name)

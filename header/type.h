@@ -41,6 +41,9 @@ typedef struct {
 } t_gap_instance ;	
 			
 typedef struct {
+  char name[50] ;
+  int job_count ;
+  int agent_count ;
   t_gain value ;
   t_bool **assignment ;
   t_cost *capacity_left ;
