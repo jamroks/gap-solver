@@ -24,18 +24,14 @@ print_result (t_gap_instance *instance, t_gap_solution *solution)
   int agent,job ;
   int nb_line=0 ;
   int assignments ;
-
   printf ("%5d\n%5d\n", instance->agent_count, instance->job_count);
-
   for (agent = 0 ; agent < instance->agent_count ; agent ++)
     {
       assignments=0 ;
       for (job = 0 ; job < instance->job_count ; job++)
         {
           if (solution->assignment[agent][job] == 1)
-            {
               assignments ++ ;
-            }
         }
       printf (
         "\%5d %5d %5d\n", 
@@ -43,11 +39,9 @@ print_result (t_gap_instance *instance, t_gap_solution *solution)
         solution->capacity_left[agent],
         assignments
       );
-      
-      for (job=0;job < instance->job_count;job++)
+      for (job = 0 ; job < instance->job_count ; job++)
           if (solution->assignment[agent][job] == 1)
             printf ("%5d ", job);
-
       printf ("\n") ;
     };
   return 0 ;
