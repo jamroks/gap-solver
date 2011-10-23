@@ -34,28 +34,39 @@ short
 search_solution_0 (t_gap_instance * instance, t_gap_solution * solution)
 {
   _assigned = calloc (sizeof(int), instance->job_count);
-
   float ratio[instance->agent_count][instance->job_count]; // (job capacity cost) / (agent capacity) ratios
   int agent, job;
   for (agent = 0 ; agent < instance->agent_count ; agent ++) // ratios initialization
     for (job = 0 ; job < instance->job_count ; job ++)
       ratio[agent][job] =
         (float) instance->cost[agent][job] / (float) solution->capacity_left[agent];
-  int assigned, max_mean_job, min_ratio_agent;
-  float mean[instance->job_count]; // mean of job capacity cost on each agent
+  int max_mean_job, min_ratio_agent;
+  float max_mean, min_ratio;
+  float mean[instance->job_count]; // ratio means
   while (_assigned_count < instance->job_count)
-    {
+    {  
       _update_mean (mean, ratio[0], instance->agent_count, instance->job_count) ;
-
-      for (max_mean_job = job = 0 ; job < instance->job_count ; job ++)
+      max_mean = 0;
+      max_mean_job = -1;
+      for (job = 0 ; job < instance->job_count ; job ++)
         if (_is_assigned(job))
           continue;
-        else if (mean[job] > mean[max_mean_job])
-          max_mean_job = job ;
-      for (min_ratio_agent = agent = 0; agent < instance->agent_count ; agent ++)
-        if (ratio[agent][max_mean_job] < ratio[min_ratio_agent][max_mean_job])
-          min_ratio_agent = agent ;
-      if (solution->capacity_left[min_ratio_agent] < instance->cost[min_ratio_agent][max_mean_job])
+        else if (mean[job] > max_mean)
+          {
+            max_mean = mean[job] ;
+            max_mean_job = job ;
+          }
+      min_ratio = (float) 1;
+      min_ratio_agent = -1;
+      for (agent = 0; agent < instance->agent_count ; agent ++)
+        {
+          if (
+            ratio[agent][max_mean_job] < min_ratio
+            && solution->capacity_left[agent] >= instance->cost[agent][max_mean_job]
+          )
+            min_ratio_agent = agent ;
+        }
+      if (min_ratio_agent == -1)
         return 0 ;
       _assign(instance, solution, min_ratio_agent, max_mean_job);
       for (job = 0; job < instance->job_count ; job ++)
