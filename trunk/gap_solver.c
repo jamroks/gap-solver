@@ -1,16 +1,32 @@
-#include "header/common.h"
+/*
+This file is part of gap_solver.
 
-t_gap_solver_context gap_solver_context ;
-t_gap_instance gap_instance ;
-t_gap_solution gap_solution ;
+gap_solver is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+gap_solver is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "header/common.h"
 
 int 
 main(int argc, char ** argv)
 {
-  parse_cli_arguments (argc, argv, & gap_solver_context);
-  gap_solver_context.get_input (
-    gap_solver_context.input_file,
-    & gap_instance,
-    & gap_solution
+  t_gap_solver_context context ;
+  t_gap_instance instance ;
+  t_gap_solution solution ;
+  parse_cli_arguments (argc, argv, & context);
+  context.get_input (
+    context.input_file,
+    & instance,
+    & solution
   );
 }
