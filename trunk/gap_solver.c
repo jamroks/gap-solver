@@ -30,6 +30,7 @@ main(int argc, char ** argv)
     & solution
   );
   if ( ! search_solution_0 (& instance, & solution))
-    printf("%s", "pas d\'affectation possible");
-  print_result (& instance, & solution);
+    printf("%s", "pas d\'affectation possible\n");
+  else
+    print_result (& instance, & solution);
 }

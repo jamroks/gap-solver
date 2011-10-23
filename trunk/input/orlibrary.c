@@ -38,7 +38,7 @@ read_orlibrary_input_file(char * file_name, t_gap_instance * instance, t_gap_sol
       for (job = 0; job < instance->job_count; job ++)
       {
         fscanf (file, "%d", & value) ;
-        instance->cost[agent][job] = value ;
+        instance->gain[agent][job] = value ;
       }
     };
   for (agent = 0; agent < instance->agent_count ; agent++)
@@ -46,7 +46,7 @@ read_orlibrary_input_file(char * file_name, t_gap_instance * instance, t_gap_sol
       for (job = 0 ; job < instance->job_count ; job++)
       {
         fscanf (file, "%d", & value);
-        instance->gain[agent][job] = value ;
+        instance->cost[agent][job] = value ;
       }
     };
   for (agent = 0 ; agent < instance->agent_count ; agent++)

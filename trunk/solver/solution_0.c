@@ -28,7 +28,7 @@ static int
 _is_assigned (int);
 
 static void
-_update_mean (float *, float *, int, int);
+_update_mean (float *, t_gap_instance *, t_gap_solution *);
 
 short
 search_solution_0 (t_gap_instance * instance, t_gap_solution * solution)
@@ -45,7 +45,7 @@ search_solution_0 (t_gap_instance * instance, t_gap_solution * solution)
   float mean[instance->job_count]; // ratio means
   while (_assigned_count < instance->job_count)
     {  
-      _update_mean (mean, ratio[0], instance->agent_count, instance->job_count) ;
+      _update_mean (mean, instance, solution) ;
       max_mean = 0;
       max_mean_job = -1;
       for (job = 0 ; job < instance->job_count ; job ++)
@@ -59,13 +59,8 @@ search_solution_0 (t_gap_instance * instance, t_gap_solution * solution)
       min_ratio = (float) 1;
       min_ratio_agent = -1;
       for (agent = 0; agent < instance->agent_count ; agent ++)
-        {
-          if (
-            ratio[agent][max_mean_job] < min_ratio
-            && solution->capacity_left[agent] >= instance->cost[agent][max_mean_job]
-          )
+          if (ratio[agent][max_mean_job] <= 1 && ratio[agent][max_mean_job] < min_ratio)
             min_ratio_agent = agent ;
-        }
       if (min_ratio_agent == -1)
         return 0 ;
       _assign(instance, solution, min_ratio_agent, max_mean_job);
@@ -80,16 +75,24 @@ search_solution_0 (t_gap_instance * instance, t_gap_solution * solution)
 }
 
 static void
-_update_mean (float * mean, float * ratio, int agent_count, int job_count)
+_update_mean (
+  float * mean,
+  t_gap_instance * instance,
+  t_gap_solution * solution
+)
 {
   int job, agent ;
-  float sum ;
-  for (job = 0 ; job < job_count ; job ++)
+  int cost_sum, capacity_sum ;
+  for (agent = 0 ; agent < instance->agent_count ; agent ++)
+    capacity_sum += solution->capacity_left[agent];
+  for (job = 0 ; job < instance->job_count ; job ++)
     {
-      sum = 0;
-      for (agent = 0 ; agent < agent_count ; agent ++)
-        sum += ratio[agent_count * agent + job] ;
-      mean[job] = sum / (float) agent_count ;
+      cost_sum = capacity_sum = 0;
+      for (agent = 0 ; agent < instance->agent_count ; agent ++)
+        {
+          cost_sum += instance->cost[agent][job];
+        }
+      mean[job] = (float) cost_sum / (float) capacity_sum ;
     }
 }
 
@@ -98,14 +101,14 @@ _assign (t_gap_instance * instance, t_gap_solution * solution, int agent, int jo
 {
   solution->capacity_left[agent] -= instance->cost[agent][job] ;
   solution->assignment[agent][job] = 1 ;
-  _assigned[_assigned_count ++] = job;
+  _assigned[_assigned_count ++] = job ;
 }
 
 static int
 _is_assigned (int job)
 {
   int i;
-  for (i = 0 ; i < _assigned_count ; i++)
+  for (i = 0 ; i < _assigned_count ; i ++)
     if (_assigned[i] == job)
       return 1;
   return 0;
