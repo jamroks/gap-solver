@@ -23,7 +23,7 @@ main(int argc, char ** argv)
   t_gap_solver_context context ;
   t_gap_instance instance ;
   t_gap_solution solution ;
-  parse_cli_arguments (argc, argv, & context);
+  parse_cli_arguments (& context, argc, argv);
   context.get_input (
     context.input_file,
     & instance,

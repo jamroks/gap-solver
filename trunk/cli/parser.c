@@ -17,7 +17,7 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #include "../header/common.h"
 
 short
-parse_cli_arguments (int argc, char ** argv, t_gap_solver_context * context)
+parse_cli_arguments (t_gap_solver_context * context, int argc, char ** argv)
 {
   FILE *file;
   if (argc < 2)

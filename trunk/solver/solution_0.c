@@ -77,9 +77,7 @@ _update_mean (float * mean, float * ratio, int agent_count, int job_count)
     {
       sum = 0;
       for (agent = 0 ; agent < agent_count ; agent ++)
-        {
-          sum += ratio[agent_count * agent + job] ;
-        }
+        sum += ratio[agent_count * agent + job] ;
       mean[job] = sum / (float) agent_count ;
     }
 }
