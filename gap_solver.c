@@ -29,4 +29,6 @@ main(int argc, char ** argv)
     & instance,
     & solution
   );
+  search_solution_0 (& instance, & solution);
+  print_result (& instance, & solution);
 }

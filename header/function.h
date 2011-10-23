@@ -19,8 +19,6 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 
 #define FUNCTION_H
 #include "../header/common.h"
-short 
-print_results (t_gap_instance *gap_i,t_gap_solution *gap_r) ;
 
 short 
 neighbourhood (t_gap_instance *gap_inst, t_gap_solution *gap_cur, t_gap_solution *gap_next, 
@@ -74,7 +72,10 @@ read_orlibrary_input_file (char *, t_gap_instance *, t_gap_solution *) ;
 // <[Start]> CLI
 
 short
-parse_cli_arguments (int, char **, t_gap_solver_context *);
+parse_cli_arguments (int, char **, t_gap_solver_context *) ;
+
+short 
+print_result (t_gap_instance *,t_gap_solution *) ;
 
 // <[End]> CLI
 
