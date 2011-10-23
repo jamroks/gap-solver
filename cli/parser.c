@@ -30,8 +30,7 @@ parse_cli_arguments (t_gap_solver_context * context, int argc, char ** argv)
     {
       fprintf (
         stderr,
-        "%s : \"%s\"",
-        "erreur lors de l'ouverture de : ",
+        "erreur lors de l'ouverture de : \"%s\"\n",
         context->input_file
       ) ;
       exit (1) ;
