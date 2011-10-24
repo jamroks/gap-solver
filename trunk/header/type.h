@@ -39,6 +39,7 @@ typedef unsigned short t_bool ;
 
 typedef struct {
   t_elt *list ;
+  int nb_elt
 } t_list ;
 
 typedef struct { 			
