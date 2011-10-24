@@ -23,7 +23,7 @@ main (int argc, char ** argv)
   t_gap_instance instance ;
   t_gap_solution solution ;
   t_gap_solver_registry registry ;
-  parse_cli_arguments (& registry, argc, argv);
+  parse_cli_arguments (& registry, argc, argv) ;
   registry.get_input (
     registry.input_file,
     & instance,
@@ -39,5 +39,5 @@ main (int argc, char ** argv)
   registry.timeout = 0 ;
   pthread_create (countdown, NULL, thread_countdown, & registry) ;
   while ( ! registry.timeout) ;
-  print_result (& instance, & solution);
+  print_result (& instance, & solution) ;
 }
