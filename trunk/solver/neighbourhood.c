@@ -10,15 +10,17 @@
 #include <math.h>
 #include <time.h>
 /* ============================ */
-#include "annealing_structures.c"
+#include "../header/type.h"
+/* ============================ */
+#include "../header/function.h"
 /* ============================ */
 short 
 neighbourhood(t_gap_instance *gap_inst, t_gap_solution *gap_cur, t_gap_solution *gap_next, 
-		t_method method, void (*f_evaluation)() , t_elt (*f_take_choice)() )
-/* f_evaluation : fonction d'evaluation influançant la distribution de probabilité d'un élément agt ou job */
-/* f_take_choice : fonction de calcul d'un élément, sur tirage aléatoire (usage de f_evaluation)  */
+		t_method method, void (*f_evaluation)() , t_elt (*take_choice)() )
+/* f_evaluation : fonction d'evaluation influençant la distribution de probabilité d'un élément agt ou job */
+/* take_choice : fonction de calcul d'un élément, sur tirage aléatoire (usage de f_evaluation)  */
 /* list_of_agents(void (*f_evaluation)()) : liste pondérée des agents, selon f_evaluation */
-/* subtract_value_from_list(list,elt) : enlève l'élément elt de la liste */ 
+/* subtract_elt_from_list(list,elt) : enlève l'élément elt de la liste */ 
 /* list_of_jobs_agt(agt_1, agt_2) : liste les taches affectées à agt_1 et affectable à agt_2 */
 /* unavailable(err) : fonction appelée lors d'une impossibilité, cause n°err */
 {
@@ -32,22 +34,22 @@ switch (method)
 	case TRANSFERT :/* selon un transfert d'une tâche entre deux agents */
 			{
 			/* constituer la liste pondérée des agents */
-			list_of_values=list_of_agents(f_evaluation) ;
+			list_of_values=list_of_agents(gap_inst,f_evaluation) ;
 			/* tirer au sort un élément dans la liste */
-			agt_1 = f_take_choice(list_of_values) ;
+			agt_1 = take_choice(list_of_values) ;
 			if (agt_1 == NULL) 
 				{ /* pas de tâche possible : saturation de agt_2 */
 				unavailable(NO_AGT) ;
 				} ;			
 			/* enlever agt_1 de la liste */
-			subtract_value_from_list(list_of_values,agt_1) ;
+			subtract_elt_from_list(list_of_values,agt_1) ;
 			/* tirer au sort un autre agent dans la liste */
-			agt_2 = f_take_choice(list_of_values) ;
+			agt_2 = take_choice(list_of_values) ;
 
 			/* idem pour choisir une tâche admissible de agt_1 vers agt_2 */
-			list_of_values=list_of_jobs_agt(agt_1, agt_2) ;
+			list_of_values=list_of_jobs_agt(gap_cur, agt_1, agt_2) ;
 			/* tirer au sort un élément dans la liste */
-			job = f_take_choice(list_of_values) ;
+			job = take_choice(list_of_values) ;
 			/* transférer la tâche de agt_1 vers agt_2 */
 			if (job == NULL) 
 				{ /* pas de tâche possible : saturation de agt_2 */
