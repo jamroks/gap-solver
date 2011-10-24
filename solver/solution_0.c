@@ -19,12 +19,15 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 
 static int _assigned_count = 0 ;
 
-static int * _assigned = NULL ;
+static short * _assigned = NULL ;
+
+static short
+_alloc_assigned(short *, int);
 
 static void
 _assign (t_gap_instance *, t_gap_solution *, int, int) ;
 
-static int
+static short
 _is_assigned (int) ;
 
 static void
@@ -33,7 +36,7 @@ _update_mean (float *, float *, int, int) ;
 short
 search_solution_0 (t_gap_instance * instance, t_gap_solution * solution)
 {
-  _assigned = calloc (sizeof(int), instance->job_count) ;
+  _alloc_assigned (_assigned, instance->job_count) ;
   float ratio[instance->agent_count][instance->job_count] ; // (job capacity cost) / (agent capacity) ratios
   int agent, job ;
   for (agent = 0 ; agent < instance->agent_count ; agent ++) // ratios initialization
@@ -67,7 +70,7 @@ search_solution_0 (t_gap_instance * instance, t_gap_solution * solution)
       if (min_agent == -1)
         return 0 ;
       _assign(instance, solution, min_agent, max_job);
-      for (job = 0; job < instance->job_count ; job ++)
+      for (job = 0 ; job < instance->job_count ; job ++)
         if (_is_assigned(job))
           continue ;
         else
@@ -95,20 +98,28 @@ _update_mean (float * mean, float * ratio, int agent_count, int job_count)
     }
 }
 
+static short
+_alloc_assigned (short * assigned, int job_count)
+{
+  if (NULL == (_assigned = calloc (sizeof(short), job_count)))
+    return 0 ;
+  int i;
+  for (i = 0 ; i < job_count ; i++)
+    _assigned[i] = 0 ;
+  return 1;
+}
+
 static void
 _assign (t_gap_instance * instance, t_gap_solution * solution, int agent, int job)
 {
   solution->capacity_left[agent] -= instance->cost[agent][job] ;
   solution->assignment[agent][job] = 1 ;
-  _assigned[_assigned_count ++] = job ;
+  _assigned[job] = 1 ;
+  _assigned_count ++ ;
 }
 
-static int
-_is_assigned (int job)
+static short
+_is_assigned (int job) 
 {
-  int i ;
-  for (i = 0 ; i < _assigned_count ; i ++)
-    if (_assigned[i] == job)
-      return 1 ;
-  return 0 ;
+  return _assigned[job];
 }
