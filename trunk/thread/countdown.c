@@ -17,8 +17,9 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #include "../header/common.h"
 
 void *
-thread_countdown (void * args)
+thread_countdown (void * arg)
 {
-  sleep (5) ;
-  * (short * ) args = 1 ;
+  t_gap_solver_registry *registry = (t_gap_solver_registry *) arg ;
+  sleep (registry->duration) ;
+  registry->timeout = 1 ;
 }
