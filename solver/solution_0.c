@@ -46,7 +46,7 @@ search_solution_0 (t_gap_instance * instance, t_gap_solution * solution)
   while (_assigned_count < instance->job_count)
     {  
       _update_mean (mean, ratio[0], instance->agent_count, instance->job_count) ;
-      max_mean = (float) 0 ;
+      max_mean = 0.0 ;
       max_job = -1 ;
       for (job = 0 ; job < instance->job_count ; job ++)
         if (_is_assigned(job))
@@ -56,7 +56,7 @@ search_solution_0 (t_gap_instance * instance, t_gap_solution * solution)
             max_mean = mean[job] ;
             max_job = job ;
           }
-      min_ratio = (float) 1;
+      min_ratio = 1.0;
       min_agent = -1;
       for (agent = 0 ; agent < instance->agent_count ; agent ++)
           if (ratio[agent][max_job] <= 1 && ratio[agent][max_job] < min_ratio)
@@ -86,7 +86,7 @@ _update_mean (float * mean, float * ratio, int agent_count, int job_count)
     {
       if (_is_assigned (job))
         continue;
-      sum = (float) 0;
+      sum = 0.0;
       for (agent = 0 ; agent < agent_count ; agent ++)
         {
           sum += ratio[agent_count * agent + job] ;
