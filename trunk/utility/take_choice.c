@@ -1,5 +1,5 @@
 
-/* fonction de listage des taches d'un agent */
+/* fonction de tirage au sort d'un élément dans la liste */
 /* ============================ */
 #include <stdio.h>
 #include <string.h>
