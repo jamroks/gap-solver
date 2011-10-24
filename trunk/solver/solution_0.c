@@ -22,7 +22,7 @@ static int _assigned_count = 0 ;
 static short * _assigned = NULL ;
 
 static short
-_alloc_assigned(short *, int);
+_alloc_assigned(short *, int) ;
 
 static void
 _assign (t_gap_instance *, t_gap_solution *, int, int) ;
