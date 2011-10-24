@@ -66,21 +66,19 @@ typedef enum {
 typedef struct {
   t_problem_type problem_type ;
   int initial_temperature ;
-  long execution_time ;
   char * input_file ;
   short ( * get_input) (char *, t_gap_instance *, t_gap_solution *) ;
   short ( * get_next_solution) (t_gap_solution *, t_gap_instance *, t_gap_solution *) ;
   float ( * get_next_temperature) (float *) ;
   short verbosity ;
-} t_gap_solver_registry ;
-
-typedef struct {
+  short timeout ;
+  int duration ;
   int temperature ;
   long transfert_count ;
   long swap_count ;
   t_gap_solution * best_solution ;
   t_gap_solution * current_solution ;
-} t_gap_solver_execution;
+} t_gap_solver_registry ;
 
 
 
