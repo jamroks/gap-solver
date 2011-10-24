@@ -7,7 +7,7 @@
 #include <math.h>
 #include <time.h>
 /* ============================ */
-#include "annealing_structures.c"
+#include "../header/type.h"
 /* ============================ */
 t_list 
 list_of_agents (t_gap_instance *gap_inst,void (*f_evaluation)())
