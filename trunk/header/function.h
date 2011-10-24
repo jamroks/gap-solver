@@ -22,10 +22,10 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 
 short 
 neighbourhood (t_gap_instance *gap_inst, t_gap_solution *gap_cur, t_gap_solution *gap_next, 
-                t_method method, void (*f_evaluation)() , t_elt (*f_take_choice)());
+                t_method method, void (*f_evaluation)() , t_elt (*f_take_choice)()) ;
 
 t_list 
-list_of_agents (void (*f_evaluation)());
+list_of_agents (void (*f_evaluation)()) ;
 
 t_list
 subtract_value_from_list (t_list, t_elt elt) ;
@@ -36,10 +36,18 @@ list_of_jobs_agt (t_agent agt_1, t_agent agt_2) ;
 void 
 unavailable (t_error err) ;
 
+// <[Start]> Determinist neighbourhood
+
+short
+determinist_next_solution (t_gap_solution *, t_gap_instance *, t_gap_solution *) ;
+
+// <[End]> Determinist neighbourhood
+
+
 // <[Start]> Solution 0
 
 short
-search_solution_0 (t_gap_instance *, t_gap_solution *);
+search_solution_0 (t_gap_instance *, t_gap_solution *) ;
 
 // <[End]> Solution 0
 
@@ -57,6 +65,9 @@ free_gap_instance (t_gap_instance *) ;
 
 short
 free_gap_solution (t_gap_solution *) ;
+
+short
+clone_gap_solution (t_gap_solution *, t_gap_solution *) ;
 
 // <[End]> Memory allocation
 

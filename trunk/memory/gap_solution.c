@@ -47,3 +47,23 @@ free_gap_solution (t_gap_solution * solution)
   free (solution->assignment) ;
   return 1 ;
 }
+
+short
+clone_gap_solution (
+  t_gap_solution * destination,
+  t_gap_solution * source
+)
+{
+  int agent, job;
+  if ( ! alloc_gap_solution (destination, source->agent_count, source->job_count))
+    return 0 ;
+  destination->value = source->value;
+  for (agent = 0 ; agent < source->agent_count ; agent ++)
+    {
+      destination->capacity_left[agent] = source->capacity_left[agent];
+      for (job = 0 ; job < source->job_count ; job ++)
+        {
+          destination->assignment[agent][job] = source->assignment[agent][job];
+        }
+    }
+}

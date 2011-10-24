@@ -59,9 +59,9 @@ typedef struct {
 } t_gap_solution ;
 
 typedef enum {
-  MAXIMISATION ,
-  MINIMISATION ,
-} t_problem_type;
+  MAXIMIZATION ,
+  MINIMIZATION ,
+} t_problem_type ;
 
 typedef struct {
   t_problem_type problem_type ;
@@ -69,7 +69,7 @@ typedef struct {
   long execution_time ;
   char * input_file ;
   short ( * get_input) (char *, t_gap_instance *, t_gap_solution *) ;
-  t_gap_solution * ( * get_next_solution) (t_gap_instance *, t_gap_solution *) ;
+  short ( * get_next_solution) (t_gap_solution *, t_gap_instance *, t_gap_solution *) ;
   float ( * get_next_temperature) (float *) ;
   short verbosity ;
 } t_gap_solver_registry ;
