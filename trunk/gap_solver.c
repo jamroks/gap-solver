@@ -20,12 +20,12 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 int 
 main(int argc, char ** argv)
 {
-  t_gap_solver_context context ;
+  t_gap_solver_registry registry ;
   t_gap_instance instance ;
   t_gap_solution solution ;
-  parse_cli_arguments (& context, argc, argv);
-  context.get_input (
-    context.input_file,
+  parse_cli_arguments (& registry, argc, argv);
+  registry.get_input (
+    registry.input_file,
     & instance,
     & solution
   );

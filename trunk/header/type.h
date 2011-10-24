@@ -58,16 +58,30 @@ typedef struct {
   t_bool ** assignment ; // D1 : agent, D2 : job
 } t_gap_solution ;
 
+typedef enum {
+  MAXIMISATION ,
+  MINIMISATION ,
+} t_problem_type;
+
 typedef struct {
-  long iterations ;
-  long temperature_start ;
-  long temperature_decrease_function ;
-  long time_start ;
-  long time_max_duration ;
-  short neighborhood_exploration_mode ;
-  short verbosity ;
+  t_problem_type problem_type ;
+  int initial_temperature ;
+  long execution_time ;
   char * input_file ;
   short ( * get_input) (char *, t_gap_instance *, t_gap_solution *) ;
-} t_gap_solver_context ;
+  t_gap_solution * ( * get_next_solution) (t_gap_instance *, t_gap_solution *) ;
+  float ( * get_next_temperature) (float *) ;
+  short verbosity ;
+} t_gap_solver_registry ;
+
+typedef struct {
+  int temperature ;
+  long transfert_count ;
+  long swap_count ;
+  t_gap_solution * best_solution ;
+  t_gap_solution * current_solution ;
+} t_gap_solver_execution;
+
+
 
 #endif
