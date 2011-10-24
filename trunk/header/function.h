@@ -36,6 +36,9 @@ list_of_jobs_agt (t_agent agt_1, t_agent agt_2) ;
 void 
 unavailable (t_error err) ;
 
+short
+solution_evaluation (int, int, t_problem_type, float);
+
 // <[Start]> Determinist neighbourhood
 
 short
@@ -89,5 +92,11 @@ short
 print_result (t_gap_instance *,t_gap_solution *) ;
 
 // <[End]> CLI
+
+// <[Start]> Thread
+
+void * thread_countdown (void * ) ;
+
+// <[Start]> Thread
 
 #endif

@@ -15,12 +15,3 @@ You should have received a copy of the GNU Lesser General Public License
 along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "../header/common.h"
-
-static int _source_agent = 0 ;
-static int _destination_agent = 1 ;
-
-short
-determinist_next_solution (t_gap_solution * next, t_gap_instance * instance, t_gap_solution * current)
-{
-  return 0 ;
-}
