@@ -22,6 +22,12 @@ t_list list_of_jobs ;
 // une valeur aléatoire 
 srand(time(NULL));
 // ici non pondérée :
-rnd_value = rand() % list_of_elt.nb_elt ;
+rnd_value = (rand() % list_of_elt.nb_elt) + 1 ;
+elt=rnd_value ;
+/*   ici pondérée : valeurs cumulées
+rnd_value = (rand() % list_of_elt.list[nb_elt]) + 1 ;
+while (rnd_value > list_of_elt.list[elt])
+  { elt++ ; } ;
+*/
 return (t_elt) elt ;
 }
