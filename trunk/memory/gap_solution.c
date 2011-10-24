@@ -18,7 +18,8 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 short
 alloc_gap_solution (t_gap_solution * solution, int agent_count, int job_count)
 {
-  int i, j;
+  int agent, job ;
+  solution->value = 0 ;
   solution->agent_count = agent_count ;
   solution->job_count = job_count ;
   solution->capacity_left = (t_cost *) calloc (sizeof (t_cost *), agent_count) ;
@@ -27,23 +28,23 @@ alloc_gap_solution (t_gap_solution * solution, int agent_count, int job_count)
   solution->assignment = (t_bool **) calloc (sizeof (t_bool *), agent_count) ;
   if ( ! solution->assignment)
     return 0 ;
-  for (i = 0 ; i < agent_count ; i ++)
+  for (agent = 0 ; agent < agent_count ; agent ++)
     {
-      solution->assignment[i] = (t_bool *) calloc (sizeof (t_cost), job_count) ;
-      if ( ! solution->assignment[i])
+      solution->assignment[agent] = (t_bool *) calloc (sizeof (t_cost), job_count) ;
+      if ( ! solution->assignment[agent])
         return 0;
-      for (j = 0; j < job_count; j++)
-        solution->assignment[i][j] = 0;
+      for (job = 0; job < job_count; job ++)
+        solution->assignment[agent][job] = 0;
     }
 }
 
 short
 free_gap_solution (t_gap_solution * solution)
 {
-  int i ;
+  int agent ;
   free (solution->capacity_left) ;
-  for (i = 0; i < solution->agent_count; i ++)
-    free (solution->assignment[i]) ;
+  for (agent = 0 ; agent < solution->agent_count; agent ++)
+    free (solution->assignment[agent]) ;
   free (solution->assignment) ;
   return 1 ;
 }
