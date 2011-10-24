@@ -17,8 +17,10 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 
 #include "header/common.h"
 
+short time_out = 0 ;
+
 int 
-main(int argc, char ** argv)
+main (int argc, char ** argv)
 {
   t_gap_solver_registry registry ;
   t_gap_instance instance ;
@@ -30,7 +32,11 @@ main(int argc, char ** argv)
     & solution
   );
   if ( ! search_solution_0 (& instance, & solution))
-    printf("%s", "pas d\'affectation possible\n");
-  else
-    print_result (& instance, & solution);
+    {
+      printf ("%s", "pas d\'affectation possible\n") ;
+      exit (0) ;
+    }
+ pthread_t * countdown ;
+ pthread_create (countdown, NULL, thread_countdown, & time_out) ;
+ print_result (& instance, & solution);
 }
