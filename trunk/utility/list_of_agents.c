@@ -17,6 +17,7 @@ int agt ;
 for (agt=0; agt < gap_inst->agent_count ; agt++)
 	{
 	list_agents.list[agt]=1 ;
+	list_agents.nb_elt=gap_inst->agent_count ;
 	} ;
 return list_agents ;
 }
