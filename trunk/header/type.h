@@ -16,6 +16,7 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "../header/common.h"
+#include "../header/constant.h"
 
 #ifndef TYPE_H
 #define TYPE_H

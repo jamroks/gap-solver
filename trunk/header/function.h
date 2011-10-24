@@ -25,13 +25,16 @@ neighbourhood (t_gap_instance *gap_inst, t_gap_solution *gap_cur, t_gap_solution
                 t_method method, void (*f_evaluation)() , t_elt (*f_take_choice)()) ;
 
 t_list 
-list_of_agents (void (*f_evaluation)()) ;
+list_of_agents (t_gap_instance *gap_inst, void (*f_evaluation)());
+
+void
+subtract_elt_from_list (t_list, t_elt elt) ;
 
 t_list
-subtract_value_from_list (t_list, t_elt elt) ;
+list_of_jobs_agt (t_gap_solution *gap_solution, t_agent agt_1, t_agent agt_2) ;
 
-t_list
-list_of_jobs_agt (t_agent agt_1, t_agent agt_2) ;
+t_elt
+take_choice(t_list list_of_values) ;
 
 void 
 unavailable (t_error err) ;
