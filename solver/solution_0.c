@@ -112,6 +112,7 @@ _alloc_assigned (short * assigned, int job_count)
 static void
 _assign (t_gap_instance * instance, t_gap_solution * solution, int agent, int job)
 {
+  solution->value += instance->gain[agent][job] ;
   solution->capacity_left[agent] -= instance->cost[agent][job] ;
   solution->assignment[agent][job] = 1 ;
   _assigned[job] = 1 ;
