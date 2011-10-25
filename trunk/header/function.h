@@ -75,6 +75,12 @@ free_gap_solution (t_gap_solution *) ;
 short
 clone_gap_solution (t_gap_solution *, t_gap_solution *) ;
 
+t_job_list *
+alloc_job_list_head (void) ;
+
+short
+add_job_to_job_list (t_job_list *, t_elt) ;
+
 // <[End]> Memory allocation
 
 
@@ -89,17 +95,42 @@ read_orlibrary_input_file (char *, t_gap_instance *, t_gap_solution *) ;
 // <[Start]> CLI
 
 short
-parse_cli_arguments (t_gap_solver_registry *, int, char **) ;
+parse_cli_arguments (
+  t_configuration_annealing *,
+  t_configuration_execution *,
+  int,
+  char **
+) ;
 
 short 
 print_result (t_gap_instance *,t_gap_solution *) ;
 
 // <[End]> CLI
 
+// <[Start]> Configuration file
+
+short
+load_configuration_annealing ( t_configuration_annealing *, char *) ;
+
+// <[End]> Configuration file
+
+
+
 // <[Start]> Thread
 
-void * thread_countdown (void * ) ;
+void 
+* thread_countdown (void * ) ;
 
-// <[Start]> Thread
+void 
+* thread_temperature (void * ) ;
+
+// <[End]> Thread
+
+// <[Start]> Configuration annealing
+
+short
+parse_configuration_annealing (t_configuration_annealing *, char *) ;
+
+// <[End]> Configuration annealing
 
 #endif

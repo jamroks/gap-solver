@@ -23,18 +23,24 @@ alloc_gap_solution (t_gap_solution * solution, int agent_count, int job_count)
   solution->agent_count = agent_count ;
   solution->job_count = job_count ;
   solution->capacity_left = (t_cost *) calloc (sizeof (t_cost *), agent_count) ;
-  if ( ! solution->capacity_left)
+  if (NULL == solution->capacity_left)
     return 0 ;
   solution->assignment = (t_bool **) calloc (sizeof (t_bool *), agent_count) ;
-  if ( ! solution->assignment)
+  if (NULL == solution->assignment)
+    return 0 ;
+  solution->ll_assignment = (t_job_list **) calloc (sizeof (t_job_list *), job_count) ;
+  if (NULL == solution->ll_assignment)
     return 0 ;
   for (agent = 0 ; agent < agent_count ; agent ++)
     {
       solution->assignment[agent] = (t_bool *) calloc (sizeof (t_cost), job_count) ;
-      if ( ! solution->assignment[agent])
-        return 0;
+      if (NULL == solution->assignment[agent])
+        return 0 ;
+      solution->ll_assignment[agent] = alloc_job_list_head () ;
+      if (NULL == solution->ll_assignment[agent])
+        return 0 ;
       for (job = 0; job < job_count; job ++)
-        solution->assignment[agent][job] = 0;
+        solution->assignment[agent][job] = 0 ;
     }
 }
 
@@ -44,16 +50,17 @@ free_gap_solution (t_gap_solution * solution)
   int agent ;
   free (solution->capacity_left) ;
   for (agent = 0 ; agent < solution->agent_count; agent ++)
-    free (solution->assignment[agent]) ;
+  {
+      free (solution->assignment[agent]) ;
+      free_job_list (solution->ll_assignment[agent]) ;
+      free (solution->ll_assignment) ;
+  }
   free (solution->assignment) ;
   return 1 ;
 }
 
 short
-clone_gap_solution (
-  t_gap_solution * destination,
-  t_gap_solution * source
-)
+clone_gap_solution (t_gap_solution * destination, t_gap_solution * source)
 {
   int agent, job;
   if ( ! alloc_gap_solution (destination, source->agent_count, source->job_count))
@@ -61,10 +68,11 @@ clone_gap_solution (
   destination->value = source->value;
   for (agent = 0 ; agent < source->agent_count ; agent ++)
     {
-      destination->capacity_left[agent] = source->capacity_left[agent];
+      destination->capacity_left[agent] = source->capacity_left[agent] ;
       for (job = 0 ; job < source->job_count ; job ++)
         {
-          destination->assignment[agent][job] = source->assignment[agent][job];
+          destination->assignment[agent][job] = source->assignment[agent][job] ;
+          clone_job_list (destination->ll_assignment[agent], source->assignment[agent][job]) ;
         }
     }
 }

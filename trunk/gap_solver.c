@@ -22,22 +22,43 @@ main (int argc, char ** argv)
 {
   t_gap_instance instance ;
   t_gap_solution solution ;
+  t_configuration_annealing configuration_annealing ;
+  t_configuration_execution configuration_execution ;
   t_gap_solver_registry registry ;
-  parse_cli_arguments (& registry, argc, argv) ;
-  registry.get_input (
-    registry.input_file,
-    & instance,
-    & solution
-  );
+  load_configuration_annealing (
+    & configuration_annealing,
+    "annealing.ini"
+  ) ;
+  parse_cli_arguments (
+    & configuration_annealing,
+    & configuration_execution,
+    argc,
+    argv
+  ) ;
+
+  switch (configuration_execution.input_source)
+    {
+      case INPUT_SOURCE_FILE:
+        read_orlibrary_input_file (
+          configuration_execution.input_file,
+          & instance,
+          & solution
+        );
+        
+      break ;
+    }
+
   if ( ! search_solution_0 (& instance, & solution))
     {
       printf ("%s", "pas d\'affectation possible\n") ;
       exit (0) ;
     }
-  pthread_t * countdown ;
-  registry.duration = 5 ;
-  registry.timeout = 0 ;
-  pthread_create (countdown, NULL, thread_countdown, & registry) ;
-  while ( ! registry.timeout) ;
+/*
+  countdown : a thread that will stop the process after a given duration
+  temperature : a thread that will lower the temperature at the given steps
+*/
+ // pthread_t * countdown, * temperature ;
+ // pthread_create (temperature, NULL, & thread_temperature, & registry) ;
+//  pthread_create (countdown, NULL, & thread_countdown, & registry) ;
   print_result (& instance, & solution) ;
 }

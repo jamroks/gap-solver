@@ -9,5 +9,6 @@
 #include <pthread.h>
 #include "../header/type.h"
 #include "../header/function.h"
+#include "../lib/iniparser/iniparser.h"
 
 #endif
