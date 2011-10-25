@@ -42,7 +42,7 @@ search_solution_0 (t_gap_instance * instance, t_gap_solution * solution)
   for (agent = 0 ; agent < instance->agent_count ; agent ++) // ratios initialization
     for (job = 0 ; job < instance->job_count ; job ++)
       ratio[agent][job] =
-        (float) instance->cost[agent][job] / (float) solution->capacity_left[agent];
+        (float) instance->cost[agent][job] / (float) solution->capacity_left[agent] ;
   int max_job, min_agent ;
   float max_mean, min_ratio ;
   float mean[instance->job_count] ; // ratio means
@@ -115,6 +115,7 @@ _assign (t_gap_instance * instance, t_gap_solution * solution, int agent, int jo
   solution->value += instance->gain[agent][job] ;
   solution->capacity_left[agent] -= instance->cost[agent][job] ;
   solution->assignment[agent][job] = 1 ;
+  add_job_to_job_list (solution->ll_assignment[agent], job) ;
   _assigned[job] = 1 ;
   _assigned_count ++ ;
 }

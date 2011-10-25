@@ -17,7 +17,12 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #include "../header/common.h"
 
 short
-parse_cli_arguments (t_gap_solver_registry * registry, int argc, char ** argv)
+parse_cli_arguments (
+  t_configuration_annealing * annealing,
+  t_configuration_execution * execution, 
+  int argc, 
+  char ** argv
+)
 {
   FILE *file;
   if (argc < 2)
@@ -25,20 +30,20 @@ parse_cli_arguments (t_gap_solver_registry * registry, int argc, char ** argv)
       fprintf (stderr, "%s", "un nom de fichier est attendu\n") ;
       exit (1) ;
     }
-  registry->input_file = argv[argc - 1] ;
-  if (NULL == (file = fopen (registry->input_file, "rt")))
+  execution->input_source = INPUT_SOURCE_FILE ;
+  execution->input_file = argv[argc - 1] ;
+  if (NULL == (file = fopen (execution->input_file, "rt")))
     {
       fprintf (
         stderr,
         "erreur lors de l'ouverture de : \"%s\"\n",
-        registry->input_file
+        execution->input_file
       ) ;
       exit (1) ;
     }
   fclose (file);
-  registry->problem_type = MAXIMIZATION ;
-  registry->get_input = & read_orlibrary_input_file ;
-  registry->get_next_solution = & determinist_next_solution ;
+  annealing->problem_type = MAXIMIZATION ;
+  annealing->duration = 0 ;
 }
 
 char *
@@ -46,12 +51,15 @@ get_usage()
 {
 /*
 --duration 
---start-temperature
---temperature-decrease-function
---temperature-time-decrease-function
+--step-count
+--step-max-duration
+--step-repartition
+--temperature-max
+--temperature-min
+--temperature-decrease
 --neighborhood
 --verbose
---Version
+--version
 --about
 --help
 */

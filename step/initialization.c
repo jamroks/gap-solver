@@ -14,10 +14,11 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "../header/common.h"
 
-void *
-thread_temperature (void * arg)
+#include "header/common.h"
+
+short
+step_initialization (t_gap_solver_registry * registry)
 {
- // t_gap_solver_registry * registry = (t_gap_solver_registry *) arg ;
+  
 }
