@@ -38,7 +38,7 @@ typedef int t_cost ;
 typedef unsigned short t_bool ;
 
 typedef struct {
-  t_elt *list ;
+  t_elt list[MAX_JOB] ;
   int nb_elt ;
 } t_list ;
 
@@ -47,17 +47,17 @@ struct t_job_list {
   struct t_job_list * next ;
 } ;
 
-typedef struct t_job_list t_job_list; 
+typedef struct t_job_list t_job_list;
 
-typedef struct { 			
+typedef struct { 
   char name[50] ;
   int job_count ;
   int agent_count ;
   t_cost * capacity ;  // D1 : agent
-  t_gain ** gain ; // D1 : agent, D2 : job 
+  t_gain ** gain ; // D1 : agent, D2 : job
   t_cost ** cost ; // D1 : agent, D2 : job
-} t_gap_instance ;	
-		
+} t_gap_instance ;
+
 typedef struct {
   char name[50] ;
   int job_count ;
@@ -73,6 +73,12 @@ typedef enum {
   MINIMIZATION ,
 } t_problem_type ;
 
+typedef enum {
+  TRANSFERT ,
+  SWAP ,
+  ROTATION ,
+} t_neighbourhood ;
+
 typedef struct {
   t_problem_type problem_type ;
   short ( * get_next_solution) (t_gap_solution *, t_gap_instance *, t_gap_solution *) ;
@@ -85,9 +91,16 @@ typedef struct {
   int duration ;
   int temperature ;
   long transfert_count ;
+  long iteration_count ;
+  long unavailable_count ;
   long swap_count ;
+  int max_try_count_failure ;
+  int max_try_count ;
   t_gap_solution * best_solution ;
   t_gap_solution * current_solution ;
+  int (*agtponderate)() ; 	// intance + solution + registre
+  int (*jobponderate)() ; 	// intance + solution + registre
+  t_neighbourhood method ;
 } t_gap_solver_registry ;
 
 typedef enum {
@@ -104,6 +117,9 @@ typedef enum {
   STEP_REPARTITION_QUADRATIC_2 ,
   STEP_REPARTITION_QUADRATIC_3
 } t_step_repartition ;
+
+
+
 
 typedef enum {
   TEMPERATURE_DECREASE_LOGARITHMIC_1 ,
@@ -146,4 +162,5 @@ typedef struct {
   char * input_file ;
   t_input_source input_source ;
 } t_configuration_execution ;
+
 #endif
