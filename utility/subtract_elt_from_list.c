@@ -10,7 +10,24 @@
 #include "../header/type.h"
 /* ============================ */
 void 
-subtract_elt_from_list(t_list list_of_values,t_elt agt_1) 
+subtract_elt_from_list(t_list *list_of_values,t_elt agt_1) 
 {
-list_of_values.list[agt_1]=0 ;
+int n_elt=0 ;
+while (list_of_values->list[n_elt] != agt_1)
+  {
+  n_elt++ ;
+  } ;
+// décalage des suivants 
+while (n_elt < list_of_values->nb_elt)
+  {
+  list_of_values->list[n_elt] = list_of_values->list[n_elt+1] ;
+  n_elt++ ;
+  } ;
+list_of_values->nb_elt-- ;
+/*
+ * for (n_elt=0;n_elt <5; n_elt++) 
+ *   { printf("[%d]=%d  ",n_elt,list_of_values->list[n_elt]) ;
+ *   } ;
+ * printf("\n") ;
+*/
 }
