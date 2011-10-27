@@ -19,8 +19,8 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 short
 parse_cli_arguments (
   t_configuration_annealing * annealing,
-  t_configuration_execution * execution, 
-  int argc, 
+  t_configuration_execution * execution,
+  int argc,
   char ** argv
 )
 {

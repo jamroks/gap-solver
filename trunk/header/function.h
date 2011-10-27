@@ -20,27 +20,53 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #define FUNCTION_H
 #include "../header/common.h"
 
-short 
-neighbourhood (t_gap_instance *gap_inst, t_gap_solution *gap_cur, t_gap_solution *gap_next, 
-                t_method method, void (*f_evaluation)() , t_elt (*f_take_choice)()) ;
-
 t_list 
-list_of_agents (t_gap_instance *gap_inst, void (*f_evaluation)());
+list_of_agents (t_gap_instance *gap_inst);
 
 void
-subtract_elt_from_list (t_list, t_elt elt) ;
+subtract_elt_from_list (t_list *, t_elt elt) ;
 
 t_list
-list_of_jobs_agt (t_gap_solution *gap_solution, t_agent agt_1, t_agent agt_2) ;
+list_of_jobs_agt (t_gap_instance *, t_gap_solution *, t_agent , t_agent ) ;
+
+t_list
+list_of_jobs_swap0 (t_gap_instance *, t_gap_solution *, t_agent , t_agent ) ;
+
+t_list
+list_of_jobs_swap (t_gap_instance *, t_gap_solution *, t_agent , t_agent , t_job ) ;
 
 t_elt
-take_choice(t_list list_of_values) ;
+take_choice(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, 
+            t_list *, int (*ponderate)()) ;
+// ponderate est une fonction de ponderation des éléments évalués; de profil :
+
+// <[Start]> fonctions de ponderation
+// ponderate(t_gap_instance inst, t_gap_solution sol, equity_gap_solver_registry reg, t_elt elt)
+
+int 
+equity(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
+
+int 
+capacity_left(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
+
+int 
+capacity(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
+
+// <[End]> fonctions de ponderation
 
 void 
-unavailable (t_error err) ;
+unavailable (t_error ) ;
 
 short
 solution_evaluation (int, int, t_problem_type, float);
+
+// <[Start]> stochastic neighbourhood
+
+short
+stochastic_next_solution (t_gap_solution *, t_gap_instance *, t_gap_solution *, t_gap_solver_registry *) ;
+
+// <[End]> stochastic neighbourhood
+
 
 // <[Start]> Determinist neighbourhood
 
@@ -114,8 +140,6 @@ load_configuration_annealing ( t_configuration_annealing *, char *) ;
 
 // <[End]> Configuration file
 
-
-
 // <[Start]> Thread
 
 void 
@@ -123,7 +147,7 @@ void
 
 void 
 * thread_temperature (void * ) ;
-
+ 
 // <[End]> Thread
 
 // <[Start]> Configuration annealing
