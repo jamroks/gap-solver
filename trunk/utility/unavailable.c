@@ -12,6 +12,6 @@
 void 
 unavailable(t_error error)
 {
-printf("Erreur irrécupérable, blocage voisinage n°%d\n",error) ; 
-exit(error) ;
+//printf("Erreur irrécupérable, blocage voisinage n°%d\n",error) ; 
+//exit(error) ;
 }
