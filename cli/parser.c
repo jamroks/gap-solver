@@ -34,6 +34,8 @@ static void _set_temperature_last () ;
 
 static void _set_verbose () ;
 
+static void _display_help () ;
+
 static short _get_option_parameters (int argc, char ** argv) ;
 
 // Indices used by getopt_long
@@ -47,6 +49,7 @@ enum _INDICES {
   INDEX_TEMPERATURE_LAST,
   INDEX_TEMPERATURE_SCHEDULE,
   INDEX_VERBOSE,
+  INDEX_HELP
 } ;
 
 static t_configuration_annealing * _annealing ;
@@ -98,6 +101,7 @@ _get_option_parameters (
     {"temperature_first", required_argument, NULL, INDEX_TEMPERATURE_FIRST},
     {"temperature_last", required_argument, NULL, INDEX_TEMPERATURE_LAST},
     {"verbose", no_argument, NULL, INDEX_VERBOSE},
+    {"help", no_argument, NULL, INDEX_HELP},
   };
   while (-1 != (c = getopt_long (argc, argv, "P:N:D:X:C:Y:F:L:v", long_option, & option_index)))
     switch (c)
@@ -140,6 +144,11 @@ _get_option_parameters (
               case INDEX_VERBOSE:
                   _set_verbose ();
                 break ;
+
+              case INDEX_HELP:
+                  _display_help ();
+                break ;
+
             }
           break ;
 
@@ -265,5 +274,11 @@ static void
 _set_verbose ()
 {
   _execution->verbose = 1 ;
+}
+
+static void
+_display_help ()
+{
+
 }
 
