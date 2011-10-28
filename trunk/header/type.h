@@ -69,15 +69,69 @@ typedef struct {
 } t_gap_solution ;
 
 typedef enum {
+  TRANSFERT ,
+  SWAP ,
+  ROTATION ,
+} t_neighbourhood ;
+
+typedef enum {
+  STEP_SCHEDULE_EQUAL ,
+  STEP_SCHEDULE_ASCENDING_1 ,
+  STEP_SCHEDULE_ASCENDING_2 ,
+  STEP_SCHEDULE_ASCENDING_3 ,
+  STEP_SCHEDULE_DESCENDING_1 ,
+  STEP_SCHEDULE_DESCENDING_2 ,
+  STEP_SCHEDULE_DESCENDING_3 ,
+  STEP_SCHEDULE_NORMAL_1 ,
+  STEP_SCHEDULE_NORMAL_2 ,
+  STEP_SCHEDULE_NORMAL_3
+} t_step_schedule ;
+
+typedef enum {
+  TEMPERATURE_SCHEDULE_LOGARITHMIC_1 ,
+  TEMPERATURE_SCHEDULE_LOGARITHMIC_2 ,
+  TEMPERATURE_SCHEDULE_LOGARITHMIC_3 ,
+  TEMPERATURE_SCHEDULE_LINEAR_1 ,
+  TEMPERATURE_SCHEDULE_LINEAR_2 ,
+  TEMPERATURE_SCHEDULE_LINEAR_3 ,
+  TEMPERATURE_SCHEDULE_EXPONENTIAL_1 ,
+  TEMPERATURE_SCHEDULE_EXPONENTIAL_2 ,
+  TEMPERATURE_SCHEDULE_EXPONENTIAL_3 ,
+  TEMPERATURE_SCHEDULE_EQUAL
+} t_temperature_schedule ;
+
+typedef enum {
+  NEIGHBOURHOOD_EXPLORATION_DETERMINIST ,
+  NEIGHBOURHOOD_EXPLORATION_STOCHASTIC
+} t_neighbourhood_exploration ;
+
+typedef enum {
   MAXIMIZATION ,
   MINIMIZATION ,
 } t_problem_type ;
 
 typedef enum {
-  TRANSFERT ,
-  SWAP ,
-  ROTATION ,
-} t_neighbourhood ;
+  INPUT_SOURCE_FILE ,
+  INPUT_SOURCE_STDIN
+} t_input_source ;
+
+typedef struct {
+  int duration ;
+  int step_count ;
+  t_step_schedule step_schedule ;
+  float temperature_first ;
+  float temperature_last ;
+  t_temperature_schedule temperature_schedule ;
+  t_problem_type problem_type ;
+  t_neighbourhood_exploration neighbourhood_exploration ;
+} t_configuration_annealing ;
+
+typedef struct {
+  char * input_file ;
+  t_input_source input_source ;
+  t_neighbourhood_exploration neighbourhood_exploration ;
+  t_problem_type problem_type ;
+} t_configuration_execution ;
 
 typedef struct {
   t_problem_type problem_type ;
@@ -102,57 +156,5 @@ typedef struct {
   int (*jobponderate)() ; 	// intance + solution + registre
   t_neighbourhood method ;
 } t_gap_solver_registry ;
-
-typedef enum {
-  STEP_SCHEDULE_EQUAL ,
-  STEP_SCHEDULE_ASCENDING_1 ,
-  STEP_SCHEDULE_ASCENDING_2 ,
-  STEP_SCHEDULE_ASCENDING_3 ,
-  STEP_SCHEDULE_DESCENDING_1 ,
-  STEP_SCHEDULE_DESCENDING_2 ,
-  STEP_SCHEDULE_DESCENDING_3 ,
-  STEP_SCHEDULE_NORMAL_1 ,
-  STEP_SCHEDULE_NORMAL_2 ,
-  STEP_SCHEDULE_NORMAL_3
-} t_step_repartition ;
-
-typedef enum {
-  TEMPERATURE_SCHEDULE_LOGARITHMIC_1 ,
-  TEMPERATURE_SCHEDULE_LOGARITHMIC_2 ,
-  TEMPERATURE_SCHEDULE_LOGARITHMIC_3 ,
-  TEMPERATURE_SCHEDULE_LINEAR_1 ,
-  TEMPERATURE_SCHEDULE_LINEAR_2 ,
-  TEMPERATURE_SCHEDULE_LINEAR_3 ,
-  TEMPERATURE_SCHEDULE_EXPONENTIAL_1 ,
-  TEMPERATURE_SCHEDULE_EXPONENTIAL_2 ,
-  TEMPERATURE_SCHEDULE_EXPONENTIAL_3 ,
-  TEMPERATURE_SCHEDULE_EQUAL
-} t_temperature_schedule ;
-
-typedef enum {
-  NEIGHBOURHOOD_EXPLORATION_DETERMINIST ,
-  NEIGHBOURHOOD_EXPLORATION_STOCHASTIC
-} t_neighbourhood_exploration ;
-
-typedef enum {
-  INPUT_SOURCE_FILE ,
-  INPUT_SOURCE_STDIN
-} t_input_source ;
-
-typedef struct {
-  int duration ;
-  int step_count ;
-  t_step_repartition step_repartition ;
-  float temperature_first ;
-  float temperature_last ;
-  t_temperature_schedule temperature_schedule ;
-  t_problem_type problem_type ;
-  t_neighbourhood_exploration neighbourhood_exploration ;
-} t_configuration_annealing ;
-
-typedef struct {
-  char * input_file ;
-  t_input_source input_source ;
-} t_configuration_execution ;
 
 #endif

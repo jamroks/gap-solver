@@ -117,6 +117,45 @@ read_orlibrary_input_file (char *, t_gap_instance *, t_gap_solution *) ;
 
 // <[End]> Input file 
 
+// <[Start]> Allowed configuration values
+
+/**
+ * Initialize an array holding allowed values for the *TEMPERATURE* schedule string parameter.
+ * This array is indexed by enum values, and contains char array pointers.
+ * The pointed string are the expected values.
+ *
+ * @param	allowed	An in/out argument
+ */
+void configuration_get_allowed_temperature_schedule (char **) ;
+
+/**
+ * Initialize an array holding allowed values for the *STEP* schedule string parameter.
+ * This array is indexed by enum values, and contains char array pointers.
+ * The pointed string are the expected values.
+ *
+ * @param	allowed	An in/out argument
+ */
+void configuration_get_allowed_step_schedule (char **) ;
+
+/**
+ * Initialize an array holding allowed values for the problem type string parameter.
+ * This array is indexed by enum values, and contains char array pointers.
+ * The pointed string are the expected values.
+ *
+ * @param	allowed	An in/out argument
+ */
+void configuration_get_allowed_problem_type (char **) ;
+
+/**
+ * Initialize an array holding allowed values for the neighbourhood exploration string parameter.
+ * This array is indexed by enum values, and contains char array pointers.
+ * The pointed string are the expected values.
+ *
+ * @param	allowed	An in/out argument
+ */
+void configuration_get_allowed_neighbourhood_exploration (char **) ;
+
+// <[End]>  Allowed configuration values
 
 // <[Start]> CLI
 
@@ -135,8 +174,35 @@ print_result (t_gap_instance *,t_gap_solution *) ;
 
 // <[Start]> Configuration file
 
+/*
+ * Parse the simulated annealing parameter file, expected in INI format.
+ * The parameters control the annealing process.
+ * They define the temperature schedule and the step schedule,
+ * which are later computed from them.
+ *
+ * @param	configuration	An in/out parameter which holds the annealing settings.
+ * @param	file		The INI file to parse the parameter from.
+ * @return	A numeric value, 1 for success, 0 for failure	
+ */
 short
-load_configuration_annealing ( t_configuration_annealing *, char *) ;
+load_configuration_annealing (
+  t_configuration_annealing * configuration,
+  char * file
+);
+
+/*
+ * Parse the execution parameter file, expected in INI format.
+ * The parameters control some of the execution process.
+ *
+ * @param	configuration	An in/out parameter which holds the execution settings.
+ * @param	file		The INI file to parse the parameter from.
+ * @return	A numeric value, 1 for success, 0 for failure	
+ */
+short
+load_configuration_execution (
+  t_configuration_execution * configuration,
+  char * file
+) ;
 
 // <[End]> Configuration file
 
