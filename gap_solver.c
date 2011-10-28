@@ -35,7 +35,8 @@ main (int argc, char ** argv)
   _init_configuration_execution (& configuration_execution) ;
   load_configuration_annealing (& configuration_annealing, "annealing.ini") ;
   load_configuration_execution (& configuration_execution, "execution.ini") ;
-  parse_cli_arguments (& configuration_annealing, & configuration_execution, argc, argv) ;
+  if ( ! parse_cli_arguments (& configuration_annealing, & configuration_execution, argc, argv))
+    error = 1 ;
   if ( ! validate_configuration_annealing (& configuration_annealing))
     error = 1 ;
   if ( ! validate_configuration_execution (& configuration_execution))
@@ -140,6 +141,8 @@ void _init_configuration_annealing (t_configuration_annealing * annealing)
 
 void _init_configuration_execution (t_configuration_execution * execution)
 {
+  execution->input_source = INPUT_SOURCE_FILE ;
+  execution->input_file = NULL ;
   execution->problem_type = UNASSIGNED ;
   execution->neighbourhood_exploration = NEIGHBOURHOOD_EXPLORATION_UNASSIGNED ;
 }

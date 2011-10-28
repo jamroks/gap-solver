@@ -152,6 +152,14 @@ char ** configuration_get_allowed_neighbourhood_exploration () ;
 // <[Start]> Generic validation
 
 /**
+ * Returns 1 if the given file exists and can be open,
+ * 0 otherwise
+ * @param file File path
+ */
+short
+validate_file (char * file) ;
+
+/**
  * Return the position of the searched string in the allowed array,
  * -1 if it is not present.
  * @param string Searched string

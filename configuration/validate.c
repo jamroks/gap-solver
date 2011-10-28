@@ -18,12 +18,13 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #include "../header/common.h"
 
 /**
- * Return the position of the searched string in the allowed array,
+ * Returns the position of the searched string in the allowed array,
  * -1 if it is not present.
  * @param string Searched string
  * @param string Allowed strings
  */
-short validate_string (char * string, char ** allowed)
+short
+validate_string (char * string, char ** allowed)
 {
   int i ;
   for (i = 0 ; allowed[i] && i < INPUT_MAX_STRING_PARAMETER_VALUES ; i ++)
@@ -33,12 +34,31 @@ short validate_string (char * string, char ** allowed)
 }
 
 /**
- * Return 1 if the given int is in the given range,
+ * Returns 1 if the given int is in the given range,
  * 0 otherwise
  * @param min Range start inclusive
  * @param max Range end inclusive
  */
-short validate_int (int value, int min, int max)
+short
+validate_int (int value, int min, int max)
 {
   return value >= min && value <= max ;
+}
+
+/**
+ * Returns 1 if the given file exists and can be open,
+ * 0 otherwise
+ * @param file File path
+ */
+short
+validate_file (char * path)
+{
+  FILE *file ;
+  if (NULL == (file = fopen (path, "rt")))
+    {
+      fclose (file);
+      return 0 ;
+    }
+  fclose (file);
+  return 1 ;
 }
