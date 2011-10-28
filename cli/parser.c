@@ -16,6 +16,22 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "../header/common.h"
 
+static enum _INDICES {
+  INDEX_PROBLEM_TYPE,
+  INDEX_NEIGHBOURHOOD_EXPLORATION,
+  INDEX_DURATION,
+  INDEX_STEP_COUNT,
+  INDEX_STEP_SCHEDULE,
+  INDEX_TEMPERATURE_FIRST,
+  INDEX_TEMPERATURE_LAST,
+  INDEX_TEMPERATURE_SCHEDULE,
+  INDEX_VERBOSE,
+} ;
+
+static t_configuration_annealing * _annealing ;
+
+static t_configuration_execution * _execution,
+
 short
 parse_cli_arguments (
   t_configuration_annealing * annealing,
@@ -24,6 +40,8 @@ parse_cli_arguments (
   char ** argv
 )
 {
+  _annealing = annealing ;
+  _execution = execution ;
   FILE *file;
   if (argc < 2)
     {
@@ -46,21 +64,86 @@ parse_cli_arguments (
   annealing->duration = 0 ;
 }
 
-char *
-get_usage()
+static short
+_get_option_parameters(
+  int argc,
+  char ** argv
+)
 {
-/*
---duration 
---step-count
---step-max-duration
---step-repartition
---temperature-max
---temperature-min
---temperature-decrease
---neighborhood
---verbose
---version
---about
---help
-*/
+  int option_index, c ;
+  struct option long_option[] =
+  {
+    {"problem_type", required_argument, NULL, INDEX_PROBLEM_TYPE},
+    {"neighbourhood_exploration", required_argument, NULL, INDEX_NEIGHBOURHOOD_EXPLORATION},
+    {"duration", required_argument, NULL, INDEX_DURATION},
+    {"step_schedule", required_argument, NULL, INDEX_STEP_SCHEDULE},
+    {"step_count", required_argument, NULL, INDEX_STEP_COUNT},
+    {"temperature_schedule", required_argument, NULL, INDEX_TEMPERATURE_SCHEDULE},
+    {"temperature_first", required_argument, NULL, INDEX_TEMPERATURE_FIRST},
+    {"temperature_last", required_argument, NULL, INDEX_TEMPERATURE_LAST},
+    {"verbose", no_argument, NULL, INDEX_VERBOSE},
+  };
+  while (-1 != (c = getopt_long (argc, argv, "d:s:S:t:T:u:p:n:v", long_option, & option_index)))
+    switch (c)
+      {
+        case 0:
+          switch (option_index)
+            {
+              case INDEX_PROBLEM_TYPE:
+                  
+                break ;
+
+              case INDEX_NEIGHBOURHOOD_EXPLORATION:
+                  
+                break ;
+
+              case INDEX_DURATION:
+                  
+                break ;
+
+              case INDEX_STEP_SCHEDULE:
+                  
+                break ;
+
+              case INDEX_STEP_COUNT:
+                  
+                break ;
+
+              case INDEX_TEMPERATURE_SCHEDULE:
+                  
+                break ;
+
+              case INDEX_TEMPERATURE_FIRST:
+                  
+                break ;
+
+              case INDEX_TEMPERATURE_LAST:
+                  
+                break ;
+
+              case INDEX_VERBOSE:
+                  
+                break ;
+            }
+          break ;
+        case 'd':
+          break ;
+        case 's':
+          break ;
+        case 'S':
+          break ;
+        case 't':
+          break;
+        case 'T':
+          break ;
+        case 'u':
+          break ;
+        case 'p':
+          break ;
+        case 'n':
+          break ;
+        case 'v':
+          break ;
+      }
+    printf("%s", optarg) ;
 }
