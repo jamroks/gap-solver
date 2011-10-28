@@ -26,9 +26,10 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 short validate_string (char * string, char ** allowed)
 {
   int i ;
-  for (i = 0 ; i < INPUT_MAX_STRING_PARAMETER_VALUES ; i ++)
+  for (i = 0 ; allowed[i]  && i < INPUT_MAX_STRING_PARAMETER_VALUES ; i ++)
     if (0 == strncmp (string, allowed[i], INPUT_STRING_PARAMETER_LENGTH))
       return i ;
+
   return -1 ;
 }
 

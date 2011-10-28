@@ -25,7 +25,7 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
  *
  * @param	configuration	An in/out parameter which holds the annealing settings.
  * @param	file		The INI file to parse the parameter from.
- * @return	A numeric string_value, 1 for success, 0 for failure	
+ * @return	1 for success, 0 for failure	
  */
 short
 load_configuration_annealing (
@@ -33,8 +33,6 @@ load_configuration_annealing (
   char * file
 )
 {
-  char ** allowed_temperature_schedule ;
-  char ** allowed_step_schedule ;
   char * string_value ;
   int int_value, int_value1 ;
   dictionary * dictionary;
@@ -43,8 +41,6 @@ load_configuration_annealing (
       fprintf (stderr, "error: couldn\'t load \"%s\"\n", file) ;
       return 0 ;
     }
-  allowed_temperature_schedule = configuration_get_allowed_temperature_schedule () ;
-  allowed_step_schedule = configuration_get_allowed_step_schedule () ;
   int_value = iniparser_getint (
     dictionary,
     ":duration",
@@ -123,5 +119,6 @@ load_configuration_annealing (
       fprintf (stderr, "warning: missing or unexpected temperature schedule value in \"%s\"\n", file) ;
       fprintf (stderr, "found: %s\n", string_value) ;
     }
+  iniparser_freedict (dictionary) ;
   return 1 ;
 }

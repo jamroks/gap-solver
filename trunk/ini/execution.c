@@ -23,7 +23,7 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
  *
  * @param	configuration	An in/out parameter which holds the execution settings.
  * @param	file		The INI file to parse the parameter from.
- * @return	A numeric value, 1 for success, 0 for failure	
+ * @return	1 for success, 0 for failure	
  */
 short
 load_configuration_execution (
@@ -31,41 +31,38 @@ load_configuration_execution (
   char * file
 )
 {
-  char ** allowed_problem_type ;
-  char ** allowed_neighbourhood_exploration ;
-  char * value ;
-  int value ;
+
+  char * string_value ;
+  int int_value ;
   dictionary * dictionary;
   if (NULL == (dictionary = iniparser_load (file)))
-    return 0 ;
-  allowed_problem_type = configuration_get_allowed_problem_type () ;
-  allowed_neighbourhood_exploration = configuration_get_allowed_neighbourhood_exploration () ;
-  value = iniparser_getstring (
+    {
+      fprintf (stderr, "error: couldn\'t load \"%s\"\n", file) ;
+      return 0 ;
+    }
+  string_value = iniparser_getstring (
     dictionary,
-    "problem_type",
+    ":problem_type",
     "@@@"
   ) ;
-  count = sizeof (allowed_problem_type) / sizeof (char *) ;
-  configuration->problem_type = MAXIMIZATION ;
-  for (i = 0 ; i < count ; i ++)
-    if (0 == strcmp (allowed_problem_type[i], value))
-      {
-        configuration->problem_type = i ;
-        break ;
-      }
-
-  value = iniparser_getstring (
+  if (-1 != (int_value = validate_problem_type (string_value)))
+    configuration->problem_type = int_value ;
+  else
+    {
+      fprintf (stderr, "warning: missing or unexpected problem type value in \"%s\"\n", file) ;
+      fprintf (stderr, "found: %s\n", string_value) ;
+    }
+  string_value = iniparser_getstring (
     dictionary,
-    "neighbourhood_exploration",
+    ":neighbourhood_exploration",
     "@@@"
   ) ;
-  count = sizeof (allowed_neighbourhood_exploration) / sizeof (char *) ;
-  configuration->neighbourhood_exploration = NEIGHBOURHOOD_EXPLORATION_STOCHASTIC;
-  for (i = 0 ; i < count ; i ++)
-    if (0 == strcmp (allowed_neighbourhood_exploration[i], value))
-      {
-        configuration->neighbourhood_exploration = i ;
-        break ;
-      }
+  if (-1 != (int_value = validate_neighbourhood_exploration (string_value)))
+    configuration->neighbourhood_exploration = int_value ;
+  else
+    {
+      fprintf (stderr, "warning: missing or unexpected neighbourhood exploration value in \"%s\"\n", file) ;
+      fprintf (stderr, "found: %s\n", string_value) ;
+    }
   return 1 ;
 }

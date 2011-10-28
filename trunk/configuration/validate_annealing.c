@@ -53,7 +53,7 @@ short validate_temperatures (int value1, int value2)
  * The expected values are defined as constants.
  *
  * @param value A string that should match the expected param value (ie. equ no1 as1 de1 ...)
- * @return The t_step_schedule enum value of the given string if correct, -1 otherwise.
+ * @return The t_step_schedule enum value of the given string if valid, -1 otherwise.
  */
 short validate_step_schedule (char * value)
 {
@@ -69,7 +69,7 @@ short validate_step_schedule (char * value)
  * The expected values are defined as constants.
  *
  * @param value A string that should match the expected param value (ie. equ li1 ex1 lo1 ...)
- * @return The t_temperature_schedule enum value of the given string if correct, -1 otherwise.
+ * @return The t_temperature_schedule enum value of the given string if valid, -1 otherwise.
  */
 short validate_temperature_schedule (char * value)
 {

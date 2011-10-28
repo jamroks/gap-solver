@@ -28,6 +28,8 @@ char ** configuration_get_allowed_temperature_schedule ()
   static char * allowed[INPUT_MAX_STRING_PARAMETER_VALUES] ;
   if (0 == initialized)
     {
+      for ( ; initialized < INPUT_MAX_STRING_PARAMETER_VALUES; initialized ++)
+        allowed[initialized] = NULL;
       allowed[TEMPERATURE_SCHEDULE_LOGARITHMIC_1] =
         INPUT_TEMPERATURE_SCHEDULE_LOGARITHMIC_1 ;
       allowed[TEMPERATURE_SCHEDULE_LOGARITHMIC_2] =
@@ -48,7 +50,6 @@ char ** configuration_get_allowed_temperature_schedule ()
         INPUT_TEMPERATURE_SCHEDULE_EXPONENTIAL_3 ;
       allowed[TEMPERATURE_SCHEDULE_EQUAL] =
         INPUT_TEMPERATURE_SCHEDULE_EQUAL ;
-      initialized = 1 ;
     }
   return allowed ;
 }
@@ -64,27 +65,28 @@ char ** configuration_get_allowed_step_schedule ()
   static char * allowed[INPUT_MAX_STRING_PARAMETER_VALUES] ;
   if (0 == initialized)
     {
-    allowed[STEP_SCHEDULE_EQUAL] =
-      INPUT_STEP_SCHEDULE_EQUAL ;
-    allowed[STEP_SCHEDULE_ASCENDING_1] =
-      INPUT_STEP_SCHEDULE_ASCENDING_1 ;
-    allowed[STEP_SCHEDULE_ASCENDING_2] =
-      INPUT_STEP_SCHEDULE_ASCENDING_2 ;
-    allowed[STEP_SCHEDULE_ASCENDING_3] =
-      INPUT_STEP_SCHEDULE_ASCENDING_3 ;
-    allowed[STEP_SCHEDULE_DESCENDING_1] =
-      INPUT_STEP_SCHEDULE_DESCENDING_1 ;
-    allowed[STEP_SCHEDULE_DESCENDING_2] = 
-      INPUT_STEP_SCHEDULE_DESCENDING_2 ;
-    allowed[STEP_SCHEDULE_DESCENDING_3] =
-      INPUT_STEP_SCHEDULE_DESCENDING_3 ;
-    allowed[STEP_SCHEDULE_NORMAL_1] =
-      INPUT_STEP_SCHEDULE_NORMAL_1 ;
-    allowed[STEP_SCHEDULE_NORMAL_2] =
-      INPUT_STEP_SCHEDULE_NORMAL_2 ;
-    allowed[STEP_SCHEDULE_NORMAL_3] =
-      INPUT_STEP_SCHEDULE_NORMAL_3 ;
-    initialized = 1 ;
+      for ( ; initialized < INPUT_MAX_STRING_PARAMETER_VALUES; initialized ++)
+        allowed[initialized] = NULL;
+      allowed[STEP_SCHEDULE_EQUAL] =
+        INPUT_STEP_SCHEDULE_EQUAL ;
+      allowed[STEP_SCHEDULE_ASCENDING_1] =
+        INPUT_STEP_SCHEDULE_ASCENDING_1 ;
+      allowed[STEP_SCHEDULE_ASCENDING_2] =
+        INPUT_STEP_SCHEDULE_ASCENDING_2 ;
+      allowed[STEP_SCHEDULE_ASCENDING_3] =
+        INPUT_STEP_SCHEDULE_ASCENDING_3 ;
+      allowed[STEP_SCHEDULE_DESCENDING_1] =
+        INPUT_STEP_SCHEDULE_DESCENDING_1 ;
+      allowed[STEP_SCHEDULE_DESCENDING_2] = 
+        INPUT_STEP_SCHEDULE_DESCENDING_2 ;
+      allowed[STEP_SCHEDULE_DESCENDING_3] =
+        INPUT_STEP_SCHEDULE_DESCENDING_3 ;
+      allowed[STEP_SCHEDULE_NORMAL_1] =
+        INPUT_STEP_SCHEDULE_NORMAL_1 ;
+      allowed[STEP_SCHEDULE_NORMAL_2] =
+        INPUT_STEP_SCHEDULE_NORMAL_2 ;
+      allowed[STEP_SCHEDULE_NORMAL_3] =
+        INPUT_STEP_SCHEDULE_NORMAL_3 ;
   }
   return allowed ;
 }

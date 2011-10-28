@@ -31,6 +31,10 @@ main (int argc, char ** argv)
     & configuration_annealing,
     "annealing.ini"
   ) ;
+  load_configuration_execution (
+    & configuration_execution,
+    "execution.ini"
+  ) ;
   parse_cli_arguments (
     & configuration_annealing,
     & configuration_execution,
