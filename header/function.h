@@ -208,6 +208,12 @@ short validate_duration (int value) ;
 short validate_step_count (int value) ;
 
 /**
+ * Checks if the given temperature is valid
+ * @param value Given temperature
+ */
+short validate_temperature (int value) ;
+
+/**
  * Checks if the given temperature bounds are valid as a range
  * @param value1 Lower bound
  * @param value2 Upper bound

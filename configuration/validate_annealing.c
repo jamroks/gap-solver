@@ -18,10 +18,68 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #include "../header/common.h"
 
 /**
+ * Performs a whole check on the annealing configuration structure informations.
+ * @param annealing
+ */
+short
+validate_configuration_annealing (t_configuration_annealing * annealing)
+{
+  short error = 0 ;
+  if ( ! validate_duration (annealing->duration))
+    {
+      fprintf (
+        stderr,
+        "error: invalid duration \"%d\"\n",
+        annealing->duration
+      );
+      error = 1 ;
+    }
+  if ( ! validate_step_count (annealing->step_count))
+    {
+       fprintf (
+        stderr,
+        "error: invalid step count \"%d\"\n",
+        annealing->step_count
+      );
+      error = 1 ;
+    }
+  if ( ! validate_temperatures (annealing->temperature_last, annealing->temperature_first))
+    {
+       fprintf (
+        stderr,
+        "error: invalid temperatures \"%d\" \"%d\"\n",
+        annealing->temperature_first,
+        annealing->temperature_last
+      );
+      error = 1 ;
+    }
+  if (STEP_SCHEDULE_UNASSIGNED == annealing->step_schedule)
+    {
+       fprintf (
+        stderr,
+        "error: invalid step schedule \"%s\"\n",
+        annealing->step_schedule
+      );
+      error = 1 ;
+    }
+  if (TEMPERATURE_SCHEDULE_UNASSIGNED == annealing->temperature_schedule)
+    {
+       fprintf (
+        stderr,
+        "error: invalid temperature schedule \"%s\"\n",
+        annealing->temperature_schedule
+      );
+      error = 1 ;
+    }
+  return error ? 0 : 1 ;
+}
+
+/**
  * Checks if the given input int value is valid for a duration.
  * @param value Given duration
  */
-short validate_duration (int value)
+short
+validate_duration (int value)
 {
   return validate_int (value, INPUT_TEMPERATURE_MIN, INPUT_TEMPERATURE_MAX) ;
 }
@@ -30,9 +88,20 @@ short validate_duration (int value)
  * Checks if the given input int value is valid for a step count.
  * @param value Given step count
  */
-short validate_step_count (int value)
+short
+validate_step_count (int value)
 {
   return validate_int (value, INPUT_STEP_COUNT_MIN, INPUT_STEP_COUNT_MAX) ;
+}
+
+/**
+ * Checks if the given temperature is valid
+ * @param value Given temperature
+ */
+short
+validate_temperature (int value)
+{
+  return validate_int (value, INPUT_TEMPERATURE_MIN, INPUT_TEMPERATURE_MAX) ;
 }
 
 /**
@@ -40,11 +109,10 @@ short validate_step_count (int value)
  * @param value1 Lower bound
  * @param value2 Upper bound
  */
-short validate_temperatures (int value1, int value2)
+short
+validate_temperatures (int value1, int value2)
 {
-  return validate_int (value1, INPUT_TEMPERATURE_MIN, INPUT_TEMPERATURE_MAX) 
-  && validate_int (value2, INPUT_TEMPERATURE_MIN, INPUT_TEMPERATURE_MAX)
-  && value1 < value2 ;
+  return validate_temperature (value1) && validate_temperature (value2) && value1 < value2 ;
 }
 
 /**

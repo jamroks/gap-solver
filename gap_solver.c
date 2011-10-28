@@ -17,30 +17,38 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 
 #include "header/common.h"
 
+void _init_configuration_annealing (t_configuration_annealing *) ;
+void _init_configuration_execution (t_configuration_execution *) ;
+
 int 
 main (int argc, char ** argv)
 {
   int test_b=100 ;
+  short error = 0 ;
   t_gap_instance instance ;
   t_gap_solution solution ;
   t_gap_solution next_solution ;
   t_configuration_annealing configuration_annealing ;
   t_configuration_execution configuration_execution ;
   t_gap_solver_registry registry ;
-  load_configuration_annealing (
-    & configuration_annealing,
-    "annealing.ini"
-  ) ;
-  load_configuration_execution (
-    & configuration_execution,
-    "execution.ini"
-  ) ;
-  parse_cli_arguments (
-    & configuration_annealing,
-    & configuration_execution,
-    argc,
-    argv
-  ) ;
+  _init_configuration_annealing (& configuration_annealing) ;
+  _init_configuration_execution (& configuration_execution) ;
+  load_configuration_annealing (& configuration_annealing, "annealing.ini") ;
+  load_configuration_execution (& configuration_execution, "execution.ini") ;
+  parse_cli_arguments (& configuration_annealing, & configuration_execution, argc, argv) ;
+  if ( ! validate_configuration_annealing (& configuration_annealing))
+    error = 1 ;
+  if ( ! validate_configuration_execution (& configuration_execution))
+    error = 1 ;
+  if (error)
+    {
+      fprintf (
+       stderr,
+       "%s",
+       "use gapsolver ? or see README for help\n"
+      ) ;
+      exit (1) ;
+    }
 
   switch (configuration_execution.input_source)
     {
@@ -59,6 +67,7 @@ main (int argc, char ** argv)
       printf ("%s", "pas d\'affectation possible\n") ;
       exit (0) ;
     }
+
 /*
   countdown : a thread that will stop the process after a given duration
   temperature : a thread that will lower the temperature at the given steps
@@ -117,4 +126,20 @@ srand(time(NULL));
   printf(" nb swap       =%d\n", registry.swap_count) ;
 //
   print_result (& instance, & solution) ;
+}
+
+void _init_configuration_annealing (t_configuration_annealing * annealing)
+{
+  annealing->duration = -1 ;
+  annealing->step_count = -1 ;
+  annealing->step_schedule = STEP_SCHEDULE_UNASSIGNED ;
+  annealing->temperature_first = -1 ;
+  annealing->temperature_last = -1 ;
+  annealing->temperature_schedule = TEMPERATURE_SCHEDULE_UNASSIGNED ;
+}
+
+void _init_configuration_execution (t_configuration_execution * execution)
+{
+  execution->problem_type = UNASSIGNED ;
+  execution->neighbourhood_exploration = NEIGHBOURHOOD_EXPLORATION_UNASSIGNED ;
 }

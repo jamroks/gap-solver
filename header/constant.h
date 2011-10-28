@@ -31,6 +31,8 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 
 #define INPUT_MAX_STRING_PARAMETER_VALUES 20
 
+#define INPUT_UNASSIGNED "µµµ"
+
 #define INPUT_TEMPERATURE_SCHEDULE_EQUAL         "equ"
 #define INPUT_TEMPERATURE_SCHEDULE_LINEAR_1      "li1"
 #define INPUT_TEMPERATURE_SCHEDULE_LINEAR_2      "li2"

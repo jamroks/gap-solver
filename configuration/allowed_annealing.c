@@ -30,6 +30,8 @@ char ** configuration_get_allowed_temperature_schedule ()
     {
       for ( ; initialized < INPUT_MAX_STRING_PARAMETER_VALUES; initialized ++)
         allowed[initialized] = NULL;
+      allowed[TEMPERATURE_SCHEDULE_UNASSIGNED] =
+        INPUT_UNASSIGNED ;
       allowed[TEMPERATURE_SCHEDULE_LOGARITHMIC_1] =
         INPUT_TEMPERATURE_SCHEDULE_LOGARITHMIC_1 ;
       allowed[TEMPERATURE_SCHEDULE_LOGARITHMIC_2] =
@@ -67,6 +69,8 @@ char ** configuration_get_allowed_step_schedule ()
     {
       for ( ; initialized < INPUT_MAX_STRING_PARAMETER_VALUES; initialized ++)
         allowed[initialized] = NULL;
+      allowed[STEP_SCHEDULE_UNASSIGNED] =
+        INPUT_UNASSIGNED ;
       allowed[STEP_SCHEDULE_EQUAL] =
         INPUT_STEP_SCHEDULE_EQUAL ;
       allowed[STEP_SCHEDULE_ASCENDING_1] =
