@@ -78,9 +78,12 @@ load_configuration_annealing (
   for (i = 0 ; i < count ; i ++)
     if (0 == strcmp (temperature_schedule_allowed[i], value))
       break ;
-  configuration->temperature_schedule ;
-//  configuration->problem_type ;
-//  configuration->neighbourhood_exploration ;
+  configuration->temperature_schedule = i;
+  count = sizeof (step_schedule_allowed) / sizeof (char *) ;
+  for (i = 0 ; i < count ; i ++)
+    if (0 == strcmp (step_schedule_allowed[i], value))
+      break ;
+  configuration->step_schedule = i;
 }
 
 static void _init_temperature_schedule_allowed (char * allowed[INI_MAX_STRING_PARAMETER_VALUES])
