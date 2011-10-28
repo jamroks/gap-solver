@@ -104,13 +104,17 @@ typedef struct {
 } t_gap_solver_registry ;
 
 typedef enum {
-  STEP_REPARTITION_LINEAR_1 ,
-  STEP_REPARTITION_LINEAR_2 ,
-  STEP_REPARTITION_LINEAR_3
+  STEP_SCHEDULE_EQUAL ,
+  STEP_SCHEDULE_ASCENDING_1 ,
+  STEP_SCHEDULE_ASCENDING_2 ,
+  STEP_SCHEDULE_ASCENDING_3 ,
+  STEP_SCHEDULE_DESCENDING_1 ,
+  STEP_SCHEDULE_DESCENDING_2 ,
+  STEP_SCHEDULE_DESCENDING_3 ,
+  STEP_SCHEDULE_NORMAL_1 ,
+  STEP_SCHEDULE_NORMAL_2 ,
+  STEP_SCHEDULE_NORMAL_3
 } t_step_repartition ;
-
-
-
 
 typedef enum {
   TEMPERATURE_SCHEDULE_LOGARITHMIC_1 ,
@@ -121,7 +125,8 @@ typedef enum {
   TEMPERATURE_SCHEDULE_LINEAR_3 ,
   TEMPERATURE_SCHEDULE_EXPONENTIAL_1 ,
   TEMPERATURE_SCHEDULE_EXPONENTIAL_2 ,
-  TEMPERATURE_SCHEDULE_EXPONENTIAL_3
+  TEMPERATURE_SCHEDULE_EXPONENTIAL_3 ,
+  TEMPERATURE_SCHEDULE_EQUAL
 } t_temperature_schedule ;
 
 typedef enum {
@@ -137,10 +142,9 @@ typedef enum {
 typedef struct {
   int duration ;
   int step_count ;
-  int step_max_duration ;
   t_step_repartition step_repartition ;
-  float temperature_max ;
-  float temperature_min ;
+  float temperature_first ;
+  float temperature_last ;
   t_temperature_schedule temperature_schedule ;
   t_problem_type problem_type ;
   t_neighbourhood_exploration neighbourhood_exploration ;

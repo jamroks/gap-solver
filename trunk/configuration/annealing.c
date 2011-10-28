@@ -17,6 +17,10 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 
 #include "../header/common.h"
 
+static void _init_temperature_schedule_allowed (char **) ;
+
+static void _init_step_schedule_allowed (char **) ;
+
 /*
  * Parse the simulated annealing parameter file, expected in INI format.
  * The parameters control the annealing process.
@@ -34,32 +38,15 @@ load_configuration_annealing (
 )
 {
   dictionary * dictionary = iniparser_load (file);
-  char * temperature_schedule_possible_value[] =
-  {
-    ANNEALING_CONFIGURATION_TEMPERATURE_SCHEDULE_EQUAL,
-    ANNEALING_CONFIGURATION_TEMPERATURE_SCHEDULE_LINEAR_1,
-    ANNEALING_CONFIGURATION_TEMPERATURE_SCHEDULE_LINEAR_2,
-    ANNEALING_CONFIGURATION_TEMPERATURE_SCHEDULE_LINEAR_3,
-    ANNEALING_CONFIGURATION_TEMPERATURE_SCHEDULE_LOGARITHMIC_1,
-    ANNEALING_CONFIGURATION_TEMPERATURE_SCHEDULE_LOGARITHMIC_2,
-    ANNEALING_CONFIGURATION_TEMPERATURE_SCHEDULE_LOGARITHMIC_3,
-    ANNEALING_CONFIGURATION_TEMPERATURE_SCHEDULE_EXPONENTIAL_1,
-    ANNEALING_CONFIGURATION_TEMPERATURE_SCHEDULE_EXPONENTIAL_2,
-    ANNEALING_CONFIGURATION_TEMPERATURE_SCHEDULE_EXPONENTIAL_3
-  };
-  char * step_schedule_possible_value[] =
-  {
-    ANNEALING_CONFIGURATION_STEP_SCHEDULE_EQUAL,
-    ANNEALING_CONFIGURATION_STEP_SCHEDULE_ASCENDING_1,
-    ANNEALING_CONFIGURATION_STEP_SCHEDULE_ASCENDING_2,
-    ANNEALING_CONFIGURATION_STEP_SCHEDULE_ASCENDING_3,
-    ANNEALING_CONFIGURATION_STEP_SCHEDULE_DESCENDING_1,
-    ANNEALING_CONFIGURATION_STEP_SCHEDULE_DESCENDING_2,
-    ANNEALING_CONFIGURATION_STEP_SCHEDULE_DESCENDING_3,
-    ANNEALING_CONFIGURATION_STEP_SCHEDULE_NORMAL_1,
-    ANNEALING_CONFIGURATION_STEP_SCHEDULE_NORMAL_2,
-    ANNEALING_CONFIGURATION_STEP_SCHEDULE_NORMAL_3
-  };
+  char * temperature_schedule_allowed[INI_MAX_STRING_PARAMETER_VALUES] ;
+  _init_temperature_schedule_allowed (
+    temperature_schedule_allowed
+  ) ;
+  char * step_schedule_allowed[INI_MAX_STRING_PARAMETER_VALUES] ;
+  _init_step_schedule_allowed (
+    step_schedule_allowed
+  ) ;
+  char * value ;
   configuration->duration = iniparser_getint (
     dictionary,
     "duration",
@@ -70,28 +57,76 @@ load_configuration_annealing (
     "step_count",
     10
   ) ;
-  configuration->step_max_duration = iniparser_getint (
-    dictionary,
-    "step_max_duration",
-    10
-  ) ;
   configuration->step_repartition ;
-  configuration->temperature_max = iniparser_getint (
+  configuration->temperature_first = iniparser_getint (
     dictionary,
-    "temperature_max",
+    "temperature_first",
     10
   ) ;
-  configuration->temperature_min = iniparser_getint (
+  configuration->temperature_last = iniparser_getint (
     dictionary,
-    "temperature_min",
+    "temperature_last",
     10
   ) ;
-  configuration->temperature_schedule = iniparser_getstring (
+  value = iniparser_getstring (
     dictionary,
     "temperature_schedule",
-    "lin1"
+    "li1"
   ) ;
+  int count, i;
+  count = sizeof (temperature_schedule_allowed) / sizeof (char *) ;
+  for (i = 0 ; i < count ; i ++)
+    if (0 == strcmp (temperature_schedule_allowed[i], value))
+      break ;
   configuration->temperature_schedule ;
-  configuration->problem_type ;
-  configuration->neighbourhood_exploration ;
+//  configuration->problem_type ;
+//  configuration->neighbourhood_exploration ;
+}
+
+static void _init_temperature_schedule_allowed (char * allowed[INI_MAX_STRING_PARAMETER_VALUES])
+{
+  allowed[TEMPERATURE_SCHEDULE_LOGARITHMIC_1] =
+    INI_TEMPERATURE_SCHEDULE_LOGARITHMIC_1 ;
+  allowed[TEMPERATURE_SCHEDULE_LOGARITHMIC_2] =
+    INI_TEMPERATURE_SCHEDULE_LOGARITHMIC_2 ;
+  allowed[TEMPERATURE_SCHEDULE_LOGARITHMIC_3] =
+    INI_TEMPERATURE_SCHEDULE_LOGARITHMIC_3 ;
+  allowed[TEMPERATURE_SCHEDULE_LINEAR_1] =
+    INI_TEMPERATURE_SCHEDULE_LINEAR_1 ;
+  allowed[TEMPERATURE_SCHEDULE_LINEAR_2] =
+    INI_TEMPERATURE_SCHEDULE_LINEAR_2 ;
+  allowed[TEMPERATURE_SCHEDULE_LINEAR_3] =
+    INI_TEMPERATURE_SCHEDULE_LINEAR_3 ;
+  allowed[TEMPERATURE_SCHEDULE_EXPONENTIAL_1] =
+    INI_TEMPERATURE_SCHEDULE_EXPONENTIAL_1 ;
+  allowed[TEMPERATURE_SCHEDULE_EXPONENTIAL_2] =
+    INI_TEMPERATURE_SCHEDULE_EXPONENTIAL_2 ;
+  allowed[TEMPERATURE_SCHEDULE_EXPONENTIAL_3] =
+    INI_TEMPERATURE_SCHEDULE_EXPONENTIAL_3 ;
+  allowed[TEMPERATURE_SCHEDULE_EQUAL] =
+    INI_TEMPERATURE_SCHEDULE_EQUAL ;
+}
+
+static void _init_step_schedule_allowed (char * allowed[INI_MAX_STRING_PARAMETER_VALUES])
+{
+  allowed[STEP_SCHEDULE_EQUAL] =
+    INI_STEP_SCHEDULE_EQUAL ;
+  allowed[STEP_SCHEDULE_ASCENDING_1] =
+    INI_STEP_SCHEDULE_ASCENDING_1 ;
+  allowed[STEP_SCHEDULE_ASCENDING_2] =
+    INI_STEP_SCHEDULE_ASCENDING_2 ;
+  allowed[STEP_SCHEDULE_ASCENDING_3] =
+    INI_STEP_SCHEDULE_ASCENDING_3 ;
+  allowed[STEP_SCHEDULE_DESCENDING_1] =
+    INI_STEP_SCHEDULE_DESCENDING_1 ;
+  allowed[STEP_SCHEDULE_DESCENDING_2] = 
+    INI_STEP_SCHEDULE_DESCENDING_2 ;
+  allowed[STEP_SCHEDULE_DESCENDING_3] =
+    INI_STEP_SCHEDULE_DESCENDING_3 ;
+  allowed[STEP_SCHEDULE_NORMAL_1] =
+    INI_STEP_SCHEDULE_NORMAL_1 ;
+  allowed[STEP_SCHEDULE_NORMAL_2] =
+    INI_STEP_SCHEDULE_NORMAL_2 ;
+  allowed[STEP_SCHEDULE_NORMAL_3] =
+    INI_STEP_SCHEDULE_NORMAL_3 ;
 }
