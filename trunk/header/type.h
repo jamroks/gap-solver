@@ -15,11 +15,10 @@ You should have received a copy of the GNU Lesser General Public License
 along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../header/common.h"
-#include "../header/constant.h"
-
 #ifndef TYPE_H
 #define TYPE_H
+
+#include "../header/constant.h"
 
 typedef short t_error ;
 

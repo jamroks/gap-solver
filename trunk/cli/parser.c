@@ -16,7 +16,7 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "../header/common.h"
 
-static enum _INDICES {
+enum _INDICES {
   INDEX_PROBLEM_TYPE,
   INDEX_NEIGHBOURHOOD_EXPLORATION,
   INDEX_DURATION,
@@ -30,7 +30,7 @@ static enum _INDICES {
 
 static t_configuration_annealing * _annealing ;
 
-static t_configuration_execution * _execution,
+static t_configuration_execution * _execution ;
 
 short
 parse_cli_arguments (
@@ -126,23 +126,41 @@ _get_option_parameters(
                 break ;
             }
           break ;
+
         case 'd':
+          
           break ;
+
         case 's':
+          
           break ;
+
         case 'S':
+          
           break ;
+
         case 't':
+          
           break;
+
         case 'T':
+          
           break ;
+
         case 'u':
+          
           break ;
+
         case 'p':
+          
           break ;
+
         case 'n':
+          
           break ;
+
         case 'v':
+          
           break ;
       }
     printf("%s", optarg) ;
