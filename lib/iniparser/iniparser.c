@@ -19,7 +19,7 @@
 
 /*---------------------------- Defines -------------------------------------*/
 #define ASCIILINESZ         (1024)
-#define INI_INVALID_KEY     ((char*)-1)
+#define INPUT_INVALID_KEY     ((char*)-1)
 
 /*---------------------------------------------------------------------------
                         Private to this module
@@ -309,8 +309,8 @@ int iniparser_getint(dictionary * d, char * key, int notfound)
 {
     char    *   str ;
 
-    str = iniparser_getstring(d, key, INI_INVALID_KEY);
-    if (str==INI_INVALID_KEY) return notfound ;
+    str = iniparser_getstring(d, key, INPUT_INVALID_KEY);
+    if (str==INPUT_INVALID_KEY) return notfound ;
     return (int)strtol(str, NULL, 0);
 }
 
@@ -331,8 +331,8 @@ double iniparser_getdouble(dictionary * d, char * key, double notfound)
 {
     char    *   str ;
 
-    str = iniparser_getstring(d, key, INI_INVALID_KEY);
-    if (str==INI_INVALID_KEY) return notfound ;
+    str = iniparser_getstring(d, key, INPUT_INVALID_KEY);
+    if (str==INPUT_INVALID_KEY) return notfound ;
     return atof(str);
 }
 
@@ -373,8 +373,8 @@ int iniparser_getboolean(dictionary * d, char * key, int notfound)
     char    *   c ;
     int         ret ;
 
-    c = iniparser_getstring(d, key, INI_INVALID_KEY);
-    if (c==INI_INVALID_KEY) return notfound ;
+    c = iniparser_getstring(d, key, INPUT_INVALID_KEY);
+    if (c==INPUT_INVALID_KEY) return notfound ;
     if (c[0]=='y' || c[0]=='Y' || c[0]=='1' || c[0]=='t' || c[0]=='T') {
         ret = 1 ;
     } else if (c[0]=='n' || c[0]=='N' || c[0]=='0' || c[0]=='f' || c[0]=='F') {
@@ -403,7 +403,7 @@ int iniparser_find_entry(
 )
 {
     int found=0 ;
-    if (iniparser_getstring(ini, entry, INI_INVALID_KEY)!=INI_INVALID_KEY) {
+    if (iniparser_getstring(ini, entry, INPUT_INVALID_KEY)!=INPUT_INVALID_KEY) {
         found = 1 ;
     }
     return found ;
