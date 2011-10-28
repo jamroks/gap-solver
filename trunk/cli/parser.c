@@ -34,6 +34,8 @@ static void _set_temperature_last () ;
 
 static void _set_verbose () ;
 
+static short _get_option_parameters (int argc, char ** argv) ;
+
 // Indices used by getopt_long
 enum _INDICES {
   INDEX_PROBLEM_TYPE,
@@ -68,28 +70,18 @@ parse_cli_arguments (
 {
   _annealing = annealing ;
   _execution = execution ;
-  FILE *file;
   if (argc < 2)
     {
       fprintf (stderr, "%s", "a file is expected as parameter\n") ;
-      exit (1) ;
+      return 0 ;
     }
-  execution->input_source = INPUT_SOURCE_FILE ;
   execution->input_file = argv[argc - 1] ;
-  if (NULL == (file = fopen (execution->input_file, "rt")))
-    {
-      fprintf (
-        stderr,
-        "error opening: \"%s\"\n",
-        execution->input_file
-      ) ;
-      exit (1) ;
-    }
-  fclose (file);
+  _get_option_parameters (argc, argv) ;
+  return 1 ;
 }
 
 static short
-_get_option_parameters(
+_get_option_parameters (
   int argc,
   char ** argv
 )
@@ -107,7 +99,7 @@ _get_option_parameters(
     {"temperature_last", required_argument, NULL, INDEX_TEMPERATURE_LAST},
     {"verbose", no_argument, NULL, INDEX_VERBOSE},
   };
-  while (-1 != (c = getopt_long (argc, argv, "p:n:d:s:S:t:T:u:v", long_option, & option_index)))
+  while (-1 != (c = getopt_long (argc, argv, "P:N:D:X:C:Y:F:L:v", long_option, & option_index)))
     switch (c)
       {
         case 0:
@@ -195,7 +187,7 @@ _set_problem_type ()
   if (-1 != (value = validate_problem_type (optarg)))
     _execution->problem_type = value;
   else
-    fprintf (stderr, "warning: unexpected temperature schedule argument \"%s\"", optarg) ;
+    fprintf (stderr, "warning: unexpected temperature schedule argument \"%s\"\n", optarg) ;
 }
 
 static void
@@ -205,17 +197,18 @@ _set_neighbourhood_exploration ()
   if (-1 != (value = validate_neighbourhood_exploration (optarg)))
     _execution->neighbourhood_exploration = value;
   else
-    fprintf (stderr, "warning: unexpected neighbourhood exploration argument \"%s\"", optarg) ;
+    fprintf (stderr, "warning: unexpected neighbourhood exploration argument \"%s\"\n", optarg) ;
 }
 
 static void
 _set_duration ()
 {
+  printf("arg: %s\n\n", optarg);
   int value = atoi (optarg) ;
   if (validate_duration (value))
     _annealing->duration = value ;
   else
-    fprintf (stderr, "warning: unexpected duration argument \"%d\"", value) ;
+    fprintf (stderr, "warning: unexpected duration argument \"%d\"\n", value) ;
 }
 
 static void
@@ -225,7 +218,7 @@ _set_step_schedule()
   if (-1 != (value = validate_step_schedule (optarg)))
     _annealing->step_schedule = value;
   else
-    fprintf (stderr, "warning: unexpected step schedule argument \"%s\"", optarg) ;
+    fprintf (stderr, "warning: unexpected step schedule argument \"%s\"\n", optarg) ;
 }
 
 static void
@@ -235,7 +228,7 @@ _set_step_count()
   if (validate_step_count (value))
     _annealing->step_count = value ;
   else
-    fprintf (stderr, "warning: unexpected step count argument \"%d\"", value) ;
+    fprintf (stderr, "warning: unexpected step count argument \"%d\"\n", value) ;
 }
 
 static void
@@ -245,7 +238,7 @@ _set_temperature_schedule ()
   if (-1 != (value = validate_temperature_schedule (optarg)))
     _annealing->temperature_schedule = value;
   else
-    fprintf (stderr, "warning: unexpected temperature schedule argument \"%s\"", optarg) ;
+    fprintf (stderr, "warning: unexpected temperature schedule argument \"%s\"\n", optarg) ;
 }
 
 static void
@@ -255,7 +248,7 @@ _set_temperature_first ()
   if (validate_temperature (value))
     _annealing->temperature_first = value ;
   else
-    fprintf (stderr, "warning: unexpected temperature first argument \"%d\"", value) ;
+    fprintf (stderr, "warning: unexpected temperature first argument \"%d\"\n", value) ;
 }
 
 static void
@@ -265,7 +258,7 @@ _set_temperature_last ()
   if (validate_temperature (value))
     _annealing->temperature_last = value ;
   else
-    fprintf (stderr, "warning: unexpected temperature last argument \"%d\"", value) ;
+    fprintf (stderr, "warning: unexpected temperature last argument \"%d\"\n", value) ;
 }
 
 static void

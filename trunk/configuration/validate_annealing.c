@@ -45,7 +45,7 @@ validate_configuration_annealing (t_configuration_annealing * annealing)
     }
   if ( ! validate_temperatures (annealing->temperature_last, annealing->temperature_first))
     {
-       fprintf (
+      fprintf (
         stderr,
         "error: invalid temperatures \"%d\" \"%d\"\n",
         annealing->temperature_first,
@@ -55,20 +55,12 @@ validate_configuration_annealing (t_configuration_annealing * annealing)
     }
   if (STEP_SCHEDULE_UNASSIGNED == annealing->step_schedule)
     {
-       fprintf (
-        stderr,
-        "error: invalid step schedule \"%s\"\n",
-        annealing->step_schedule
-      );
+      fprintf (stderr, "error: missing step schedule\n");
       error = 1 ;
     }
   if (TEMPERATURE_SCHEDULE_UNASSIGNED == annealing->temperature_schedule)
     {
-       fprintf (
-        stderr,
-        "error: invalid temperature schedule \"%s\"\n",
-        annealing->temperature_schedule
-      );
+      fprintf (stderr, "error: missing temperature schedule\n");
       error = 1 ;
     }
   return error ? 0 : 1 ;
