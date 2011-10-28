@@ -16,3 +16,30 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "../header/common.h"
+
+/**
+ * Return the position of the searched string in the allowed array,
+ * -1 if it is not present.
+ * @param string Searched string
+ * @param string Allowed strings
+ */
+short validate_string (char * string, char ** allowed)
+{
+  int i, count ;
+  count = sizeof (allowed) / sizeof (char *) ;
+  for (i = 0 ; i < count ; i ++)
+    if (0 == strcmp (string, allowed[i]))
+      return i ;
+  return -1 ;
+}
+
+/**
+ * Return 1 if the given int is in the given range,
+ * 0 otherwise
+ * @param min Range start inclusive
+ * @param max Range end inclusive
+ */
+short validate_int (int value, int min, int max)
+{
+  return value >= min && value <= max ;
+}

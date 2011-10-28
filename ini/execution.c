@@ -31,28 +31,24 @@ load_configuration_execution (
   char * file
 )
 {
-  char * problem_type_allowed[INPUT_MAX_STRING_PARAMETER_VALUES] ;
-  char * neighbourhood_exploration_allowed[INPUT_MAX_STRING_PARAMETER_VALUES] ;
+  char ** allowed_problem_type ;
+  char ** allowed_neighbourhood_exploration ;
   char * value ;
   int count, i ;
   dictionary * dictionary;
   if (NULL == (dictionary = iniparser_load (file)))
     return 0 ;
-  configuration_get_allowed_neighbourhood_exploration (
-    neighbourhood_exploration_allowed
-  ) ;
-  configuration_get_allowed_problem_type (
-    problem_type_allowed
-  ) ;
+  allowed_problem_type = configuration_get_allowed_problem_type () ;
+  allowed_neighbourhood_exploration = configuration_get_allowed_neighbourhood_exploration () ;
   value = iniparser_getstring (
     dictionary,
     "problem_type",
     "max"
   ) ;
-  count = sizeof (problem_type_allowed) / sizeof (char *) ;
+  count = sizeof (allowed_problem_type) / sizeof (char *) ;
   configuration->problem_type = MAXIMIZATION ;
   for (i = 0 ; i < count ; i ++)
-    if (0 == strcmp (problem_type_allowed[i], value))
+    if (0 == strcmp (allowed_problem_type[i], value))
       {
         configuration->problem_type = i ;
         break ;
@@ -63,10 +59,10 @@ load_configuration_execution (
     "neighbourhood_exploration",
     "sto"
   ) ;
-  count = sizeof (neighbourhood_exploration_allowed) / sizeof (char *) ;
+  count = sizeof (allowed_neighbourhood_exploration) / sizeof (char *) ;
   configuration->neighbourhood_exploration = NEIGHBOURHOOD_EXPLORATION_STOCHASTIC;
   for (i = 0 ; i < count ; i ++)
-    if (0 == strcmp (neighbourhood_exploration_allowed[i], value))
+    if (0 == strcmp (allowed_neighbourhood_exploration[i], value))
       {
         configuration->neighbourhood_exploration = i ;
         break ;

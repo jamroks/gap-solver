@@ -10,7 +10,9 @@ solver : cli_parser cli_print_result input_orlibrary\
  stochastic_next_solution utility_list_of_agents utility_take_choice\
  utility_unavailable utility_subtract_elt_from_list utility_list_of_jobs_agt\
  utility_equity utility_capacity utility_capacity_left utility_list_of_jobs_swap\
- utility_list_of_jobs_swap0 utility_objective_cost configuration_allowed
+ utility_list_of_jobs_swap0 utility_objective_cost configuration_allowed_annealing\
+ configuration_allowed_execution configuration_validate configuration_validate_annealing\
+ configuration_validate_execution
 	$(CC) -D_REENTRANT gap_solver.c cli_parser.o cli_print_result.o\
  input_orlibrary.o memory_gap_instance.o memory_gap_solution.o\
  memory_job_list.o solver_solution_0.o neighbourhood_determinist.o\
@@ -19,7 +21,9 @@ solver : cli_parser cli_print_result input_orlibrary\
  unavailable.o subtract_elt_from_list.o list_of_jobs_swap.o list_of_jobs_agt.o equity.o\
  capacity.o capacity_left.o list_of_jobs_swap0.o objective_cost.o\
  ini_annealing.o ini_execution.o lib_ini_parser.o\
- lib_ini_parser_dictionary.o configuration_allowed.o\
+ lib_ini_parser_dictionary.o configuration_allowed_annealing.o\
+ configuration_allowed_execution.o configuration_validate.o configuration_validate_annealing.o\
+ configuration_validate_execution.o\
  -o gap_solver -lm -lpthread ; make clean
 
 cli_parser : cli/parser.c
@@ -97,8 +101,20 @@ ini_annealing:
 ini_execution:
 	$(CC) -c ini/execution.c -o ini_execution.o
 
-configuration_allowed:
-	$(CC) -c configuration/allowed.c -o configuration_allowed.o
+configuration_allowed_annealing:
+	$(CC) -c configuration/allowed_annealing.c -o configuration_allowed_annealing.o
+
+configuration_allowed_execution:
+	$(CC) -c configuration/allowed_execution.c -o configuration_allowed_execution.o
+
+configuration_validate:
+	$(CC) -c configuration/validate.c -o configuration_validate.o
+
+configuration_validate_annealing:
+	$(CC) -c configuration/validate_annealing.c -o configuration_validate_annealing.o
+
+configuration_validate_execution:
+	$(CC) -c configuration/validate_execution.c -o configuration_validate_execution.o
 
 lib_ini_parser_dictionary:
 	$(CC) -c lib/iniparser/dictionary.c -o lib_ini_parser_dictionary.o

@@ -18,7 +18,7 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #ifndef FUNCTION_H
 
 #define FUNCTION_H
-#include "../header/common.h"
+#include "../header/type.h"
 
 t_list 
 list_of_agents (t_gap_instance *gap_inst);
@@ -120,42 +120,121 @@ read_orlibrary_input_file (char *, t_gap_instance *, t_gap_solution *) ;
 // <[Start]> Allowed configuration values
 
 /**
- * Initialize an array holding allowed values for the *TEMPERATURE* schedule string parameter.
+ * Return an array holding allowed values for the *TEMPERATURE* schedule string parameter.
  * This array is indexed by enum values, and contains char array pointers.
  * The pointed string are the expected values.
- *
- * @param	allowed	An in/out argument
  */
-void configuration_get_allowed_temperature_schedule (char **) ;
+char ** configuration_get_allowed_temperature_schedule () ;
 
 /**
- * Initialize an array holding allowed values for the *STEP* schedule string parameter.
+ * Return an array holding allowed values for the *STEP* schedule string parameter.
  * This array is indexed by enum values, and contains char array pointers.
  * The pointed string are the expected values.
- *
- * @param	allowed	An in/out argument
  */
-void configuration_get_allowed_step_schedule (char **) ;
+char ** configuration_get_allowed_step_schedule () ;
 
 /**
- * Initialize an array holding allowed values for the problem type string parameter.
+ * Return an array holding allowed values for the problem type string parameter.
  * This array is indexed by enum values, and contains char array pointers.
  * The pointed string are the expected values.
- *
- * @param	allowed	An in/out argument
  */
-void configuration_get_allowed_problem_type (char **) ;
+char ** configuration_get_allowed_problem_type () ;
 
 /**
- * Initialize an array holding allowed values for the neighbourhood exploration string parameter.
+ * Return an array holding allowed values for the neighbourhood exploration string parameter.
  * This array is indexed by enum values, and contains char array pointers.
  * The pointed string are the expected values.
- *
- * @param	allowed	An in/out argument
  */
-void configuration_get_allowed_neighbourhood_exploration (char **) ;
+char ** configuration_get_allowed_neighbourhood_exploration () ;
 
 // <[End]>  Allowed configuration values
+
+// <[Start]> Generic validation
+
+/**
+ * Return the position of the searched string in the allowed array,
+ * -1 if it is not present.
+ * @param string Searched string
+ * @param string Allowed strings
+ */
+short validate_string (char * string, char ** allowed) ;
+
+/**
+ * Return 1 if the given int is in the given range,
+ * 0 otherwise
+ * @param min Range start inclusive
+ * @param max Range end inclusive
+ */
+short validate_int (int value, int min, int max) ;
+
+// <[End]> Generic validation
+
+// <[Start]> Execution parameter validation
+
+// <[End]> Execution parameter validation
+
+/**
+ * Checks if the given input string value is valid for a problem type,
+ * and returns the scalar value to which it is mapped.
+ * The expected values are defined as constants.
+ *
+ * @param value A string that should match the expected param value (ie. equ li1 ex1 lo1 ...)
+ * @return The t_problem_type enum value of the given string if correct, -1 otherwise.
+ */
+short validate_problem_type (char * value) ;
+
+/**
+ * Checks if the given input string value is valid for a neighbourhood exploration,
+ * and returns the scalar value to which it is mapped.
+ * The expected values are defined as constants.
+ *
+ * @param value A string that should match the expected param value (ie. equ no1 as1 de1 ...)
+ * @return The t_neighbourhood_exploration enum value of the given string if correct, -1 otherwise.
+ */
+short validate_neighbourhood_exploration (char * value) ;
+
+// <[Start]> Annealing parameter validation
+
+/**
+ * Checks if the given input int value is valid for a duration.
+ * @param value Given duration
+ */
+short validate_duration (int value) ;
+
+/**
+ * Checks if the given input int value is valid for a step count.
+ * @param value Given step count
+ */
+short validate_step_count (int value) ;
+
+/**
+ * Checks if the given temperature bounds are valid as a range
+ * @param value1 Lower bound
+ * @param value2 Upper bound
+ */
+short validate_temperatures (int value1, int value2) ;
+
+/**
+ * Checks if the given input string value is valid for a *STEP* schedule,
+ * and returns the scalar value to which it is mapped.
+ * The expected values are defined as constants.
+ *
+ * @param value A string that should match the expected param value (ie. equ no1 as1 de1 ...)
+ * @return The t_step_schedule enum value of the given string if correct, -1 otherwise.
+ */
+short validate_step_schedule (char * value) ;
+
+/**
+ * Checks if the given input string value is valid for a *TEMPERATURE* schedule,
+ * and returns the scalar value to which it is mapped.
+ * The expected values are defined as constants.
+ *
+ * @param value A string that should match the expected param value (ie. equ li1 ex1 lo1 ...)
+ * @return The t_temperature_schedule enum value of the given string if correct, -1 otherwise.
+ */
+short validate_temperature_schedule (char * value) ;
+
+// <[End]> Annealing parameter validation
 
 // <[Start]> CLI
 

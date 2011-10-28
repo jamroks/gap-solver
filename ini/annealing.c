@@ -25,7 +25,7 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
  *
  * @param	configuration	An in/out parameter which holds the annealing settings.
  * @param	file		The INI file to parse the parameter from.
- * @return	A numeric value, 1 for success, 0 for failure	
+ * @return	A numeric string_value, 1 for success, 0 for failure	
  */
 short
 load_configuration_annealing (
@@ -33,65 +33,95 @@ load_configuration_annealing (
   char * file
 )
 {
-  char * temperature_schedule_allowed[INPUT_MAX_STRING_PARAMETER_VALUES] ;
-  char * step_schedule_allowed[INPUT_MAX_STRING_PARAMETER_VALUES] ;
-  char * value ;
-  int count, i ;
+  char ** allowed_temperature_schedule ;
+  char ** allowed_step_schedule ;
+  char * string_value ;
+  int int_value, int_value1 ;
   dictionary * dictionary;
   if (NULL == (dictionary = iniparser_load (file)))
-    return 0 ;
-  configuration_get_allowed_temperature_schedule (
-    temperature_schedule_allowed
-  ) ;
-  configuration_get_allowed_step_schedule (
-    step_schedule_allowed
-  ) ;
-  configuration->duration = iniparser_getint (
+    {
+      fprintf (stderr, "error: couldn\'t load \"%s\"\n", file) ;
+      return 0 ;
+    }
+  allowed_temperature_schedule = configuration_get_allowed_temperature_schedule () ;
+  allowed_step_schedule = configuration_get_allowed_step_schedule () ;
+  int_value = iniparser_getint (
     dictionary,
-    "duration",
-    10
+    ":duration",
+    -1
   ) ;
-  configuration->step_count = iniparser_getint (
+  if (validate_duration (int_value))
+    configuration->duration = int_value ;
+  else
+    {
+      fprintf (stderr, "warning: missing or unexpected duration value in \"%s\"\n", file) ;
+      fprintf (stderr, "found: %d\n", int_value) ;
+    }
+  int_value = iniparser_getint (
     dictionary,
-    "step_count",
-    10
+    ":step_count",
+    -1
   ) ;
-  value = iniparser_getstring (
+  if (validate_step_count (int_value))
+    configuration->step_count = int_value ;
+  else
+    {
+      fprintf (stderr, "warning: missing or unexpected step count value in \"%s\"\n", file) ;
+      fprintf (stderr, "found: %d\n", int_value) ;
+    }
+  string_value = iniparser_getstring (
     dictionary,
-    "step_schedule",
-    "equ"
+    ":step_schedule",
+    "@@@"
   ) ;
-  count = sizeof (step_schedule_allowed) / sizeof (char *) ;
-  configuration->step_schedule = STEP_SCHEDULE_EQUAL ;
-  for (i = 0 ; i < count ; i ++)
-    if (0 == strcmp (step_schedule_allowed[i], value))
-      {
-        configuration->step_schedule = i ;
-        break ;
-      }
-  
-  configuration->temperature_first = iniparser_getint (
+  if (-1 != (int_value = validate_step_schedule (string_value)))
+    configuration->step_schedule = int_value ;
+  else
+    {
+      fprintf (stderr, "warning: missing or unexpected step schedule value in \"%s\"\n", file) ;
+      fprintf (stderr, "found: %s\n", string_value) ;
+    }
+  int_value = iniparser_getint (
     dictionary,
-    "temperature_first",
-    90
+    ":temperature_first",
+    -1
   ) ;
-  configuration->temperature_last = iniparser_getint (
+  if (-1 != int_value)
+    configuration->temperature_first = int_value ;
+  else
+    {
+      fprintf (stderr, "warning: missing or unexpected temperature first value in \"%s\"\n", file) ;
+      fprintf (stderr, "found: %d\n", int_value) ;
+    }
+
+  int_value1 = iniparser_getint (
     dictionary,
-    "temperature_last",
-    10
+    ":temperature_last",
+    -1
   ) ;
-  value = iniparser_getstring (
+  if (-1 != int_value1)
+    configuration->temperature_last = int_value1 ;
+  else
+    {
+      fprintf (stderr, "warning: missing or unexpected temperature last value in \"%s\"\n", file) ;
+      fprintf (stderr, "found: %d\n", int_value) ;
+    }
+  if ( ! validate_temperatures (int_value1, int_value))
+    {
+      fprintf (stderr, "warning: missing or unexpected temperatures values in \"%s\"\n", file) ;
+      fprintf (stderr, "found: %d, %d\n", int_value, int_value1) ;
+    }
+  string_value = iniparser_getstring (
     dictionary,
-    "temperature_schedule",
-    "li1"
+    ":temperature_schedule",
+    "@@@"
   ) ;
-  count = sizeof (temperature_schedule_allowed) / sizeof (char *) ;
-  configuration->temperature_schedule = TEMPERATURE_SCHEDULE_LINEAR_1 ;
-  for (i = 0 ; i < count ; i ++)
-    if (0 == strcmp (temperature_schedule_allowed[i], value))
-      {
-        configuration->temperature_schedule = i ;
-        break ;
-      }
+   if (-1 != (int_value = validate_temperature_schedule (string_value)))
+    configuration->temperature_schedule = int_value ;
+  else
+    {
+      fprintf (stderr, "warning: missing or unexpected step schedule value in \"%s\"\n", file) ;
+      fprintf (stderr, "found: %s\n", string_value) ;
+    }
   return 1 ;
 }
