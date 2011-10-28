@@ -30,6 +30,7 @@ char ** configuration_get_allowed_problem_type ()
     {
       for ( ; initialized < INPUT_MAX_STRING_PARAMETER_VALUES; initialized ++)
         allowed[initialized] = NULL;
+      allowed[UNASSIGNED] = INPUT_UNASSIGNED ;
       allowed[MAXIMIZATION] = INPUT_MAXIMIZATION ;
       allowed[MINIMIZATION] = INPUT_MINIMIZATION ;
     }
@@ -49,6 +50,7 @@ char ** configuration_get_allowed_neighbourhood_exploration ()
     {
       for ( ; initialized < INPUT_MAX_STRING_PARAMETER_VALUES; initialized ++)
         allowed[initialized] = NULL;
+      allowed[NEIGHBOURHOOD_EXPLORATION_UNASSIGNED] = INPUT_UNASSIGNED ;
       allowed[NEIGHBOURHOOD_EXPLORATION_DETERMINIST] =
         INPUT_NEIGHBOURHOOD_EXPLORATION_DETERMINIST ;
       allowed[NEIGHBOURHOOD_EXPLORATION_STOCHASTIC] =

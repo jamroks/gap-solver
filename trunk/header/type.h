@@ -74,6 +74,7 @@ typedef enum {
 } t_neighbourhood ;
 
 typedef enum {
+  STEP_SCHEDULE_UNASSIGNED ,
   STEP_SCHEDULE_EQUAL ,
   STEP_SCHEDULE_ASCENDING_1 ,
   STEP_SCHEDULE_ASCENDING_2 ,
@@ -87,6 +88,7 @@ typedef enum {
 } t_step_schedule ;
 
 typedef enum {
+  TEMPERATURE_SCHEDULE_UNASSIGNED ,
   TEMPERATURE_SCHEDULE_LOGARITHMIC_1 ,
   TEMPERATURE_SCHEDULE_LOGARITHMIC_2 ,
   TEMPERATURE_SCHEDULE_LOGARITHMIC_3 ,
@@ -100,11 +102,13 @@ typedef enum {
 } t_temperature_schedule ;
 
 typedef enum {
+  NEIGHBOURHOOD_EXPLORATION_UNASSIGNED ,
   NEIGHBOURHOOD_EXPLORATION_DETERMINIST ,
   NEIGHBOURHOOD_EXPLORATION_STOCHASTIC
 } t_neighbourhood_exploration ;
 
 typedef enum {
+  UNASSIGNED ,
   MAXIMIZATION ,
   MINIMIZATION ,
 } t_problem_type ;
@@ -118,8 +122,8 @@ typedef struct {
   int duration ;
   int step_count ;
   t_step_schedule step_schedule ;
-  float temperature_first ;
-  float temperature_last ;
+  int temperature_first ;
+  int temperature_last ;
   t_temperature_schedule temperature_schedule ;
   t_problem_type problem_type ;
   t_neighbourhood_exploration neighbourhood_exploration ;
@@ -130,12 +134,13 @@ typedef struct {
   t_input_source input_source ;
   t_neighbourhood_exploration neighbourhood_exploration ;
   t_problem_type problem_type ;
+  t_bool verbose ;
 } t_configuration_execution ;
 
 typedef struct {
   t_problem_type problem_type ;
   short ( * get_next_solution) (t_gap_solution *, t_gap_instance *, t_gap_solution *) ;
-  float * step_temperature ;
+  int * step_temperature ;
   int *  step_duration ;
   int step_current ;
   int step_count ;
