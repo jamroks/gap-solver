@@ -26,10 +26,11 @@ validate_configuration_execution (t_configuration_execution * execution)
 {
   short error = 0 ;
   if ( ! validate_file (execution->input_file))
-  {
-    fprintf (stderr, "error opening: \"%s\"\n", execution->input_file) ;
-    error = 1 ;
-  }
+    {
+      if (execution->input_file)
+        fprintf (stderr, "error opening: \"%s\"\n", execution->input_file) ;
+      error = 1 ;
+    }
   if (UNASSIGNED == execution->problem_type)
     {
       fprintf (

@@ -38,7 +38,7 @@ main (int argc, char ** argv)
   if ( ! parse_cli_arguments (& configuration_annealing, & configuration_execution, argc, argv))
     error = 1 ;
   if ( ! validate_configuration_annealing (& configuration_annealing))
-    error = 1 ;
+    error = 1 ; 
   if ( ! validate_configuration_execution (& configuration_execution))
     error = 1 ;
   if (error)
@@ -46,11 +46,10 @@ main (int argc, char ** argv)
       fprintf (
        stderr,
        "%s",
-       "use gapsolver ? or see README for help\n"
+       "enter gapsolver --help or see README for help\n"
       ) ;
       exit (1) ;
     }
-
   switch (configuration_execution.input_source)
     {
       case INPUT_SOURCE_FILE:

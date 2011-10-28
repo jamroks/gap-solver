@@ -53,12 +53,12 @@ validate_int (int value, int min, int max)
 short
 validate_file (char * path)
 {
-  FILE *file ;
-  if (NULL == (file = fopen (path, "rt")))
+  FILE * file ;
+  if (NULL == (file = fopen (path, "r")))
     {
-      fclose (file);
       return 0 ;
     }
+
   fclose (file);
   return 1 ;
 }
