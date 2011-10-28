@@ -34,7 +34,7 @@ load_configuration_execution (
   char ** allowed_problem_type ;
   char ** allowed_neighbourhood_exploration ;
   char * value ;
-  int count, i ;
+  int value ;
   dictionary * dictionary;
   if (NULL == (dictionary = iniparser_load (file)))
     return 0 ;
@@ -43,7 +43,7 @@ load_configuration_execution (
   value = iniparser_getstring (
     dictionary,
     "problem_type",
-    "max"
+    "@@@"
   ) ;
   count = sizeof (allowed_problem_type) / sizeof (char *) ;
   configuration->problem_type = MAXIMIZATION ;
@@ -57,7 +57,7 @@ load_configuration_execution (
   value = iniparser_getstring (
     dictionary,
     "neighbourhood_exploration",
-    "sto"
+    "@@@"
   ) ;
   count = sizeof (allowed_neighbourhood_exploration) / sizeof (char *) ;
   configuration->neighbourhood_exploration = NEIGHBOURHOOD_EXPLORATION_STOCHASTIC;

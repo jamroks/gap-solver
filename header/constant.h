@@ -27,6 +27,8 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #define TRUE		1
 #define NO_VALUE	30000
 
+#define INPUT_STRING_PARAMETER_LENGTH 3
+
 #define INPUT_MAX_STRING_PARAMETER_VALUES 20
 
 #define INPUT_TEMPERATURE_SCHEDULE_EQUAL         "equ"
