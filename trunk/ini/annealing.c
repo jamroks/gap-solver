@@ -120,7 +120,7 @@ load_configuration_annealing (
     configuration->temperature_schedule = int_value ;
   else
     {
-      fprintf (stderr, "warning: missing or unexpected step schedule value in \"%s\"\n", file) ;
+      fprintf (stderr, "warning: missing or unexpected temperature schedule value in \"%s\"\n", file) ;
       fprintf (stderr, "found: %s\n", string_value) ;
     }
   return 1 ;
