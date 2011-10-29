@@ -20,61 +20,77 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 /**
  * Gives a time repartition with the given schedule type.
  *
- * @param step		The pointed memory area will be allocated. 
+ * @param step		Array
  * @param schedule	Step schedule type
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short
+void
 init_step_schedule (int * step, t_step_schedule schedule, int duration, int step_count)
 {
-  short (* schedule_function) (int *, int, int) ;
+  void (* schedule_function) (int *, int, int) ;
   switch (schedule)
     {
       case STEP_SCHEDULE_EQUAL:
         schedule_function = duration_equal ;
         break ;
       case STEP_SCHEDULE_ASCENDING_1:
-        schedule_function = duration_ascending_1;
+        schedule_function = duration_ascending_1 ;
         break ;
       case STEP_SCHEDULE_ASCENDING_2:
-        schedule_function = duration_ascending_2;
+        schedule_function = duration_ascending_2 ;
         break ;
       case STEP_SCHEDULE_ASCENDING_3:
-        schedule_function = duration_ascending_3;
+        schedule_function = duration_ascending_3 ;
         break ;
       case STEP_SCHEDULE_DESCENDING_1:
-        schedule_function = duration_descending_1;
+        schedule_function = duration_descending_1 ;
         break ;
       case STEP_SCHEDULE_DESCENDING_2:
-        schedule_function = duration_descending_2;
+        schedule_function = duration_descending_2 ;
         break ;
       case STEP_SCHEDULE_DESCENDING_3:
-        schedule_function = duration_descending_3;
+        schedule_function = duration_descending_3 ;
         break ;
       case STEP_SCHEDULE_NORMAL_1:
-        schedule_function = duration_normal_1;
+        schedule_function = duration_normal_1 ;
         break ;
       case STEP_SCHEDULE_NORMAL_2:
-        schedule_function = duration_normal_2;
+        schedule_function = duration_normal_2 ;
         break ;
       case STEP_SCHEDULE_NORMAL_3:
-        schedule_function = duration_normal_3;
+        schedule_function = duration_normal_3 ;
         break ;
     }
-  return schedule_function (step, duration, step_count) ;
+  schedule_function (step, duration, step_count) ;
 }
 
 /**
  * Gives a temperature repartition with the given schedule type.
  *
- * @param temperature	The pointed memory area will be allocated. 
+ * @param temperature	Array
  * @param step_schedule	Temperature schedule type
  * @param start		Max temperature
  * @param end		Min temperature
  */
-short
-init_temperature_schedule (int * temperature, t_temperature_schedule * schedule, int start, int end)
+void
+init_temperature_schedule (
+  int * temperature,
+  t_temperature_schedule schedule,
+  int start,
+  int end,
+  int step_count
+)
 {
-
+  void (* schedule_function) (int *, int, int, int) ;
+  switch (schedule)
+    {
+      case TEMPERATURE_SCHEDULE_LINEAR:
+        schedule_function = temperature_linear ;
+        break ;
+      case TEMPERATURE_SCHEDULE_EXPONENTIAL:
+        schedule_function = temperature_exponential ;
+        break ;
+    }
+  schedule_function (temperature, start, end, step_count);
 }

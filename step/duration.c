@@ -16,9 +16,7 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "../header/common.h"
 
-static short _duration_normal (int * step_duration, int duration, int step_count, float ratio) ;
-
-static short _duration_geometric (int * step_duration, int duration, int step_count, float ratio) ;
+static void _duration_normal (int * step_duration, int duration, int step_count, float ratio) ;
 
 static void _populate_duration_geometric_progression (
   int * step_duration,
@@ -35,7 +33,7 @@ static void _populate_duration_geometric_progression (
 /**
  * Gives a time repartition with equal step.
  */
-short
+void
 duration_equal (int * step_duration, int duration, int step_count)
 {
   int reminder, step_size, i ;
@@ -50,7 +48,6 @@ duration_equal (int * step_duration, int duration, int step_count)
           reminder -- ;
         }
     }
-  return 1 ;
 }
 
 /**
@@ -58,14 +55,14 @@ duration_equal (int * step_duration, int duration, int step_count)
  * Its values belongs to a geometric progression which sums to the given duration argument.
  * The common ratio is 1.3.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short
+void
 duration_ascending_1 (int * step_duration, int duration, int step_count)
 {
-  return _duration_geometric (
+  _populate_duration_geometric_progression (
     step_duration,
     duration,
     step_count,
@@ -78,14 +75,14 @@ duration_ascending_1 (int * step_duration, int duration, int step_count)
  * Its values belongs to a geometric progression which sums to the given duration argument.
  * The common ratio is 1.6.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short
+void
 duration_ascending_2 (int * step_duration, int duration, int step_count)
 {
-  return _duration_geometric (
+  _populate_duration_geometric_progression (
     step_duration,
     duration,
     step_count,
@@ -98,14 +95,14 @@ duration_ascending_2 (int * step_duration, int duration, int step_count)
  * Its values belongs to a geometric progression which sums to the given duration argument.
  * The common ratio is 1.9.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short
+void
 duration_ascending_3 (int * step_duration, int duration, int step_count)
 {
-  return _duration_geometric (
+  _populate_duration_geometric_progression (
     step_duration,
     duration,
     step_count,
@@ -118,14 +115,14 @@ duration_ascending_3 (int * step_duration, int duration, int step_count)
  * Its values belongs to a geometric progression which sums to the given duration argument.
  * The common ratio is 0.7.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short
+void
 duration_descending_1 (int * step_duration, int duration, int step_count)
 {
-  return _duration_geometric (
+  _populate_duration_geometric_progression (
     step_duration,
     duration,
     step_count,
@@ -138,14 +135,14 @@ duration_descending_1 (int * step_duration, int duration, int step_count)
  * Its values belongs to a geometric progression which sums to the given duration argument.
  * The common ratio is 0.4.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short
+void
 duration_descending_2 (int * step_duration, int duration, int step_count)
 {
-  return _duration_geometric (
+  _populate_duration_geometric_progression (
     step_duration,
     duration,
     step_count,
@@ -158,14 +155,14 @@ duration_descending_2 (int * step_duration, int duration, int step_count)
  * Its values belongs to a geometric progression which sums to the given duration argument.
  * The common ratio is 0.2.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short
+void
 duration_descending_3 (int * step_duration, int duration, int step_count)
 {
-  return _duration_geometric (
+  _populate_duration_geometric_progression (
     step_duration,
     duration,
     step_count,
@@ -177,14 +174,14 @@ duration_descending_3 (int * step_duration, int duration, int step_count)
  * Gives a time repartition with a pseudo normal distribution.
  * Low slope.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short
+void
 duration_normal_1 (int * step_duration, int duration, int step_count)
 {
-  return _duration_normal (
+  _duration_normal (
     step_duration,
     duration,
     step_count,
@@ -196,14 +193,14 @@ duration_normal_1 (int * step_duration, int duration, int step_count)
  * Gives a time repartition with a pseudo normal distribution.
  * Medium slope.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short
+void
 duration_normal_2 (int * step_duration, int duration, int step_count)
 {
-  return _duration_normal (
+  _duration_normal (
     step_duration,
     duration,
     step_count,
@@ -215,14 +212,14 @@ duration_normal_2 (int * step_duration, int duration, int step_count)
  * Gives a time repartition with a pseudo normal distribution.
  * High slope.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short
+void
 duration_normal_3 (int * step_duration, int duration, int step_count)
 {
-  return _duration_normal (
+  _duration_normal (
     step_duration,
     duration,
     step_count,
@@ -230,7 +227,7 @@ duration_normal_3 (int * step_duration, int duration, int step_count)
   ) ;
 }
 
-static short
+static void
 _duration_normal (int * step_duration, int duration, int step_count, float ratio)
 {
   int i, interval, half_step_count, difference ;
@@ -247,19 +244,6 @@ _duration_normal (int * step_duration, int duration, int step_count, float ratio
   difference = step_count - half_step_count ;
   for (i = 0 ; i < (step_count - half_step_count) ; i ++)
     step_duration[half_step_count + i] = step_duration[half_step_count - i - interval] ;
-  return 1;
-}
-
-static short
-_duration_geometric (int * step_duration, int duration, int step_count, float ratio)
-{
-  _populate_duration_geometric_progression (
-    step_duration,
-    duration,
-    step_count,
-    ratio
-  ) ;
-  return 1 ;
 }
 
 static void

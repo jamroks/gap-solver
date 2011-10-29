@@ -89,16 +89,8 @@ typedef enum {
 
 typedef enum {
   TEMPERATURE_SCHEDULE_UNASSIGNED ,
-  TEMPERATURE_SCHEDULE_LOGARITHMIC_1 ,
-  TEMPERATURE_SCHEDULE_LOGARITHMIC_2 ,
-  TEMPERATURE_SCHEDULE_LOGARITHMIC_3 ,
-  TEMPERATURE_SCHEDULE_LINEAR_1 ,
-  TEMPERATURE_SCHEDULE_LINEAR_2 ,
-  TEMPERATURE_SCHEDULE_LINEAR_3 ,
-  TEMPERATURE_SCHEDULE_EXPONENTIAL_1 ,
-  TEMPERATURE_SCHEDULE_EXPONENTIAL_2 ,
-  TEMPERATURE_SCHEDULE_EXPONENTIAL_3 ,
-  TEMPERATURE_SCHEDULE_EQUAL
+  TEMPERATURE_SCHEDULE_LINEAR ,
+  TEMPERATURE_SCHEDULE_EXPONENTIAL ,
 } t_temperature_schedule ;
 
 typedef enum {
@@ -140,7 +132,7 @@ typedef struct {
 typedef struct {
   t_problem_type problem_type ;
   short ( * get_next_solution) (t_gap_solution *, t_gap_instance *, t_gap_solution *) ;
-  int step_temperature ;
+  int * step_temperature ;
   int * step_duration ;
   int step_current ;
   int step_count ;
