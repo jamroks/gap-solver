@@ -16,8 +16,6 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "../header/common.h"
 
-static short _alloc_duration (int * duration, int step_count) ;
-
 static short _duration_normal (int * step_duration, int duration, int step_count, float ratio) ;
 
 static short _duration_geometric (int * step_duration, int duration, int step_count, float ratio) ;
@@ -41,8 +39,6 @@ short
 duration_equal (int * step_duration, int duration, int step_count)
 {
   int reminder, step_size, i ;
-  if ( ! _alloc_duration (step_duration, step_count))
-    return 0 ;
   reminder = duration % step_count ;
   step_size = duration / step_count ;
   for (i = 0 ; i < step_count ; i++)
@@ -237,28 +233,26 @@ duration_normal_3 (int * step_duration, int duration, int step_count)
 static short
 _duration_normal (int * step_duration, int duration, int step_count, float ratio)
 {
-  if ( ! _alloc_duration (step_duration, step_count))
-    return 0 ;
-  int i, interval, half_duration, half_step_count ;
-  interval = duration & 1 ? 1 : 0 ;
-  half_duration = duration & 1 ? (duration / 2 + 1) : duration / 2 ;
+  int i, interval, half_step_count, difference ;
+  double half_duration ;
+  interval = duration & 1 ? 2 : 1 ;
   half_step_count = step_count & 1 ? (step_count / 2 + 1) : step_count / 2 ; 
+  half_duration = (double) half_step_count / (double) step_count * (double) duration ;
   _populate_duration_geometric_progression (
     step_duration,
-    half_duration,
+    (int) ceil (half_duration),
     half_step_count,
     ratio
   ) ;
-  for (i = half_step_count ; i < step_count ; i ++)
-    step_duration[i] = step_duration[half_step_count - i - interval] ;
+  difference = step_count - half_step_count ;
+  for (i = 0 ; i < (step_count - half_step_count) ; i ++)
+    step_duration[half_step_count + i] = step_duration[half_step_count - i - interval] ;
   return 1;
 }
 
 static short
 _duration_geometric (int * step_duration, int duration, int step_count, float ratio)
 {
-  if ( ! _alloc_duration (step_duration, step_count))
-    return 0 ;
   _populate_duration_geometric_progression (
     step_duration,
     duration,
@@ -266,13 +260,6 @@ _duration_geometric (int * step_duration, int duration, int step_count, float ra
     ratio
   ) ;
   return 1 ;
-}
-
-static short 
-_alloc_duration (int * duration, int step_count)
-{
-  duration = (int *) calloc (step_count, sizeof(int)) ;
-  return NULL != duration ? 1 : 0 ;
 }
 
 static void
@@ -285,12 +272,11 @@ _populate_duration_geometric_progression (
 { 
   double first_duration, temp ;
   int i ;
-
   first_duration = ((double) duration) * (1.0 - ratio) / (1.0 - pow ((double) ratio, (double) step_count)) ;
-  step_duration[0] = (int) floor (first_duration) ;
+  step_duration[0] = (int) ceil (first_duration) ;
   for (i = 1 ; i < step_count ; i++) 
     {
       temp = first_duration * pow ((double) ratio, (double) i) ;
-      step_duration[i] = (int) ((i & 1) ? ceil(temp) : floor(temp)) ;
+      step_duration[i] = (int) ((i & 1) ? ceil(temp) : ceil(temp)) ;
     }
 }

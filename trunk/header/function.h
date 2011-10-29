@@ -20,6 +20,9 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #define FUNCTION_H
 #include "../header/type.h"
 
+int 
+equity(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *reg, t_elt elt) ;
+
 /**
  *  list_of_agent : permet de lister dans un tableau (de type t_list) les agents disponibles 
  *  @param : instance

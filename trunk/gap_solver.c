@@ -50,8 +50,7 @@ main (int argc, char ** argv)
       ) ;
       exit (1) ;
     }
-
-/*
+  registry.step_duration = (int *) calloc (configuration_annealing.step_count, sizeof (int)) ;
   if ( ! init_step_schedule (
     registry.step_duration,
     configuration_annealing.step_schedule,
@@ -59,10 +58,11 @@ main (int argc, char ** argv)
     configuration_annealing.step_count
   ))
     {
-    }/*
+    }
   int i;
   for (i = 0 ; i < configuration_annealing.step_count ; i++)
-    printf ("%d\n", registry.step_duration[i]);*/
+    printf ("%d\n", registry.step_duration[i]);
+
   switch (configuration_execution.input_source)
     {
       case INPUT_SOURCE_FILE:
