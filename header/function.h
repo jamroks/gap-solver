@@ -142,7 +142,7 @@ stochastic_next_solution (t_gap_solution *, t_gap_instance *, t_gap_solution *, 
 // <[Start]> Determinist neighbourhood
 
 short
-determinist_next_solution (t_gap_solution *, t_gap_instance *, t_gap_solution *) ;
+determinist_next_solution (t_gap_solution *, t_gap_instance *, t_gap_solution *, t_gap_solver_registry *) ;
 
 // <[End]> Determinist neighbourhood
 
@@ -229,6 +229,17 @@ free_job_list (t_job_list * list) ;
  */
 short
 clone_job_list (t_job_list * destination_head, t_job_list * source_head) ;
+
+/**
+ * Removes the given job from the linked list
+ *
+ * @param head	Linked list head
+ *
+ * @param job	Job to remove
+ *
+ */
+short
+remove_job_from_job_list (t_job_list * head, t_elt job) ;
 
 void
 memory_allocation_error () ;

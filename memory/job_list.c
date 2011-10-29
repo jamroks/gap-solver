@@ -36,6 +36,29 @@ add_job_to_job_list (t_job_list * head, t_elt job)
 }
 
 /**
+ * Removes the given job from the linked list
+ * @param head	Linked list head
+ * @param job	Job to remove
+ */
+short
+remove_job_from_job_list (t_job_list * head, t_elt job)
+{
+  t_job_list * i, * tmp ;
+  i = head ;
+  while (i->next)
+    {
+      if (i->next->job == job)
+        {
+          if (tmp = i->next->next)         
+            free (i->next) ;
+          i->next = tmp ;
+          return 1 ;
+        }
+    }
+  return 0 ;
+}
+
+/**
  * Creates the linked list head,
  * and gives it the NULL value.
  */
