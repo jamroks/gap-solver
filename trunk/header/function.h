@@ -20,40 +20,99 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #define FUNCTION_H
 #include "../header/type.h"
 
+/**
+ *  list_of_agent : permet de lister dans un tableau (de type t_list) les agents disponibles 
+ *  @param : instance
+ *  @ return : liste des agents disponibles 
+ */
 t_list 
 list_of_agents (t_gap_instance *gap_inst);
 
+/** subtract_elt_from_list : permet d'enlever un élément dans la liste  
+ * @param : adresse de la liste à examiner
+ * @return : rien
+ */
 void
-subtract_elt_from_list (t_list *, t_elt elt) ;
+subtract_elt_from_list (t_list *, t_elt ) ;
 
+/** list_of_jobs_agt : retourne la liste des taches pour un agent1 donné, acceptable par un agent2 cible 
+ * @param : instance
+ * @param : solution
+ * @param : agent1
+ * @param : agent2
+ * return : liste de taches
+ */
 t_list
 list_of_jobs_agt (t_gap_instance *, t_gap_solution *, t_agent , t_agent ) ;
 
+/** list_of_jobs_swap0 : retourne la liste des taches pour un agent1 donné, sans condition 
+ * param : instance
+ * param : solution
+ * param : agent1
+ * param : agent2 (ne sert à rien pour le moment
+ * return : liste de tâches
+ */
 t_list
 list_of_jobs_swap0 (t_gap_instance *, t_gap_solution *, t_agent , t_agent ) ;
 
+/** list_of_jobs_swap0 : pour un agent1 et une tache job donnée, retourne la liste des taches acceptable par un agent2 
+ * param : instance
+ * param : solution
+ * param : agent1
+ * param : agent2
+ * param : tache
+ * return : liste de tâches 
+ */
 t_list
 list_of_jobs_swap (t_gap_instance *, t_gap_solution *, t_agent , t_agent , t_job ) ;
 
+/** take_choice : tirage aléatoire d'un élément dans une liste, pondéré selon une fonction 
+ * param : instance
+ * param : solution
+ * param : registre
+ * param : liste
+ * param : fonction
+ * return : un élément
+ */
 t_elt
 take_choice(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, 
             t_list *, int (*ponderate)()) ;
-// ponderate est une fonction de ponderation des éléments évalués; de profil :
 
 // <[Start]> fonctions de ponderation
-// ponderate(t_gap_instance inst, t_gap_solution sol, equity_gap_solver_registry reg, t_elt elt)
 
+/** uniform : fonction de pondération uniforme (pour take_choice) 
+ * param : instance
+ * param : solution
+ * param : registre
+ * param : élément
+ * return : entier
+ */
 int 
-equity(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
+uniform(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
 
+/* capacity_left : fonction de pondération basée sur la capacité résiduelle des agents (pour take_choice sur agent) 
+ * param : instance
+ * param : solution
+ * param : registre
+ * param : élément
+ * return : entier
+ */
 int 
 capacity_left(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
 
+/* capacity : fonction de pondération basée sur la capacité des agents (pour take_choice sur agent)
+ * param : instance
+ * param : solution
+ * param : registre
+ * param : élément
+ * return : entier
+ */
 int 
 capacity(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
 
 // <[End]> fonctions de ponderation
 
+/* unavailable : fonction appelée pour chaque occurrence d'une impossibilité d'avoir un élement dans une liste */
 void 
 unavailable (t_error ) ;
 
@@ -62,6 +121,7 @@ solution_evaluation (int, int, t_problem_type, float);
 
 // <[Start]> stochastic neighbourhood
 
+/* à partir d'une solution réalisable, fournit une autre solution réalisable aléatoirement dans le voisinage */
 short
 stochastic_next_solution (t_gap_solution *, t_gap_instance *, t_gap_solution *, t_gap_solver_registry *) ;
 
