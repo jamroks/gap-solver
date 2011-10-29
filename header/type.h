@@ -140,8 +140,8 @@ typedef struct {
 typedef struct {
   t_problem_type problem_type ;
   short ( * get_next_solution) (t_gap_solution *, t_gap_instance *, t_gap_solution *) ;
-  int * step_temperature ;
-  int *  step_duration ;
+  int step_temperature ;
+  int * step_duration ;
   int step_current ;
   int step_count ;
   short verbosity ;
