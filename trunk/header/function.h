@@ -116,6 +116,14 @@ capacity(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
 void 
 unavailable (t_error ) ;
 
+void
+memorize_solution(t_gap_instance *, t_gap_solution *, t_gap_solver_registry * ) ;
+
+/** take_choice : tirage aléatoire d'un élément dans une liste, pondéré selon une fonction 
+ * param : instance
+ * param : solution
+ * param : registre
+ * param : liste
 short
 solution_evaluation (int, int, t_problem_type, float);
 
