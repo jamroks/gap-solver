@@ -22,10 +22,10 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #define NO_JOB		1	// pas de tâche disponible pour le calcul du voisinage 
 #define NO_AGT 		2	// pas de d'agent disponible pour le calcul du voisinage 
 
-#define MAX_JOB		650
-#define FALSE		0
+#define MAX_JOB		650	// utilisé -pour le moment- pour un tableau de taille fixe (take_choice.c)
+#define FALSE		0	
 #define TRUE		1
-#define NO_VALUE	30000
+#define NO_VALUE	30000	// valeur retournée pour indiquer que l'objet (tache ou agent) n'a pas été trouvé
 
 #define INPUT_STRING_PARAMETER_LENGTH 3
 
