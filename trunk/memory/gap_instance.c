@@ -15,6 +15,13 @@ You should have received a copy of the GNU Lesser General Public License
 along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "../header/common.h"
+
+/**
+ * Allocates memory for the nested objects.
+ *
+ * @param agent_count	Instance agent count
+ * @param job_count	Instance job count
+ */
 short
 alloc_gap_instance (t_gap_instance * instance, int agent_count, int job_count)
 {
@@ -42,6 +49,9 @@ alloc_gap_instance (t_gap_instance * instance, int agent_count, int job_count)
   return 1;
 }
 
+/**
+ * Free memory allocated to the nested objects.
+ */
 short
 free_gap_instance (t_gap_instance * instance)
 {

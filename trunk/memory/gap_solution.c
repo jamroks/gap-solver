@@ -15,6 +15,13 @@ You should have received a copy of the GNU Lesser General Public License
 along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "../header/common.h"
+
+/**
+ * Allocates memory for the nested objects.
+ *
+ * @param agent_count	Instance agent count
+ * @param job_count	Instance job count
+ */
 short
 alloc_gap_solution (t_gap_solution * solution, int agent_count, int job_count)
 {
@@ -44,6 +51,9 @@ alloc_gap_solution (t_gap_solution * solution, int agent_count, int job_count)
     }
 }
 
+/**
+ * Free memory allocated to the nested objects.
+ */
 short
 free_gap_solution (t_gap_solution * solution)
 {
@@ -59,6 +69,13 @@ free_gap_solution (t_gap_solution * solution)
   return 1 ;
 }
 
+/**
+ * Recursively copy the given source.
+ * Memory for nested objects will be allocated.
+ *
+ * @param destination	
+ * @param source
+ */
 short
 clone_gap_solution (t_gap_solution * destination, t_gap_solution * source)
 {
@@ -71,8 +88,6 @@ clone_gap_solution (t_gap_solution * destination, t_gap_solution * source)
       clone_job_list (destination->ll_assignment[agent], source->ll_assignment[agent]) ;
       destination->capacity_left[agent] = source->capacity_left[agent] ;
       for (job = 0 ; job < source->job_count ; job ++)
-        {
-          destination->assignment[agent][job] = source->assignment[agent][job] ;
-        }
+        destination->assignment[agent][job] = source->assignment[agent][job] ;
     }
 }
