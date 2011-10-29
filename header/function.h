@@ -250,6 +250,116 @@ short validate_temperature_schedule (char * value) ;
 
 // <[End]> Annealing parameter validation
 
+// <[Start]> Step repartition function
+
+/**
+ * The following functions have an in/out array parameter,
+ * which holds every step duration for the given step count.
+ */
+
+/**
+ * Gives a time repartition with equal step.
+ */
+short duration_equal (int * step_duration, int duration, int step_count) ;
+
+/**
+ * Gives a time repartition with slowly ascending step duration.
+ * Its values belongs to a geometric progression which sums to the given duration argument.
+ * The common ratio is 1.3.
+ *
+ * @param step_duration	The pointed memory area will be allocated. 
+ * @param duration	The sum of every step duration
+ * @param step_count
+ */
+short duration_ascending_1 (int * step_duration, int duration, int step_count) ;
+
+/**
+ * Gives a time repartition with medium ascending step duration.
+ * Its values belongs to a geometric progression which sums to the given duration argument.
+ * The common ratio is 1.6.
+ *
+ * @param step_duration	The pointed memory area will be allocated. 
+ * @param duration	The sum of every step duration
+ * @param step_count
+ */
+short duration_ascending_2 (int * step_duration, int duration, int step_count) ;
+
+/**
+ * Gives a time repartition with fast ascending step duration.
+ * Its values belongs to a geometric progression which sums to the given duration argument.
+ * The common ratio is 1.9.
+ *
+ * @param step_duration	The pointed memory area will be allocated. 
+ * @param duration	The sum of every step duration
+ * @param step_count
+ */
+short duration_ascending_3 (int * step_duration, int duration, int step_count) ;
+
+/**
+ * Gives a time repartition with slow descending step duration.
+ * Its values belongs to a geometric progression which sums to the given duration argument.
+ * The common ratio is 0.7.
+ *
+ * @param step_duration	The pointed memory area will be allocated. 
+ * @param duration	The sum of every step duration
+ * @param step_count
+ */
+short duration_descending_1 (int * step_duration, int duration, int step_count) ;
+
+/**
+ * Gives a time repartition with medium descending step duration.
+ * Its values belongs to a geometric progression which sums to the given duration argument.
+ * The common ratio is 0.4.
+ *
+ * @param step_duration	The pointed memory area will be allocated. 
+ * @param duration	The sum of every step duration
+ * @param step_count
+ */
+short duration_descending_2 (int * step_duration, int duration, int step_count) ;
+
+/**
+ * Gives a time repartition with fast descending step duration.
+ * Its values belongs to a geometric progression which sums to the given duration argument.
+ * The common ratio is 0.2.
+ *
+ * @param step_duration	The pointed memory area will be allocated. 
+ * @param duration	The sum of every step duration
+ * @param step_count
+ */
+short duration_descending_3 (int * step_duration, int duration, int step_count) ;
+
+/**
+ * Gives a time repartition with a pseudo normal distribution.
+ * Low slope.
+ *
+ * @param step_duration	The pointed memory area will be allocated. 
+ * @param duration	The sum of every step duration
+ * @param step_count
+ */
+short duration_normal_1 (int * step_duration, int duration, int step_count) ;
+
+/**
+ * Gives a time repartition with a pseudo normal distribution.
+ * Medium slope.
+ *
+ * @param step_duration	The pointed memory area will be allocated. 
+ * @param duration	The sum of every step duration
+ * @param step_count
+ */
+short duration_normal_2 (int * step_duration, int duration, int step_count) ;
+
+/**
+ * Gives a time repartition with a pseudo normal distribution.
+ * High slope.
+ *
+ * @param step_duration	The pointed memory area will be allocated. 
+ * @param duration	The sum of every step duration
+ * @param step_count
+ */
+short duration_normal_3 (int * step_duration, int duration, int step_count) ;
+
+// <[End]> Step repartition function
+
 // <[Start]> CLI
 
 short
