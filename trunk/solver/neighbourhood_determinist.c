@@ -19,8 +19,15 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 static int _source_agent = 0 ;
 static int _destination_agent = 1 ;
 
+
+
 short
-determinist_next_solution (t_gap_solution * next, t_gap_instance * instance, t_gap_solution * current)
+determinist_next_solution (
+  t_gap_solution * next,
+  t_gap_instance * instance,
+  t_gap_solution * current
+  t_gap_solver_registry * registry
+)
 {
-  return 0 ;
+  t_job_list * source_job ;
 }
