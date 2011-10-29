@@ -63,7 +63,7 @@ main (int argc, char ** argv)
   int i;
   for (i = 0 ; i < configuration_annealing.step_count ; i++)
     printf ("%d:%d\n", registry.step_duration[i], registry.step_temperature[i]);
-exit(0) ;
+
   switch (configuration_execution.input_source)
     {
       case INPUT_SOURCE_FILE:
@@ -82,6 +82,10 @@ exit(0) ;
       exit (0) ;
     }
 
+  t_gap_solution clone ;
+  clone_gap_solution (& clone, & solution) ;
+  print_result (& instance, & clone) ;
+exit(0) ;
 /*
   countdown : a thread that will stop the process after a given duration
   temperature : a thread that will lower the temperature at the given steps
