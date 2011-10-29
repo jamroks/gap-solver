@@ -17,8 +17,18 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 
 #include "header/common.h"
 
-void _init_configuration_annealing (t_configuration_annealing *) ;
-void _init_configuration_execution (t_configuration_execution *) ;
+static void
+_init_configuration_annealing (t_configuration_annealing *) ;
+
+static void
+_init_configuration_execution (t_configuration_execution *) ;
+
+static void
+_init_registry (
+  t_gap_solver_registry * registry,
+  t_configuration_annealing * annealing,
+  t_configuration_execution * execution
+) ;
 
 int 
 main (int argc, char ** argv)
@@ -45,11 +55,11 @@ main (int argc, char ** argv)
       fprintf (stderr, "%s", "enter gapsolver --help or see README for help\n") ;
       exit (1) ;
     }
-  if ( ! (registry.step_duration
-            = (int *) calloc (configuration_annealing.step_count, sizeof (int))))
+  registry.step_duration = (int *) calloc (configuration_annealing.step_count, sizeof (int)) ;
+  if ( ! registry.step_duration)
       memory_allocation_error () ;
-  if ( ! (registry.step_temperature
-            = (int *) calloc (configuration_annealing.step_count, sizeof (int))))
+  registry.step_temperature = (int *) calloc (configuration_annealing.step_count, sizeof (int)) ;
+  if ( ! registry.step_temperature)
       memory_allocation_error () ;
   init_step_schedule (
     registry.step_duration,
@@ -64,6 +74,7 @@ main (int argc, char ** argv)
     configuration_annealing.temperature_last,
     configuration_annealing.step_count
   ) ;
+
   int i;
   for (i = 0 ; i < configuration_annealing.step_count ; i++)
     printf ("%d:%d\n", registry.step_duration[i], registry.step_temperature[i]);
@@ -76,20 +87,19 @@ main (int argc, char ** argv)
           & instance,
           & solution
         );
-        
       break ;
     }
-
+  _init_registry (
+    & registry,
+    & configuration_annealing,
+    & configuration_execution
+  ) ;
   if ( ! search_solution_0 (& instance, & solution))
     {
-      printf ("%s", "pas d\'affectation possible\n") ;
+      printf ("%s", "no possible assignment\n") ;
       exit (0) ;
     }
 
-  t_gap_solution clone ;
-  clone_gap_solution (& clone, & solution) ;
-  print_result (& instance, & clone) ;
-exit(0) ;
 /*
   countdown : a thread that will stop the process after a given duration
   temperature : a thread that will lower the temperature at the given steps
@@ -106,21 +116,16 @@ exit(0) ;
   registry.jobponderate=&uniform ;
   printf("méthode = TRANSFERT\n") ;
   registry.method=TRANSFERT ;
-  registry.iteration_count=0 ;
   registry.unavailable_count=0 ;
   registry.max_try_count = 50 ;
   printf("échec voisinage à %d\n",registry.max_try_count) ;
   registry.max_try_count_failure = 0 ;
-  registry.verbosity = FALSE ;
   printf("Le voisinage sera ") ;
   if (registry.verbosity) printf("bavard\n") ;
   if (! registry.verbosity) printf("silencieux\n") ;
   printf("fin de paramétrage pour voisinage\n") ;
 //                               
-  registry.duration = 0 ;
-  registry.timeout = 0 ;
-  registry.transfert_count = 0 ;
-  registry.swap_count = 0 ;
+
 //  test voisinage stochastique
 srand(time(NULL));
   printf("\n pour %d tests \n", test_b) ;
@@ -151,7 +156,8 @@ srand(time(NULL));
   print_result (& instance, & solution) ;
 }
 
-void _init_configuration_annealing (t_configuration_annealing * annealing)
+static void
+_init_configuration_annealing (t_configuration_annealing * annealing)
 {
   annealing->duration = -1 ;
   annealing->step_count = -1 ;
@@ -161,10 +167,27 @@ void _init_configuration_annealing (t_configuration_annealing * annealing)
   annealing->temperature_schedule = TEMPERATURE_SCHEDULE_UNASSIGNED ;
 }
 
-void _init_configuration_execution (t_configuration_execution * execution)
+static void
+_init_configuration_execution (t_configuration_execution * execution)
 {
   execution->input_source = INPUT_SOURCE_FILE ;
   execution->input_file = NULL ;
   execution->problem_type = UNASSIGNED ;
   execution->neighbourhood_exploration = NEIGHBOURHOOD_EXPLORATION_UNASSIGNED ;
+}
+
+static void
+_init_registry (
+  t_gap_solver_registry * registry,
+  t_configuration_annealing * annealing,
+  t_configuration_execution * execution
+)
+{
+  registry->problem_type = execution->problem_type ;
+  registry->step_current = 0 ;
+  registry->step_count = annealing->step_count ;
+  registry->timeout = 0 ;
+  registry->transfert_count = 0 ;
+  registry->swap_count = 0 ;
+  registry->iteration_count = 0 ;
 }
