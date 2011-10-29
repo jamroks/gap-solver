@@ -138,8 +138,6 @@ typedef struct {
   int step_count ;
   short verbosity ;
   short timeout ;
-  int duration ;
-  int temperature ;
   long transfert_count ;
   long iteration_count ;
   long unavailable_count ;

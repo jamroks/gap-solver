@@ -20,6 +20,5 @@ void *
 thread_countdown (void * arg)
 {
   t_gap_solver_registry *registry = (t_gap_solver_registry *) arg ;
-  sleep (registry->duration) ;
   registry->timeout = 1 ;
 }
