@@ -395,109 +395,139 @@ short validate_temperature_schedule (char * value) ;
 /**
  * Gives a time repartition with equal step.
  */
-void duration_equal (int * step_duration, int duration, int step_count) ;
+void
+duration_equal (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with slowly ascending step duration.
- * Its values belongs to a geometric progression which sums to the given duration argument.
+ * Its values belongs to a geometric progression which sums
+ * to the given duration argument.
  * The common ratio is 1.3.
  *
  * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-void duration_ascending_1 (int * step_duration, int duration, int step_count) ;
+void
+duration_ascending_1 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with medium ascending step duration.
- * Its values belongs to a geometric progression which sums to the given duration argument.
+ * Its values belongs to a geometric progression which sums to
+ * the given duration argument.
  * The common ratio is 1.6.
  *
  * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-void duration_ascending_2 (int * step_duration, int duration, int step_count) ;
+void
+duration_ascending_2 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with fast ascending step duration.
- * Its values belongs to a geometric progression which sums to the given duration argument.
+ * Its values belongs to a geometric progression which sums
+ * to the given duration argument.
  * The common ratio is 1.9.
  *
  * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-void duration_ascending_3 (int * step_duration, int duration, int step_count) ;
+void
+duration_ascending_3 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with slow descending step duration.
- * Its values belongs to a geometric progression which sums to the given duration argument.
+ * Its values belongs to a geometric progression which sums
+ * to the given duration argument.
  * The common ratio is 0.7.
  *
  * @param step_duration	Array
+ *
  * @param duration	The sum of every step duration
+ *
  * @param step_count
  */
-void duration_descending_1 (int * step_duration, int duration, int step_count) ;
+void
+duration_descending_1 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with medium descending step duration.
- * Its values belongs to a geometric progression which sums to the given duration argument.
+ * Its values belongs to a geometric progression which sums
+ * to the given duration argument.
  * The common ratio is 0.4.
  *
  * @param step_duration	Array
+ *
  * @param duration	The sum of every step duration
+ *
  * @param step_count
  */
-void duration_descending_2 (int * step_duration, int duration, int step_count) ;
+void
+duration_descending_2 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with fast descending step duration.
- * Its values belongs to a geometric progression which sums to the given duration argument.
+ * Its values belongs to a geometric progression which sums
+ * to the given duration argument.
  * The common ratio is 0.2.
  *
  * @param step_duration	Array
+ *
  * @param duration	The sum of every step duration
+ *
  * @param step_count
  */
-void duration_descending_3 (int * step_duration, int duration, int step_count) ;
+void
+duration_descending_3 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with a pseudo normal distribution.
  * Low slope.
  *
  * @param step_duration	Array
+ *
  * @param duration	The sum of every step duration
+ *
  * @param step_count
  */
-void duration_normal_1 (int * step_duration, int duration, int step_count) ;
+void
+duration_normal_1 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with a pseudo normal distribution.
  * Medium slope.
  *
  * @param step_duration	Array
+ *
  * @param duration	The sum of every step duration
+ *
  * @param step_count
  */
-void duration_normal_2 (int * step_duration, int duration, int step_count) ;
+void
+duration_normal_2 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with a pseudo normal distribution.
  * High slope.
  *
  * @param step_duration	Array
+ *
  * @param duration	The sum of every step duration
+ *
  * @param step_count
  */
-void duration_normal_3 (int * step_duration, int duration, int step_count) ;
+void
+duration_normal_3 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a temperature schedule with exponential temperature decrease.
  *
  * @param schedule_temperature	Array
+ *
  * @param temperature	The sum of every step temperature
+ *
  * @param step_count
  */
 void
@@ -513,7 +543,9 @@ temperature_exponential (
  * Gives a temperature schedule with linear temperature decrease.
  *
  * @param schedule_temperature	Array
+ *
  * @param temperature	The sum of every step temperature
+ *
  * @param step_count
  */
 void
@@ -532,11 +564,19 @@ temperature_linear (
  * Create a time repartition with the given schedule type.
  *
  * @param step		Array
+ *
  * @param schedule	Step schedule type
+ *
  * @param duration	The sum of every step duration
+ *
  * @param step_count
  */
-void init_step_schedule (int * step, t_step_schedule schedule, int duration, int step_count) ;
+void init_step_schedule (
+  int * step,
+  t_step_schedule schedule,
+  int duration,
+  int step_count
+) ;
 
 /**
  * Create a temperature repartition with the given schedule type.
@@ -579,8 +619,11 @@ print_result (t_gap_instance *,t_gap_solution *) ;
  * They define the temperature schedule and the step schedule,
  * which are later computed from them.
  *
- * @param	configuration	An in/out parameter which holds the annealing settings.
+ * @param	configuration	An in/out parameter which holds
+ *				the annealing settings.
+ *
  * @param	file		The INI file to parse the parameter from.
+ *
  * @return	A numeric value, 1 for success, 0 for failure	
  */
 short
@@ -593,8 +636,11 @@ load_configuration_annealing (
  * Parse the execution parameter file, expected in INI format.
  * The parameters control some of the execution process.
  *
- * @param	configuration	An in/out parameter which holds the execution settings.
+ * @param	configuration	An in/out parameter which holds
+ *				the execution settings.
+ *
  * @param	file		The INI file to parse the parameter from.
+ *
  * @return	A numeric value, 1 for success, 0 for failure	
  */
 short

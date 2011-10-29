@@ -45,7 +45,12 @@ main (int argc, char ** argv)
   _init_configuration_execution (& configuration_execution) ;
   load_configuration_annealing (& configuration_annealing, "annealing.ini") ;
   load_configuration_execution (& configuration_execution, "execution.ini") ;
-  parse_cli_arguments (& configuration_annealing, & configuration_execution, argc, argv) ;
+  parse_cli_arguments (
+    & configuration_annealing,
+    & configuration_execution,
+    argc,
+    argv
+  ) ;
   if ( ! validate_configuration_annealing (& configuration_annealing))
     error = 1 ; 
   if ( ! validate_configuration_execution (& configuration_execution))
@@ -55,10 +60,16 @@ main (int argc, char ** argv)
       fprintf (stderr, "%s", "enter gapsolver --help or see README for help\n") ;
       exit (1) ;
     }
-  registry.step_duration = (int *) calloc (configuration_annealing.step_count, sizeof (int)) ;
+  registry.step_duration = (int *) calloc (
+    configuration_annealing.step_count,
+    sizeof (int)
+  ) ;
   if ( ! registry.step_duration)
       memory_allocation_error () ;
-  registry.step_temperature = (int *) calloc (configuration_annealing.step_count, sizeof (int)) ;
+  registry.step_temperature = (int *) calloc (
+    configuration_annealing.step_count,
+    sizeof (int)
+  ) ;
   if ( ! registry.step_temperature)
       memory_allocation_error () ;
   init_step_schedule (
@@ -77,7 +88,7 @@ main (int argc, char ** argv)
 
   int i;
   for (i = 0 ; i < configuration_annealing.step_count ; i++)
-    printf ("%d:%d\n", registry.step_duration[i], registry.step_temperature[i]);
+    printf ("%d:%d\n", registry.step_duration[i], registry.step_temperature[i]) ;
 
   switch (configuration_execution.input_source)
     {
