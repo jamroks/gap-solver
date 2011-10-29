@@ -9,7 +9,7 @@ solver : cli_parser cli_print_result input_orlibrary\
  thread_temperature lib_ini_parser lib_ini_parser_dictionary \
  stochastic_next_solution utility_list_of_agents utility_take_choice\
  utility_unavailable utility_subtract_elt_from_list utility_list_of_jobs_agt\
- utility_equity utility_capacity utility_capacity_left utility_list_of_jobs_swap\
+ utility_uniform utility_capacity utility_capacity_left utility_list_of_jobs_swap\
  utility_list_of_jobs_swap0 utility_objective_cost configuration_allowed_annealing\
  configuration_allowed_execution configuration_validate configuration_validate_annealing\
  configuration_validate_execution step_duration step_initialization
@@ -19,7 +19,7 @@ solver : cli_parser cli_print_result input_orlibrary\
  memory_job_list.o solver_solution_0.o neighbourhood_determinist.o\
  stochastic_next_solution.o solution_evaluation.o\
  thread_countdown.o thread_temperature.o list_of_agents.o take_choice.o\
- unavailable.o subtract_elt_from_list.o list_of_jobs_swap.o list_of_jobs_agt.o equity.o\
+ unavailable.o subtract_elt_from_list.o list_of_jobs_swap.o list_of_jobs_agt.o uniform.o\
  capacity.o capacity_left.o list_of_jobs_swap0.o objective_cost.o\
  ini_annealing.o ini_execution.o lib_ini_parser.o\
  lib_ini_parser_dictionary.o configuration_allowed_annealing.o\
@@ -79,8 +79,8 @@ utility_capacity: utility/capacity.c
 utility_capacity_left: utility/capacity_left.c
 	$(CC) -c utility/capacity_left.c -o capacity_left.o
 
-utility_equity: utility/equity.c
-	$(CC) -c utility/equity.c -o equity.o
+utility_uniform: utility/uniform.c
+	$(CC) -c utility/uniform.c -o uniform.o
 
 utility_unavailable: utility/unavailable.c
 	$(CC) -c utility/unavailable.c -o unavailable.o
