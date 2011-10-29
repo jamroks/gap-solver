@@ -38,20 +38,6 @@ static void _display_help () ;
 
 static short _get_option_parameters (int argc, char ** argv) ;
 
-// Indices used by getopt_long
-enum _INDICES {
-  INDEX_PROBLEM_TYPE,
-  INDEX_NEIGHBOURHOOD_EXPLORATION,
-  INDEX_DURATION,
-  INDEX_STEP_COUNT,
-  INDEX_STEP_SCHEDULE,
-  INDEX_TEMPERATURE_FIRST,
-  INDEX_TEMPERATURE_LAST,
-  INDEX_TEMPERATURE_SCHEDULE,
-  INDEX_VERBOSE,
-  INDEX_HELP
-} ;
-
 static t_configuration_annealing * _annealing ;
 
 static t_configuration_execution * _execution ;
@@ -92,100 +78,52 @@ _get_option_parameters (
   int option_index, c ;
   struct option long_option[] =
   {
-    {"problem_type", required_argument, NULL, INDEX_PROBLEM_TYPE},
-    {"neighbourhood_exploration", required_argument, NULL, INDEX_NEIGHBOURHOOD_EXPLORATION},
-    {"duration", required_argument, NULL, INDEX_DURATION},
-    {"step_schedule", required_argument, NULL, INDEX_STEP_SCHEDULE},
-    {"step_count", required_argument, NULL, INDEX_STEP_COUNT},
-    {"temperature_schedule", required_argument, NULL, INDEX_TEMPERATURE_SCHEDULE},
-    {"temperature_first", required_argument, NULL, INDEX_TEMPERATURE_FIRST},
-    {"temperature_last", required_argument, NULL, INDEX_TEMPERATURE_LAST},
-    {"verbose", no_argument, NULL, INDEX_VERBOSE},
-    {"help", no_argument, NULL, INDEX_HELP},
+    {"problem_type", required_argument, NULL, 'P'},
+    {"neighbourhood_exploration", required_argument, NULL, 'N'},
+    {"duration", required_argument, NULL, 'D'},
+    {"step_schedule", required_argument, NULL, 'X'},
+    {"step_count", required_argument, NULL, 'C'},
+    {"temperature_schedule", required_argument, NULL, 'Y'},
+    {"temperature_first", required_argument, NULL, 'F'},
+    {"temperature_last", required_argument, NULL, 'L'},
+    {"verbose", no_argument, NULL, 'V'},
+    {"help", no_argument, NULL, 'H'},
+    {NULL, 0, NULL, 0}
   };
-  while (-1 != (c = getopt_long (argc, argv, "P:N:D:X:C:Y:F:L:v", long_option, & option_index)))
+  while (-1 != (c = getopt_long (argc, argv, "P:N:D:X:C:Y:F:L:VH", long_option, & option_index)))
     switch (c)
       {
-        case 0:
-          switch (option_index)
-            {
-              case INDEX_PROBLEM_TYPE:
-                  _set_problem_type () ;
-                break ;
-
-              case INDEX_NEIGHBOURHOOD_EXPLORATION:
-                  _set_neighbourhood_exploration () ;
-                break ;
-
-              case INDEX_DURATION:
-                  _set_duration () ;
-                break ;
-
-              case INDEX_STEP_SCHEDULE:
-                  _set_step_schedule () ;
-                break ;
-
-              case INDEX_STEP_COUNT:
-                  _set_step_count () ;
-                break ;
-
-              case INDEX_TEMPERATURE_SCHEDULE:
-                  _set_temperature_schedule () ;
-                break ;
-
-              case INDEX_TEMPERATURE_FIRST:
-                  _set_temperature_first () ;
-                break ;
-
-              case INDEX_TEMPERATURE_LAST:
-                  _set_temperature_last ();
-                break ;
-
-              case INDEX_VERBOSE:
-                  _set_verbose ();
-                break ;
-
-              case INDEX_HELP:
-                  _display_help ();
-                break ;
-
-            }
-          break ;
-
-        case 'p':
-          _set_problem_type () ;
-          break ;
-
-        case 'n':
+        case 'P':
+         _set_problem_type () ;
+        break ;
+        case 'N':
           _set_neighbourhood_exploration () ;
-          break ;
-        case 'd':
+        break ;
+        case 'D':
+          printf("%s", "ici") ;
           _set_duration () ;
-          break ;
-
-        case 's':
+        break ;
+        case 'X':
           _set_step_schedule () ;
-          break ;
-
-        case 'S':
+        break ;
+        case 'C':
           _set_step_count () ;
-          break ;
-
-        case 't':
+        break ;
+        case 'Y':
           _set_temperature_schedule () ;
-          break;
-
-        case 'T':
+        break ;
+        case 'F':
           _set_temperature_first () ;
-          break ;
-
-        case 'u':
+        break ;
+        case 'L':
           _set_temperature_last ();
-          break ;
-
-        case 'v':
+        break ;
+        case 'V':
           _set_verbose ();
-          break ;
+        break ;
+        case 'H':
+          _display_help ();
+        break ;
       }
 }
 
