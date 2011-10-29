@@ -12,7 +12,7 @@ solver : cli_parser cli_print_result input_orlibrary\
  utility_equity utility_capacity utility_capacity_left utility_list_of_jobs_swap\
  utility_list_of_jobs_swap0 utility_objective_cost configuration_allowed_annealing\
  configuration_allowed_execution configuration_validate configuration_validate_annealing\
- configuration_validate_execution step_duration
+ configuration_validate_execution step_duration step_initialization
 
 	$(CC) -D_REENTRANT gap_solver.c cli_parser.o cli_print_result.o\
  input_orlibrary.o memory_gap_instance.o memory_gap_solution.o\
@@ -24,7 +24,7 @@ solver : cli_parser cli_print_result input_orlibrary\
  ini_annealing.o ini_execution.o lib_ini_parser.o\
  lib_ini_parser_dictionary.o configuration_allowed_annealing.o\
  configuration_allowed_execution.o configuration_validate.o configuration_validate_annealing.o\
- configuration_validate_execution.o\
+ configuration_validate_execution.o step_initialization.o\
  step_duration.o\
  -o gap_solver -lm -lpthread ; make clean
 
@@ -124,6 +124,8 @@ lib_ini_parser_dictionary:
 step_duration:
 	$(CC) -c step/duration.c -o step_duration.o
 
+step_initialization:
+	$(CC) -c step/initialization.c -o step_initialization.o
 
 lib_ini_parser:
 	$(CC) -c lib/iniparser/iniparser.c -o lib_ini_parser.o

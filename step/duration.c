@@ -22,7 +22,7 @@ static short _duration_normal (int * step_duration, int duration, int step_count
 
 static short _duration_geometric (int * step_duration, int duration, int step_count, float ratio) ;
 
-void _populate_duration_geometric_progression (
+static void _populate_duration_geometric_progression (
   int * step_duration,
   int duration,
   int step_count,
@@ -40,9 +40,20 @@ void _populate_duration_geometric_progression (
 short
 duration_equal (int * step_duration, int duration, int step_count)
 {
+  int reminder, step_size, i ;
   if ( ! _alloc_duration (step_duration, step_count))
     return 0 ;
-  
+  reminder = duration % step_count ;
+  step_size = duration / step_count ;
+  for (i = 0 ; i < step_count ; i++)
+    {
+      step_duration[i] = step_size ;
+      if (reminder > 0)
+        {
+          step_duration[i] ++ ;
+          reminder -- ;
+        }
+    }
   return 1 ;
 }
 
@@ -226,12 +237,12 @@ duration_normal_3 (int * step_duration, int duration, int step_count)
 static short
 _duration_normal (int * step_duration, int duration, int step_count, float ratio)
 {
+  if ( ! _alloc_duration (step_duration, step_count))
+    return 0 ;
   int i, interval, half_duration, half_step_count ;
   interval = duration & 1 ? 1 : 0 ;
   half_duration = duration & 1 ? (duration / 2 + 1) : duration / 2 ;
-  half_step_count = step_count & 1 ? (step_count / 2 + 1) : step_count / 2 ;
-  if ( ! _alloc_duration (step_duration, step_count))
-    return 0 ;
+  half_step_count = step_count & 1 ? (step_count / 2 + 1) : step_count / 2 ; 
   _populate_duration_geometric_progression (
     step_duration,
     half_duration,
@@ -264,15 +275,17 @@ _alloc_duration (int * duration, int step_count)
   return NULL != duration ? 1 : 0 ;
 }
 
-void _populate_duration_geometric_progression (
+static void
+_populate_duration_geometric_progression (
   int * step_duration,
   int duration,
   int step_count,
   float ratio
 )
-{
+{ 
   double first_duration, temp ;
   int i ;
+
   first_duration = ((double) duration) * (1.0 - ratio) / (1.0 - pow ((double) ratio, (double) step_count)) ;
   step_duration[0] = (int) floor (first_duration) ;
   for (i = 1 ; i < step_count ; i++) 
