@@ -51,6 +51,7 @@ main (int argc, char ** argv)
       exit (1) ;
     }
 
+/*
   if ( ! init_step_schedule (
     registry.step_duration,
     configuration_annealing.step_schedule,
