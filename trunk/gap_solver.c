@@ -119,6 +119,7 @@ srand(time(NULL));
     {
     stochastic_next_solution (& next_solution , & instance , & solution, & registry) ;
     next_solution.value=objective_cost(&next_solution , & instance ) ;
+    memorize_solution( & instance , & solution, & registry ) ;
     printf("%d solution envisagée:: %d\t",test_b, next_solution.value) ;
     if (next_solution.value > solution.value)
       {
