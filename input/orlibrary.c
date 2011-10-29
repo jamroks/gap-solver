@@ -19,6 +19,15 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #include "../header/type.h"
 #include "../header/function.h"
 
+/**
+ * Scan an instance file in the operational research library format,
+ * and populate the given structures with its values.
+ * http://people.brunel.ac.uk/~mastjjb/jeb/orlib/gapinfo.html
+ *
+ * @param file_name
+ * @param instance	Memory for nested objects will be allocated in this function
+ * @param solution	Memory for nested objects will be allocated in this function
+ */
 short 
 read_orlibrary_input_file(char * file_name, t_gap_instance * instance, t_gap_solution * solution)
 {
@@ -26,13 +35,13 @@ read_orlibrary_input_file(char * file_name, t_gap_instance * instance, t_gap_sol
   int value ;
   int agent, job ;
   file = fopen(file_name, "rt"); 
-  if (file == NULL)
-    return 1 ; 
   strcpy (instance->name, file_name) ;
   fscanf (file, "%d", & instance->agent_count) ;
   fscanf (file, "%d", & instance->job_count) ;
-  alloc_gap_instance (instance, instance->agent_count, instance->job_count) ;
-  alloc_gap_solution (solution, instance->agent_count, instance->job_count) ;
+  if ( ! alloc_gap_instance (instance, instance->agent_count, instance->job_count))
+    memory_allocation_error () ;
+  if (! alloc_gap_solution (solution, instance->agent_count, instance->job_count))
+    memory_allocation_error () ;
   for (agent = 0; agent < instance->agent_count; agent ++)
     {
       for (job = 0; job < instance->job_count; job ++)

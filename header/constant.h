@@ -59,6 +59,8 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #define INPUT_STEP_COUNT_MAX 1000
 #define INPUT_STEP_COUNT_MIN 2
 
+#define MEMORY_ALLOCATION_ERROR "error: out of memory\n"
+
 #define STEP_REPARTITION_ASCENDING_1_COMMON_RATIO 1.3
 #define STEP_REPARTITION_ASCENDING_2_COMMON_RATIO 1.6
 #define STEP_REPARTITION_ASCENDING_3_COMMON_RATIO 1.9

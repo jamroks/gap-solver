@@ -157,32 +157,96 @@ search_solution_0 (t_gap_instance *, t_gap_solution *) ;
 
 // <[Start]> Memory allocation
 
+/**
+ * Allocates memory for the nested objects.
+ *
+ * @param agent_count	Instance agent count
+ * @param job_count	Instance job count
+ */
 short
 alloc_gap_instance (t_gap_instance *, int, int) ;
 
-short
-alloc_gap_solution (t_gap_solution *, int, int) ;
-
+/**
+ * Free memory allocated to the nested objects.
+ */
 short 
 free_gap_instance (t_gap_instance *) ;
 
+/**
+ * Allocates memory for the nested objects.
+ *
+ * @param agent_count	Instance agent count
+ * @param job_count	Instance job count
+ */
+short
+alloc_gap_solution (t_gap_solution *, int, int) ;
+
+/**
+ * Free memory allocated to the nested objects.
+ */
 short
 free_gap_solution (t_gap_solution *) ;
 
+/**
+ * Recursively copy the given source.
+ * Memory for nested objects will be allocated.
+ *
+ * @param destination	
+ * @param source
+ */
 short
 clone_gap_solution (t_gap_solution *, t_gap_solution *) ;
 
+/**
+ * Creates the linked list head,
+ * and gives it the NULL value.
+ */
 t_job_list *
 alloc_job_list_head (void) ;
 
+/**
+ * Add a job to the given linked list.
+ *
+ * @param head	Linked list head
+ * @param job	Job index
+ */
 short
 add_job_to_job_list (t_job_list *, t_elt) ;
+
+/**
+ * Free the memory allocated to job element.
+ * Doesn't free the linked list head.
+ */
+short
+free_job_list (t_job_list * list) ;
+
+/**
+ * Clone the job element from a given list.
+ * Works from a given head.
+ *
+ * @param destination_head	Destination linked list head
+ * @param source_head		Source linked list head
+ */
+short
+clone_job_list (t_job_list * destination_head, t_job_list * source_head) ;
+
+void
+memory_allocation_error () ;
 
 // <[End]> Memory allocation
 
 
 // <[Start]> Input file 
 
+/**
+ * Scan an instance file in the operational research library format,
+ * and populate the given structures with its values.
+ * http://people.brunel.ac.uk/~mastjjb/jeb/orlib/gapinfo.html
+ *
+ * @param file_name
+ * @param instance	Memory for nested objects will be allocated in this function
+ * @param solution	Memory for nested objects will be allocated in this function
+ */
 short 
 read_orlibrary_input_file (char *, t_gap_instance *, t_gap_solution *) ;
 

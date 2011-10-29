@@ -45,8 +45,12 @@ main (int argc, char ** argv)
       fprintf (stderr, "%s", "enter gapsolver --help or see README for help\n") ;
       exit (1) ;
     }
-  registry.step_duration = (int *) calloc (configuration_annealing.step_count, sizeof (int)) ;
-  registry.step_temperature = (int *) calloc (configuration_annealing.step_count, sizeof (int)) ;
+  if ( ! (registry.step_duration
+            = (int *) calloc (configuration_annealing.step_count, sizeof (int))))
+      memory_allocation_error () ;
+  if ( ! (registry.step_temperature
+            = (int *) calloc (configuration_annealing.step_count, sizeof (int))))
+      memory_allocation_error () ;
   init_step_schedule (
     registry.step_duration,
     configuration_annealing.step_schedule,
