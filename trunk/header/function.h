@@ -331,127 +331,164 @@ short validate_temperature_schedule (char * value) ;
 /**
  * Gives a time repartition with equal step.
  */
-short duration_equal (int * step_duration, int duration, int step_count) ;
+void duration_equal (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with slowly ascending step duration.
  * Its values belongs to a geometric progression which sums to the given duration argument.
  * The common ratio is 1.3.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short duration_ascending_1 (int * step_duration, int duration, int step_count) ;
+void duration_ascending_1 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with medium ascending step duration.
  * Its values belongs to a geometric progression which sums to the given duration argument.
  * The common ratio is 1.6.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short duration_ascending_2 (int * step_duration, int duration, int step_count) ;
+void duration_ascending_2 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with fast ascending step duration.
  * Its values belongs to a geometric progression which sums to the given duration argument.
  * The common ratio is 1.9.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short duration_ascending_3 (int * step_duration, int duration, int step_count) ;
+void duration_ascending_3 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with slow descending step duration.
  * Its values belongs to a geometric progression which sums to the given duration argument.
  * The common ratio is 0.7.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short duration_descending_1 (int * step_duration, int duration, int step_count) ;
+void duration_descending_1 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with medium descending step duration.
  * Its values belongs to a geometric progression which sums to the given duration argument.
  * The common ratio is 0.4.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short duration_descending_2 (int * step_duration, int duration, int step_count) ;
+void duration_descending_2 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with fast descending step duration.
  * Its values belongs to a geometric progression which sums to the given duration argument.
  * The common ratio is 0.2.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short duration_descending_3 (int * step_duration, int duration, int step_count) ;
+void duration_descending_3 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with a pseudo normal distribution.
  * Low slope.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short duration_normal_1 (int * step_duration, int duration, int step_count) ;
+void duration_normal_1 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with a pseudo normal distribution.
  * Medium slope.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short duration_normal_2 (int * step_duration, int duration, int step_count) ;
+void duration_normal_2 (int * step_duration, int duration, int step_count) ;
 
 /**
  * Gives a time repartition with a pseudo normal distribution.
  * High slope.
  *
- * @param step_duration	The pointed memory area will be allocated. 
+ * @param step_duration	Array
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short duration_normal_3 (int * step_duration, int duration, int step_count) ;
+void duration_normal_3 (int * step_duration, int duration, int step_count) ;
+
+/**
+ * Gives a temperature schedule with exponential temperature decrease.
+ *
+ * @param schedule_temperature	Array
+ * @param temperature	The sum of every step temperature
+ * @param step_count
+ */
+void
+temperature_exponential (
+  int * schedule_temperature,
+  int temperature_start,
+  int temperature_end,
+  int step_count
+) ;
+
+
+/**
+ * Gives a temperature schedule with linear temperature decrease.
+ *
+ * @param schedule_temperature	Array
+ * @param temperature	The sum of every step temperature
+ * @param step_count
+ */
+void
+temperature_linear (
+  int * schedule_temperature,
+  int temperature_start,
+  int temperature_end,
+  int step_count
+) ;
 
 // <[End]> Step repartition function
 
 // <[Start]> Schedules initialization
 
 /**
- * Gives a time repartition with the given schedule type.
+ * Create a time repartition with the given schedule type.
  *
- * @param step		The pointed memory area will be allocated. 
+ * @param step		Array
  * @param schedule	Step schedule type
  * @param duration	The sum of every step duration
  * @param step_count
  */
-short init_step_schedule (int * step, t_step_schedule schedule, int duration, int step_count) ;
+void init_step_schedule (int * step, t_step_schedule schedule, int duration, int step_count) ;
 
 /**
- * Gives a temperature repartition with the given schedule type.
+ * Create a temperature repartition with the given schedule type.
  *
- * @param temperature	The pointed memory area will be allocated. 
+ * @param temperature	Array
  * @param step_schedule	Temperature schedule type
  * @param start		Max temperature
  * @param end		Min temperature
  */
-short init_temperature_schedule (int * temperature, t_temperature_schedule * schedule, int start, int end) ;
+void init_temperature_schedule (
+  int * temperature,
+  t_temperature_schedule schedule,
+  int start,
+  int end,
+  int step_count
+) ;
 
 // <[End]> Schedules initialization
 
