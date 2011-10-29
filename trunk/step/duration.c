@@ -181,6 +181,14 @@ duration_descending_3 (int * step_duration, int duration, int step_count)
   return 1 ;
 }
 
+/**
+ * Gives a time repartition with a pseudo normal distribution.
+ * Low slope.
+ *
+ * @param step_duration	The pointed memory area will be allocated. 
+ * @param duration	The sum of every step duration
+ * @param step_count
+ */
 short
 duration_normal_1 (int * step_duration, int duration, int step_count)
 {
@@ -190,6 +198,14 @@ duration_normal_1 (int * step_duration, int duration, int step_count)
   return 1 ;
 }
 
+/**
+ * Gives a time repartition with a pseudo normal distribution.
+ * Medium slope.
+ *
+ * @param step_duration	The pointed memory area will be allocated. 
+ * @param duration	The sum of every step duration
+ * @param step_count
+ */
 short
 duration_normal_2 (int * step_duration, int duration, int step_count)
 {
@@ -199,6 +215,14 @@ duration_normal_2 (int * step_duration, int duration, int step_count)
   return 1 ;
 }
 
+/**
+ * Gives a time repartition with a pseudo normal distribution.
+ * High slope.
+ *
+ * @param step_duration	The pointed memory area will be allocated. 
+ * @param duration	The sum of every step duration
+ * @param step_count
+ */
 short
 duration_normal_3 (int * step_duration, int duration, int step_count)
 {
