@@ -92,9 +92,9 @@ main (int argc, char ** argv)
   // test voisinage
   //   printf("\n______________________________________\ndebut de paramétrage pour voisinage\n") ;
   printf("ponderation agent= capacity_left\n") ;
-  printf("ponderation job  = equity\n") ;
+  printf("ponderation job  = uniform\n") ;
   registry.agtponderate=&capacity_left ;
-  registry.jobponderate=&equity ;
+  registry.jobponderate=&uniform ;
   printf("méthode = TRANSFERT\n") ;
   registry.method=TRANSFERT ;
   registry.iteration_count=0 ;
