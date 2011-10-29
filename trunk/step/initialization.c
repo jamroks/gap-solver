@@ -18,7 +18,7 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #include "header/common.h"
 
 short
-step_initialization (t_gap_solver_registry * registry)
+step_initialization (t_gap_solver_registry * registry, t_configuration_annealing * annealing)
 {
   
 }

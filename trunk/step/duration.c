@@ -18,6 +18,10 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 
 static short _alloc_duration (int * duration, int step_count) ;
 
+static short _duration_normal (int * step_duration, int duration, int step_count, float ratio) ;
+
+static short _duration_geometric (int * step_duration, int duration, int step_count, float ratio) ;
+
 void _populate_duration_geometric_progression (
   int * step_duration,
   int duration,
@@ -54,15 +58,12 @@ duration_equal (int * step_duration, int duration, int step_count)
 short
 duration_ascending_1 (int * step_duration, int duration, int step_count)
 {
-  if ( ! _alloc_duration (step_duration, step_count))
-    return 0 ;
-  _populate_duration_geometric_progression (
+  return _duration_geometric (
     step_duration,
     duration,
     step_count,
     STEP_REPARTITION_ASCENDING_1_COMMON_RATIO
-  ) ;
-  return 1 ;
+  ) ; 
 }
 
 /**
@@ -77,15 +78,12 @@ duration_ascending_1 (int * step_duration, int duration, int step_count)
 short
 duration_ascending_2 (int * step_duration, int duration, int step_count)
 {
-  if ( ! _alloc_duration (step_duration, step_count))
-    return 0 ;
-  _populate_duration_geometric_progression (
+  return _duration_geometric (
     step_duration,
     duration,
     step_count,
     STEP_REPARTITION_ASCENDING_2_COMMON_RATIO
-  ) ;
-  return 1 ;
+  ) ; 
 }
 
 /**
@@ -100,16 +98,12 @@ duration_ascending_2 (int * step_duration, int duration, int step_count)
 short
 duration_ascending_3 (int * step_duration, int duration, int step_count)
 {
-  if ( ! _alloc_duration (step_duration, step_count))
-    return 0 ;
-  _populate_duration_geometric_progression (
+  return _duration_geometric (
     step_duration,
     duration,
     step_count,
-    STEP_REPARTITION_ASCENDING_3_COMMON_RATIO
-  ) ;
-  return 1 ; 
-  return 1 ;
+    STEP_REPARTITION_DESCENDING_3_COMMON_RATIO
+  ) ; 
 }
 
 /**
@@ -124,15 +118,12 @@ duration_ascending_3 (int * step_duration, int duration, int step_count)
 short
 duration_descending_1 (int * step_duration, int duration, int step_count)
 {
-  if ( ! _alloc_duration (step_duration, step_count))
-    return 0 ;
-  _populate_duration_geometric_progression (
+  return _duration_geometric (
     step_duration,
     duration,
     step_count,
     STEP_REPARTITION_DESCENDING_1_COMMON_RATIO
-  ) ;
-  return 1 ;
+  ) ; 
 }
 
 /**
@@ -147,15 +138,12 @@ duration_descending_1 (int * step_duration, int duration, int step_count)
 short
 duration_descending_2 (int * step_duration, int duration, int step_count)
 {
-  if ( ! _alloc_duration (step_duration, step_count))
-    return 0 ;
-  _populate_duration_geometric_progression (
+  return _duration_geometric (
     step_duration,
     duration,
     step_count,
     STEP_REPARTITION_DESCENDING_2_COMMON_RATIO
-  ) ;
-  return 1 ;
+  ) ; 
 }
 
 /**
@@ -170,15 +158,12 @@ duration_descending_2 (int * step_duration, int duration, int step_count)
 short
 duration_descending_3 (int * step_duration, int duration, int step_count)
 {
-  if ( ! _alloc_duration (step_duration, step_count))
-    return 0 ;
-  _populate_duration_geometric_progression (
+  return _duration_geometric (
     step_duration,
     duration,
     step_count,
     STEP_REPARTITION_DESCENDING_3_COMMON_RATIO
   ) ; 
-  return 1 ;
 }
 
 /**
@@ -192,10 +177,12 @@ duration_descending_3 (int * step_duration, int duration, int step_count)
 short
 duration_normal_1 (int * step_duration, int duration, int step_count)
 {
-  if ( ! _alloc_duration (step_duration, step_count))
-    return 0 ;
-  
-  return 1 ;
+  return _duration_normal (
+    step_duration,
+    duration,
+    step_count,
+    STEP_REPARTITION_ASCENDING_1_COMMON_RATIO
+  ) ;
 }
 
 /**
@@ -209,10 +196,12 @@ duration_normal_1 (int * step_duration, int duration, int step_count)
 short
 duration_normal_2 (int * step_duration, int duration, int step_count)
 {
-  if ( ! _alloc_duration (step_duration, step_count))
-    return 0 ;
-  
-  return 1 ;
+  return _duration_normal (
+    step_duration,
+    duration,
+    step_count,
+    STEP_REPARTITION_ASCENDING_2_COMMON_RATIO
+  ) ;
 }
 
 /**
@@ -226,9 +215,45 @@ duration_normal_2 (int * step_duration, int duration, int step_count)
 short
 duration_normal_3 (int * step_duration, int duration, int step_count)
 {
+  return _duration_normal (
+    step_duration,
+    duration,
+    step_count,
+    STEP_REPARTITION_ASCENDING_3_COMMON_RATIO
+  ) ;
+}
+
+static short
+_duration_normal (int * step_duration, int duration, int step_count, float ratio)
+{
+  int i, interval, half_duration, half_step_count ;
+  interval = duration & 1 ? 1 : 0 ;
+  half_duration = duration & 1 ? (duration / 2 + 1) : duration / 2 ;
+  half_step_count = step_count & 1 ? (step_count / 2 + 1) : step_count / 2 ;
   if ( ! _alloc_duration (step_duration, step_count))
     return 0 ;
-  
+  _populate_duration_geometric_progression (
+    step_duration,
+    half_duration,
+    half_step_count,
+    ratio
+  ) ;
+  for (i = half_step_count ; i < step_count ; i ++)
+    step_duration[i] = step_duration[half_step_count - i - interval] ;
+  return 1;
+}
+
+static short
+_duration_geometric (int * step_duration, int duration, int step_count, float ratio)
+{
+  if ( ! _alloc_duration (step_duration, step_count))
+    return 0 ;
+  _populate_duration_geometric_progression (
+    step_duration,
+    duration,
+    step_count,
+    ratio
+  ) ;
   return 1 ;
 }
 
