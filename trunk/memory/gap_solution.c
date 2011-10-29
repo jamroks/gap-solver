@@ -68,13 +68,11 @@ clone_gap_solution (t_gap_solution * destination, t_gap_solution * source)
   destination->value = source->value;
   for (agent = 0 ; agent < source->agent_count ; agent ++)
     {
+      clone_job_list (destination->ll_assignment[agent], source->ll_assignment[agent]) ;
       destination->capacity_left[agent] = source->capacity_left[agent] ;
       for (job = 0 ; job < source->job_count ; job ++)
         {
           destination->assignment[agent][job] = source->assignment[agent][job] ;
-printf("clonage jobs\n") ;
-          clone_job_list (destination->ll_assignment[agent], source->assignment[agent][job]) ;
-printf("clonage terminé\n") ;
         }
     }
 }

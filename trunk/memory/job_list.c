@@ -49,7 +49,6 @@ free_job_list (t_job_list * list)
 short
 clone_job_list (t_job_list * destination_head, t_job_list * source_head)
 {
-// valeur du premier job dans la nouvelle liste ? 1er maillon
   t_job_list * iterator = source_head ;
   while (iterator = iterator->next)
     add_job_to_job_list (destination_head, iterator->job) ;
