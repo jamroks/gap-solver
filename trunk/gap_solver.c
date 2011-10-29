@@ -50,6 +50,18 @@ main (int argc, char ** argv)
       ) ;
       exit (1) ;
     }
+
+  if ( ! init_step_schedule (
+    registry.step_duration,
+    configuration_annealing.step_schedule,
+    configuration_annealing.duration,
+    configuration_annealing.step_count
+  ))
+    {
+    }/*
+  int i;
+  for (i = 0 ; i < configuration_annealing.step_count ; i++)
+    printf ("%d\n", registry.step_duration[i]);*/
   switch (configuration_execution.input_source)
     {
       case INPUT_SOURCE_FILE:

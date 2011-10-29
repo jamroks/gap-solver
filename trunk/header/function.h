@@ -420,6 +420,30 @@ short duration_normal_3 (int * step_duration, int duration, int step_count) ;
 
 // <[End]> Step repartition function
 
+// <[Start]> Schedules initialization
+
+/**
+ * Gives a time repartition with the given schedule type.
+ *
+ * @param step		The pointed memory area will be allocated. 
+ * @param schedule	Step schedule type
+ * @param duration	The sum of every step duration
+ * @param step_count
+ */
+short init_step_schedule (int * step, t_step_schedule schedule, int duration, int step_count) ;
+
+/**
+ * Gives a temperature repartition with the given schedule type.
+ *
+ * @param temperature	The pointed memory area will be allocated. 
+ * @param step_schedule	Temperature schedule type
+ * @param start		Max temperature
+ * @param end		Min temperature
+ */
+short init_temperature_schedule (int * temperature, t_temperature_schedule * schedule, int start, int end) ;
+
+// <[End]> Schedules initialization
+
 // <[Start]> CLI
 
 short
