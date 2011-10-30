@@ -121,6 +121,17 @@ main (int argc, char ** argv)
 
   // test voisinage
   //   printf("\n______________________________________\ndebut de paramétrage pour voisinage\n") ;
+  registry.problem_type = MINIMIZATION  ;
+  registry.verbosity = FALSE  ;
+
+  if (registry.problem_type == MAXIMIZATION)
+    {
+    printf("problème en MAXIMISATION\n") ;
+    }
+  else
+    {
+    printf("problème en MINIMISATION\n") ;
+    } ;
   printf("ponderation agent= capacity_left\n") ;
   printf("ponderation job  = uniform\n") ;
   registry.agtponderate=&capacity_left ;
@@ -139,18 +150,19 @@ main (int argc, char ** argv)
 
 //  test voisinage stochastique
 srand(time(NULL));
-  printf("\n pour %d tests \n", test_b) ;
+printf("solution initiale:: %d\n",solution.value) ;
+printf("\n pour %d tests \n", test_b) ;
   while (test_b > 0)
     {
     stochastic_next_solution (& next_solution , & instance , & solution, & registry) ;
     next_solution.value=objective_cost(&next_solution , & instance ) ;
-    memorize_solution( & instance , & solution, & registry ) ;
-    printf("%d solution envisagée:: %d\t",test_b, next_solution.value) ;
-    if (next_solution.value > solution.value)
+    memorize_solution( & instance , & next_solution, & registry ) ;
+    printf("%d solution courante:: %d    envisagée:: %d\t",test_b,solution.value, next_solution.value) ;
+    if (((next_solution.value > solution.value) && (registry.problem_type == MAXIMIZATION))
+       || ((next_solution.value < solution.value) && (registry.problem_type == MINIMIZATION)))
       {
       printf("suivie\n") ;
-// plantage      clone_gap_solution (&next_solution , &solution) ;
-      memcpy(& solution , & next_solution , sizeof(t_gap_solution)) ;
+      clone_gap_solution (&solution , &next_solution) ;
       }
     else
       {
