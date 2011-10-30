@@ -19,7 +19,7 @@ char fichier[80] ;
 t_job job ;
 t_agent agt ;
 FILE *fic ;
-if (reg->verbosity == TRUE) printf("\t\tmemorize_solution ...\n") ;
+if (reg->verbosity == TRUE) printf("\tmemorize_solution ...\n") ;
 //fichier="resultats.txt" ;
 fic=fopen("resultats.txt", "a"); 
 if (fic==NULL)
