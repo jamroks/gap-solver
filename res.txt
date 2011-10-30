@@ -1,145 +1,152 @@
+81:1000
+17:775
+4:550
+1:325
+1:100
+problème en MINIMISATION
 ponderation agent= capacity_left
-ponderation job  = equity
+ponderation job  = uniform
 méthode = TRANSFERT
 échec voisinage à 50
 Le voisinage sera silencieux
 fin de paramétrage pour voisinage
+solution initiale:: 3225
 
  pour 100 tests 
-100 solution envisagée:: 3243	suivie
-99 solution envisagée:: 3250	suivie
-98 solution envisagée:: 3241	abandonnée
-97 solution envisagée:: 3240	abandonnée
-96 solution envisagée:: 3266	suivie
-95 solution envisagée:: 3278	suivie
-94 solution envisagée:: 3296	suivie
-93 solution envisagée:: 3311	suivie
-92 solution envisagée:: 3295	abandonnée
-91 solution envisagée:: 3263	abandonnée
-90 solution envisagée:: 3265	abandonnée
-89 solution envisagée:: 3264	abandonnée
-88 solution envisagée:: 3245	abandonnée
-87 solution envisagée:: 3274	abandonnée
-86 solution envisagée:: 3252	abandonnée
-85 solution envisagée:: 3268	abandonnée
-84 solution envisagée:: 3237	abandonnée
-83 solution envisagée:: 3237	abandonnée
-82 solution envisagée:: 3223	abandonnée
-81 solution envisagée:: 3231	abandonnée
-80 solution envisagée:: 3232	abandonnée
-79 solution envisagée:: 3259	abandonnée
-78 solution envisagée:: 3263	abandonnée
-77 solution envisagée:: 3262	abandonnée
-76 solution envisagée:: 3266	abandonnée
-75 solution envisagée:: 3242	abandonnée
-74 solution envisagée:: 3256	abandonnée
-73 solution envisagée:: 3277	abandonnée
-72 solution envisagée:: 3259	abandonnée
-71 solution envisagée:: 3257	abandonnée
-70 solution envisagée:: 3218	abandonnée
-69 solution envisagée:: 3221	abandonnée
-68 solution envisagée:: 3221	abandonnée
-67 solution envisagée:: 3224	abandonnée
-66 solution envisagée:: 3196	abandonnée
-65 solution envisagée:: 3186	abandonnée
-64 solution envisagée:: 3156	abandonnée
-63 solution envisagée:: 3132	abandonnée
-62 solution envisagée:: 3109	abandonnée
-61 solution envisagée:: 3092	abandonnée
-60 solution envisagée:: 3070	abandonnée
-59 solution envisagée:: 3069	abandonnée
-58 solution envisagée:: 3062	abandonnée
-57 solution envisagée:: 3086	abandonnée
-56 solution envisagée:: 3092	abandonnée
-55 solution envisagée:: 3058	abandonnée
-54 solution envisagée:: 3046	abandonnée
-53 solution envisagée:: 3051	abandonnée
-52 solution envisagée:: 3044	abandonnée
-51 solution envisagée:: 3051	abandonnée
-50 solution envisagée:: 3059	abandonnée
-49 solution envisagée:: 3046	abandonnée
-48 solution envisagée:: 3041	abandonnée
-47 solution envisagée:: 3031	abandonnée
-46 solution envisagée:: 3016	abandonnée
-45 solution envisagée:: 3009	abandonnée
-44 solution envisagée:: 3009	abandonnée
-43 solution envisagée:: 2993	abandonnée
-42 solution envisagée:: 3032	abandonnée
-41 solution envisagée:: 3042	abandonnée
-40 solution envisagée:: 3019	abandonnée
-39 solution envisagée:: 3001	abandonnée
-38 solution envisagée:: 3030	abandonnée
-37 solution envisagée:: 3037	abandonnée
-36 solution envisagée:: 3049	abandonnée
-35 solution envisagée:: 3058	abandonnée
-34 solution envisagée:: 3069	abandonnée
-33 solution envisagée:: 3085	abandonnée
-32 solution envisagée:: 3114	abandonnée
-31 solution envisagée:: 3107	abandonnée
-30 solution envisagée:: 3116	abandonnée
-29 solution envisagée:: 3155	abandonnée
-28 solution envisagée:: 3142	abandonnée
-27 solution envisagée:: 3166	abandonnée
-26 solution envisagée:: 3151	abandonnée
-25 solution envisagée:: 3126	abandonnée
-24 solution envisagée:: 3141	abandonnée
-23 solution envisagée:: 3130	abandonnée
-22 solution envisagée:: 3136	abandonnée
-21 solution envisagée:: 3125	abandonnée
-20 solution envisagée:: 3136	abandonnée
-19 solution envisagée:: 3167	abandonnée
-18 solution envisagée:: 3168	abandonnée
-17 solution envisagée:: 3186	abandonnée
-16 solution envisagée:: 3208	abandonnée
-15 solution envisagée:: 3199	abandonnée
-14 solution envisagée:: 3202	abandonnée
-13 solution envisagée:: 3180	abandonnée
-12 solution envisagée:: 3189	abandonnée
-11 solution envisagée:: 3180	abandonnée
-10 solution envisagée:: 3173	abandonnée
-9 solution envisagée:: 3142	abandonnée
-8 solution envisagée:: 3134	abandonnée
-7 solution envisagée:: 3124	abandonnée
-6 solution envisagée:: 3106	abandonnée
-5 solution envisagée:: 3138	abandonnée
-4 solution envisagée:: 3156	abandonnée
-3 solution envisagée:: 3163	abandonnée
-2 solution envisagée:: 3135	abandonnée
-1 solution envisagée:: 3146	abandonnée
- nb blocages   =0
+100 solution courante:: 3225    envisagée:: 3193	suivie
+99 solution courante:: 3193    envisagée:: 3162	suivie
+98 solution courante:: 3162    envisagée:: 3136	suivie
+97 solution courante:: 3136    envisagée:: 3098	suivie
+96 solution courante:: 3098    envisagée:: 3062	suivie
+95 solution courante:: 3062    envisagée:: 3045	suivie
+94 solution courante:: 3045    envisagée:: 3010	suivie
+93 solution courante:: 3010    envisagée:: 2985	suivie
+92 solution courante:: 2985    envisagée:: 2959	suivie
+91 solution courante:: 2959    envisagée:: 2931	suivie
+90 solution courante:: 2931    envisagée:: 2907	suivie
+89 solution courante:: 2907    envisagée:: 2881	suivie
+88 solution courante:: 2881    envisagée:: 2849	suivie
+87 solution courante:: 2849    envisagée:: 2817	suivie
+86 solution courante:: 2817    envisagée:: 2792	suivie
+85 solution courante:: 2792    envisagée:: 2771	suivie
+84 solution courante:: 2771    envisagée:: 2746	suivie
+83 solution courante:: 2746    envisagée:: 2724	suivie
+82 solution courante:: 2724    envisagée:: 2689	suivie
+81 solution courante:: 2689    envisagée:: 2670	suivie
+80 solution courante:: 2670    envisagée:: 2652	suivie
+79 solution courante:: 2652    envisagée:: 2622	suivie
+78 solution courante:: 2622    envisagée:: 2583	suivie
+77 solution courante:: 2583    envisagée:: 2549	suivie
+76 solution courante:: 2549    envisagée:: 2532	suivie
+75 solution courante:: 2532    envisagée:: 2517	suivie
+74 solution courante:: 2517    envisagée:: 2494	suivie
+73 solution courante:: 2494    envisagée:: 2486	suivie
+72 solution courante:: 2486    envisagée:: 2485	suivie
+71 solution courante:: 2485    envisagée:: 2461	suivie
+70 solution courante:: 2461    envisagée:: 2438	suivie
+69 solution courante:: 2438    envisagée:: 2407	suivie
+68 solution courante:: 2407    envisagée:: 2388	suivie
+67 solution courante:: 2388    envisagée:: 2370	suivie
+66 solution courante:: 2370    envisagée:: 2357	suivie
+65 solution courante:: 2357    envisagée:: 2329	suivie
+64 solution courante:: 2329    envisagée:: 2302	suivie
+63 solution courante:: 2302    envisagée:: 2284	suivie
+62 solution courante:: 2284    envisagée:: 2264	suivie
+61 solution courante:: 2264    envisagée:: 2266	abandonnée
+60 solution courante:: 2264    envisagée:: 2236	suivie
+59 solution courante:: 2236    envisagée:: 2235	suivie
+58 solution courante:: 2235    envisagée:: 2212	suivie
+57 solution courante:: 2212    envisagée:: 2203	suivie
+56 solution courante:: 2203    envisagée:: 2203	abandonnée
+55 solution courante:: 2203    envisagée:: 2176	suivie
+54 solution courante:: 2176    envisagée:: 2154	suivie
+53 solution courante:: 2154    envisagée:: 2156	abandonnée
+52 solution courante:: 2154    envisagée:: 2147	suivie
+51 solution courante:: 2147    envisagée:: 2149	abandonnée
+50 solution courante:: 2147    envisagée:: 2123	suivie
+49 solution courante:: 2123    envisagée:: 2119	suivie
+48 solution courante:: 2119    envisagée:: 2103	suivie
+47 solution courante:: 2103    envisagée:: 2078	suivie
+46 solution courante:: 2078    envisagée:: 2075	suivie
+45 solution courante:: 2075    envisagée:: 2062	suivie
+44 solution courante:: 2062    envisagée:: 2040	suivie
+43 solution courante:: 2040    envisagée:: 2024	suivie
+42 solution courante:: 2024    envisagée:: 2026	abandonnée
+41 solution courante:: 2024    envisagée:: 2026	abandonnée
+40 solution courante:: 2024    envisagée:: 2026	abandonnée
+39 solution courante:: 2024    envisagée:: 2008	suivie
+38 solution courante:: 2008    envisagée:: 2006	suivie
+37 solution courante:: 2006    envisagée:: 2012	abandonnée
+36 solution courante:: 2006    envisagée:: 2000	suivie
+35 solution courante:: 2000    envisagée:: 1983	suivie
+34 solution courante:: 1983    envisagée:: 1989	abandonnée
+33 solution courante:: 1983    envisagée:: 1973	suivie
+32 solution courante:: 1973    envisagée:: 1951	suivie
+31 solution courante:: 1951    envisagée:: 1974	abandonnée
+30 solution courante:: 1951    envisagée:: 1959	abandonnée
+29 solution courante:: 1951    envisagée:: 1943	suivie
+28 solution courante:: 1943    envisagée:: 1940	suivie
+27 solution courante:: 1940    envisagée:: 1924	suivie
+26 solution courante:: 1924    envisagée:: 1926	abandonnée
+25 solution courante:: 1924    envisagée:: 1932	abandonnée
+24 solution courante:: 1924    envisagée:: 1932	abandonnée
+23 solution courante:: 1924    envisagée:: 1922	suivie
+22 solution courante:: 1922    envisagée:: 1918	suivie
+21 solution courante:: 1918    envisagée:: 1920	abandonnée
+20 solution courante:: 1918    envisagée:: 1913	suivie
+19 solution courante:: 1913    envisagée:: 1915	abandonnée
+18 solution courante:: 1913    envisagée:: 1915	abandonnée
+17 solution courante:: 1913    envisagée:: 1915	abandonnée
+16 solution courante:: 1913    envisagée:: 1907	suivie
+15 solution courante:: 1907    envisagée:: 1897	suivie
+14 solution courante:: 1897    envisagée:: 1900	abandonnée
+13 solution courante:: 1897    envisagée:: 1896	suivie
+12 solution courante:: 1896    envisagée:: 1895	suivie
+11 solution courante:: 1895    envisagée:: 1897	abandonnée
+10 solution courante:: 1895    envisagée:: 1897	abandonnée
+9 solution courante:: 1895    envisagée:: 1897	abandonnée
+8 solution courante:: 1895    envisagée:: 1953	abandonnée
+7 solution courante:: 1895    envisagée:: 1897	abandonnée
+6 solution courante:: 1895    envisagée:: 1897	abandonnée
+5 solution courante:: 1895    envisagée:: 1897	abandonnée
+4 solution courante:: 1895    envisagée:: 1893	suivie
+3 solution courante:: 1893    envisagée:: 1872	suivie
+2 solution courante:: 1872    envisagée:: 1858	suivie
+1 solution courante:: 1858    envisagée:: 1860	abandonnée
+ nb blocages   =2
  nb échec      =0
- nb transferts =100
- nb swap       =0
+ nb transferts =98
+ nb swap       =2
 5     100  
 
-3311  
+1858  
 
 agent n°0
-assignations=28    	capacité résiduelle=	 7     capacité initiale=	 342  
+assignations=20    	capacité résiduelle=	 48    capacité initiale=	 342  
 
 liste des tâches assignées  (n°:cout)
    78 : 7    	   51 : 5    	   36 : 13   	   63 : 7    	   59 : 6    	    7 : 9    	   58 : 11   	    5 : 8    	   87 : 5    	   43 : 7    	   53 : 20   	   41 : 14   	   56 : 5    	   21 : 8    	   75 : 8    	   26 : 15   	   37 : 12   	   10 : 6    	   93 : 9    	
 
 agent n°1
-assignations=7     	capacité résiduelle=	 239   capacité initiale=	 342  
+assignations=23    	capacité résiduelle=	 2     capacité initiale=	 342  
 
 liste des tâches assignées  (n°:cout)
    74 : 5    	   73 : 10   	    2 : 7    	   72 : 7    	   52 : 7    	   66 : 11   	    6 : 7    	   31 : 6    	   33 : 8    	   99 : 7    	   86 : 8    	   80 : 16   	   84 : 8    	    4 : 20   	   76 : 7    	   22 : 7    	
 
 agent n°2
-assignations=19    	capacité résiduelle=	 134   capacité initiale=	 342  
+assignations=16    	capacité résiduelle=	 132   capacité initiale=	 342  
 
 liste des tâches assignées  (n°:cout)
    69 : 8    	   64 : 5    	   68 : 9    	   38 : 5    	   97 : 8    	   95 : 5    	   28 : 6    	   48 : 5    	   85 : 8    	   47 : 5    	    3 : 12   	   60 : 9    	   79 : 8    	   96 : 12   	   70 : 6    	   89 : 5    	   88 : 8    	   45 : 8    	   40 : 5    	   19 : 12   	   35 : 10   	   14 : 7    	   98 : 7    	
 
 agent n°3
-assignations=30    	capacité résiduelle=	 3     capacité initiale=	 342  
+assignations=20    	capacité résiduelle=	 105   capacité initiale=	 342  
 
 liste des tâches assignées  (n°:cout)
    67 : 7    	    0 : 6    	   23 : 5    	   82 : 6    	    1 : 5    	   49 : 5    	   46 : 7    	   62 : 9    	   92 : 7    	   61 : 5    	    8 : 6    	   90 : 7    	   18 : 5    	   12 : 8    	   94 : 9    	   11 : 7    	   71 : 5    	   13 : 6    	   91 : 9    	   34 : 6    	   27 : 8    	   50 : 13   	   20 : 7    	   15 : 5    	   30 : 15   	
 
 agent n°4
-assignations=16    	capacité résiduelle=	 84    capacité initiale=	 342  
+assignations=21    	capacité résiduelle=	 3     capacité initiale=	 342  
 
 liste des tâches assignées  (n°:cout)
    54 : 8    	   44 : 5    	   39 : 6    	   55 : 9    	   65 : 7    	   77 : 9    	   83 : 6    	    9 : 5    	   16 : 11   	   17 : 12   	   32 : 6    	   24 : 9    	   57 : 14   	   81 : 6    	   42 : 14   	   29 : 5    	   25 : 13   	
