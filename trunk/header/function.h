@@ -24,12 +24,12 @@ int
 equity(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *reg, t_elt elt) ;
 
 /**
- *  list_of_agent : permet de lister dans un tableau (de type t_list) les agents disponibles 
+ *  agent_list : permet de lister dans un tableau (de type t_list) les agents disponibles 
  *  @param : instance
  *  @ return : liste des agents disponibles 
  */
 t_list 
-list_of_agents (t_gap_instance *gap_inst);
+agent_list (t_gap_instance *gap_inst);
 
 /** subtract_elt_from_list : permet d'enlever un élément dans la liste  
  * @param : adresse de la liste à examiner
@@ -38,7 +38,7 @@ list_of_agents (t_gap_instance *gap_inst);
 void
 subtract_elt_from_list (t_list *, t_elt ) ;
 
-/** list_of_jobs_agt : retourne la liste des taches pour un agent1 donné, acceptable par un agent2 cible 
+/** job_agt_list : retourne la liste des taches pour un agent1 donné, acceptable par un agent2 cible 
  * @param : instance
  * @param : solution
  * @param : agent1
@@ -46,9 +46,9 @@ subtract_elt_from_list (t_list *, t_elt ) ;
  * return : liste de taches
  */
 t_list
-list_of_jobs_agt (t_gap_instance *, t_gap_solution *, t_agent , t_agent ) ;
+job_agt_list (t_gap_instance *, t_gap_solution *, t_agent , t_agent ) ;
 
-/** list_of_jobs_swap0 : retourne la liste des taches pour un agent1 donné, sans condition 
+/** job_swap0_list : retourne la liste des taches pour un agent1 donné, sans condition 
  * param : instance
  * param : solution
  * param : agent1
@@ -56,9 +56,9 @@ list_of_jobs_agt (t_gap_instance *, t_gap_solution *, t_agent , t_agent ) ;
  * return : liste de tâches
  */
 t_list
-list_of_jobs_swap0 (t_gap_instance *, t_gap_solution *, t_agent , t_agent ) ;
+job_swap0_list (t_gap_instance *, t_gap_solution *, t_agent , t_agent ) ;
 
-/** list_of_jobs_swap0 : pour un agent1 et une tache job donnée, retourne la liste des taches acceptable par un agent2 
+/** job_swap0_list : pour un agent1 et une tache job donnée, retourne la liste des taches acceptable par un agent2 
  * param : instance
  * param : solution
  * param : agent1
@@ -67,7 +67,7 @@ list_of_jobs_swap0 (t_gap_instance *, t_gap_solution *, t_agent , t_agent ) ;
  * return : liste de tâches 
  */
 t_list
-list_of_jobs_swap (t_gap_instance *, t_gap_solution *, t_agent , t_agent , t_job ) ;
+job_swap_list (t_gap_instance *, t_gap_solution *, t_agent , t_agent , t_job ) ;
 
 /** take_choice : tirage aléatoire d'un élément dans une liste, pondéré selon une fonction 
  * param : instance
@@ -77,6 +77,7 @@ list_of_jobs_swap (t_gap_instance *, t_gap_solution *, t_agent , t_agent , t_job
  * param : fonction
  * return : un élément
  */
+
 t_elt
 take_choice(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, 
             t_list *, int (*ponderate)()) ;
@@ -90,6 +91,7 @@ take_choice(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *,
  * param : élément
  * return : entier
  */
+
 int 
 uniform(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
 
@@ -119,14 +121,21 @@ capacity(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
 void 
 unavailable (t_error ) ;
 
-void
-memorize_solution(t_gap_instance *, t_gap_solution *, t_gap_solver_registry * ) ;
-
-/** take_choice : tirage aléatoire d'un élément dans une liste, pondéré selon une fonction 
+/** increasing: fonction déterminant la meilleure tâche à trasnférer de agt1 à agt2 
  * param : instance
  * param : solution
  * param : registre
+ * param : agent1
+ * param : agent2
  * param : liste
+ * return : job
+ */
+t_job
+increasing(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_agent , t_agent , t_list *) ;
+
+void
+memorize_solution(t_gap_instance *, t_gap_solution *, t_gap_solver_registry * ) ;
+
 short
 solution_evaluation (int, int, t_problem_type, float);
 
