@@ -21,7 +21,7 @@ t_agent agt ;
 FILE *fic ;
 if (reg->verbosity == TRUE) printf("\tmemorize_solution ...\n") ;
 //fichier="resultats.txt" ;
-fic=fopen("resultats.txt", "a"); 
+fic=fopen("resultats.csv", "a"); 
 if (fic==NULL)
   { 
   unavailable(3) ;
