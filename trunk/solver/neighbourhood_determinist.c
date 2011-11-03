@@ -35,8 +35,6 @@ static int _agent_source = 0 ;
 
 static int _agent_destination = 1 ;
 
-static t_gap_solution * _next_solution ;
-
 static t_gap_instance * _instance ;
 
 static t_gap_solver_registry * _registry ;
@@ -72,7 +70,6 @@ determinist_next_solution (
 {
   t_job_list * job, *job1 ;
   int i, j, source, destination;
-  _next_solution = next ;
   _instance = instance ;
   _registry = registry ;
   for (i = 0 ; i < instance->agent_count ; i ++)
@@ -129,12 +126,14 @@ void neighbourhood_determinist_try (
   t_gap_solver_registry * registry)
 {
   print_result (instance, solution) ;
+/*
   determinist_next_solution (
     solution,
     instance,
     solution ,
     registry
   ) ;
+*/
   print_result (instance, solution) ;
 }
 
@@ -157,19 +156,23 @@ _job_swap (t_job job1, t_agent agent1, t_agent agent2, t_job job2)
 static void
 _job_remove (t_job job, t_agent agent)
 {
-  remove_job_from_job_list (_next_solution->ll_assignment[agent], job) ;
+/*
+  remove_job_from_job_list (_nwill always propose ext_solution->ll_assignment[agent], job) ;
   _next_solution->assignment[agent][job] = 0 ;
   _next_solution->capacity_left[agent] += _instance->cost[agent][job] ;
   _next_solution->value -= _instance->gain[agent][job] ;
+*/
 }
 
 static void
 _job_add (t_job job, t_agent agent)
 {
+/*
   add_job_to_job_list (_next_solution->ll_assignment[agent], job) ;
   _next_solution->assignment[agent][job] = 1 ;
   _next_solution->capacity_left[agent] -= _instance->cost[agent][job] ;
   _next_solution->value += _instance->gain[agent][job] ;
+*/
 }
 
 static void
