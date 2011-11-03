@@ -33,7 +33,7 @@ _init_registry (
 int 
 main (int argc, char ** argv)
 {
-  int test_b=100 ;
+
   short error = 0 ;
   t_gap_instance instance ;
   t_gap_solution solution ;
@@ -115,6 +115,12 @@ main (int argc, char ** argv)
     & instance,
     & registry
   ) ;
+  ROMAIN_neighbourhood_stochastic_try (
+    & solution,
+    & instance,
+    & registry
+  ) ;
+
 /*
   countdown : a thread that will stop the process after a given duration
   temperature : a thread that will lower the temperature at the given steps
@@ -122,64 +128,6 @@ main (int argc, char ** argv)
  // pthread_t * countdown, * temperature ;
  // pthread_create (temperature, NULL, & thread_temperature, & registry) ;
 //  pthread_create (countdown, NULL, & thread_countdown, & registry) ;
-
-  // test voisinage
-  //   printf("\n______________________________________\ndebut de paramétrage pour voisinage\n") ;
-  registry.problem_type = MINIMIZATION  ;
-  registry.verbosity = FALSE  ;
-
-  if (registry.problem_type == MAXIMIZATION)
-    {
-    printf("problème en MAXIMISATION\n") ;
-    }
-  else
-    {
-    printf("problème en MINIMISATION\n") ;
-    } ;
-  printf("ponderation agent= _capacity_left\n") ;
-  printf("ponderation job  = _uniform\n") ;
-  registry.agtponderate=&_capacity_left ;
-  registry.jobponderate=&_uniform ;
-  printf("méthode = TRANSFERT\n") ;
-  registry.method=TRANSFERT ;
-  registry.unavailable_count=0 ;
-  registry.max_try_count = 50 ;
-  printf("échec voisinage à %d\n",registry.max_try_count) ;
-  registry.max_try_count_failure = 0 ;
-  printf("Le voisinage sera ") ;
-  if (registry.verbosity) printf("bavard\n") ;
-  if (! registry.verbosity) printf("silencieux\n") ;
-  printf("fin de paramétrage pour voisinage\n") ;
-//                               
-
-//  test voisinage stochastique
-srand(time(NULL));
-printf("solution initiale:: %d\n",solution.value) ;
-printf("\n pour %d tests \n", test_b) ;
-  while (test_b > 0)
-    {
-    stochastic_next_solution (& next_solution , & instance , & solution, & registry) ;
-    next_solution.value=objective_cost(&next_solution , & instance ) ;
-    memorize_solution( & instance , & next_solution, & registry ) ;
-    printf("%d solution courante:: %d    envisagée:: %d\t",test_b,solution.value, next_solution.value) ;
-    if (((next_solution.value > solution.value) && (registry.problem_type == MAXIMIZATION))
-       || ((next_solution.value < solution.value) && (registry.problem_type == MINIMIZATION)))
-      {
-      printf("suivie\n") ;
-      clone_gap_solution (&solution , &next_solution) ;
-      }
-    else
-      {
-      printf("abandonnée\n") ;
-      } ;
-
-    test_b-- ;
-    } ;
-  printf(" nb blocages   =%d\n", registry.unavailable_count) ;
-  printf(" nb échec      =%d\n", registry.max_try_count_failure) ;
-  printf(" nb transferts =%d\n", registry.transfert_count) ;
-  printf(" nb swap       =%d\n", registry.swap_count) ;
-//
 }
 
 static void
