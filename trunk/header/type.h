@@ -151,4 +151,32 @@ typedef struct {
   t_neighbourhood method ;
 } t_gap_solver_registry ;
 
+typedef enum {
+  SOLUTION_CHANGE_SWAP ,
+  SOLUTION_CHANGE_TRANSFER
+} t_solution_change_type ;
+
+typedef struct {
+  t_agent source ;
+  t_agent destination ;
+  t_job job ;
+} t_solution_change_transfer ;
+
+typedef struct {
+  t_agent source ;
+  t_agent destination ;
+  t_job source_swapped_job ;
+  t_job destination_swapped_job ;
+} t_solution_change_swap ;
+
+typedef union {
+  t_solution_change_transfer transfer ;
+  t_solution_change_swap swap ;
+} t_solution_change_contents ;
+
+typedef struct {
+  t_solution_change_type type ;
+  t_solution_change_contents contents ;
+} t_solution_change ;
+
 #endif

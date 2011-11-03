@@ -110,7 +110,12 @@ main (int argc, char ** argv)
       printf ("%s", "no possible assignment\n") ;
       exit (0) ;
     }
-
+  neighbourhood_determinist_try (
+    & solution,
+    & instance,
+    & registry
+  ) ;
+  return 0 ;
 /*
   countdown : a thread that will stop the process after a given duration
   temperature : a thread that will lower the temperature at the given steps
