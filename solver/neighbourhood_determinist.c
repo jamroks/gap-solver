@@ -16,25 +16,26 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "../header/common.h"
 
-static int _source_agent = 0 ;
+static int _agent_source = 0 ;
+static int _agent_destination = 1 ;
 static t_gap_solution * _next_solution ;
 static t_gap_instance * _instance ;
 static t_gap_solver_registry * _registry ;
 
 static void
-_transfer_job (t_job job, t_agent source, t_agent destination) ;
+_job_transfer(t_job job, t_agent source, t_agent destination) ;
 
 static void
-_remove_job (t_job job, t_agent agent) ;
+_job_remove (t_job job, t_agent agent) ;
 
 static void
-_add_job (t_job job, t_agent agent) ;
+_job_add (t_job job, t_agent agent) ;
 
 static void
-_swap_jobs (t_job job1, t_agent agent1, t_agent agent2, t_job job2) ;
+_job_swap (t_job job1, t_agent agent1, t_agent agent2, t_job job2) ;
 
 static void
-_update_source_agent () ;
+_agents_update () ;
 
 short
 determinist_next_solution (
@@ -51,13 +52,14 @@ determinist_next_solution (
   _registry = registry ;
   for (i = 0 ; i < instance->agent_count ; i ++)
     {
-      source = (_source_agent + i) % instance->agent_count ;
+      source = (_agent_source + i) % instance->agent_count ;
       for (
-        destination = 0 ;
-        destination < instance->agent_count ;
-        destination ++
+        j = 0 ;
+        j < instance->agent_count ;
+        j ++
       )
         {
+          destination = (_agent_destination + j) % instance->agent_count ;
           if (destination == source)
             continue ;
           job = current->ll_assignment[source] ;
@@ -66,8 +68,8 @@ determinist_next_solution (
               if (instance->cost[destination][job->job]
                     <= current->capacity_left[destination])
                 {
-                  _transfer_job (job->job, source, destination) ;
-                  _update_source_agent() ;
+                  _job_transfer(job->job, source, destination) ;
+                  _agents_update() ;
                   return 1 ;
                 }
             }
@@ -87,8 +89,8 @@ determinist_next_solution (
                         + instance->cost[source][job->job]))
                   )
                     {
-                      _swap_jobs (job->job, source, job1->job, destination) ;
-                      _update_source_agent() ;
+                      _job_swap (job->job, source, job1->job, destination) ;
+                      _agents_update () ;
                       return 1 ;
                     }
                 }
@@ -98,24 +100,39 @@ determinist_next_solution (
   return 0 ;
 }
 
-static void
-_transfer_job (t_job job, t_agent source, t_agent destination)
+void neighbourhood_determinist_try (
+  t_gap_solution * solution,
+  t_gap_instance * instance,
+  t_gap_solver_registry * registry)
 {
-  _remove_job (job, source) ;
-  _add_job (job, destination) ;
+  print_result (instance, solution) ;
+  determinist_next_solution (
+    solution,
+    instance,
+    solution ,
+    registry
+  ) ;
+  print_result (instance, solution) ;
 }
 
 static void
-_swap_jobs (t_job job1, t_agent agent1, t_agent agent2, t_job job2)
+_job_transfer(t_job job, t_agent source, t_agent destination)
 {
-  _remove_job (job1, agent1) ;
-  _add_job (job1, agent2) ;
-  _remove_job (job2, agent2) ;
-  _add_job (job2, agent1) ;
+  _job_remove (job, source) ;
+  _job_add (job, destination) ;
 }
 
 static void
-_remove_job (t_job job, t_agent agent)
+_job_swap (t_job job1, t_agent agent1, t_agent agent2, t_job job2)
+{
+  _job_remove (job1, agent1) ;
+  _job_add (job1, agent2) ;
+  _job_remove (job2, agent2) ;
+  _job_add (job2, agent1) ;
+}
+
+static void
+_job_remove (t_job job, t_agent agent)
 {
   remove_job_from_job_list (_next_solution->ll_assignment[agent], job) ;
   _next_solution->assignment[agent][job] = 0 ;
@@ -124,7 +141,7 @@ _remove_job (t_job job, t_agent agent)
 }
 
 static void
-_add_job (t_job job, t_agent agent)
+_job_add (t_job job, t_agent agent)
 {
   add_job_to_job_list (_next_solution->ll_assignment[agent], job) ;
   _next_solution->assignment[agent][job] = 1 ;
@@ -133,7 +150,8 @@ _add_job (t_job job, t_agent agent)
 }
 
 static void
-_update_source_agent ()
+_agents_update ()
 {
-  _source_agent = (_source_agent + 1) % _instance->agent_count ;
+  _agent_source = (_agent_source + 1) % _instance->agent_count ;
+  _agent_destination = (_agent_destination + 1) % _instance->agent_count ;
 }

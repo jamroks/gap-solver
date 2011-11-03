@@ -688,4 +688,12 @@ parse_configuration_annealing (t_configuration_annealing *, char *) ;
 
 // <[End]> Configuration annealing
 
+// Tests
+
+void neighbourhood_determinist_try (
+  t_gap_solution * _next_solution,
+  t_gap_instance * _instance,
+  t_gap_solver_registry * _registry) ;
+
+//
 #endif
