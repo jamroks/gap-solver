@@ -123,7 +123,7 @@ determinist_next_solution (
   return 0 ;
 }
 
-void neighbourhood_determinist_try (
+void XAVIER_neighbourhood_determinist_try (
   t_gap_solution * solution,
   t_gap_instance * instance,
   t_gap_solver_registry * registry)
