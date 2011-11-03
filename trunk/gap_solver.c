@@ -136,10 +136,10 @@ main (int argc, char ** argv)
     {
     printf("problème en MINIMISATION\n") ;
     } ;
-  printf("ponderation agent= capacity_left\n") ;
-  printf("ponderation job  = uniform\n") ;
-  registry.agtponderate=&capacity_left ;
-  registry.jobponderate=&uniform ;
+  printf("ponderation agent= _capacity_left\n") ;
+  printf("ponderation job  = _uniform\n") ;
+  registry.agtponderate=&_capacity_left ;
+  registry.jobponderate=&_uniform ;
   printf("méthode = TRANSFERT\n") ;
   registry.method=TRANSFERT ;
   registry.unavailable_count=0 ;
