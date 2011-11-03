@@ -130,13 +130,18 @@ void neighbourhood_determinist_try (
 {
   t_solution_change change ;
   print_result (instance, solution) ;
+  int i ;
+  for (i = 0 ; i < 5000 ; i ++)
+  {
+  change.delta_value = 0 ;
   determinist_next_solution (
     & change,
     instance,
     solution ,
     registry
   ) ;
-  print_result (instance, solution) ;
+ // printf("%d\n", change.delta_value) ;
+  }
 }
 
 static void
