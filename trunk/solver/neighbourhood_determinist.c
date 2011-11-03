@@ -49,7 +49,7 @@ static t_gap_solver_registry * _registry ;
  * A turnover occurs on agents, from one call to the next.
  * Because of this turnover, several calls from the same solution,
  * will not result in the same change proposition.
- * It is deterministic at the program execution level.
+ * It is determinist at the program execution level.
  *
  * @param change	Changes to be made to the current solution
  *
