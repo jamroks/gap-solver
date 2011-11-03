@@ -24,39 +24,39 @@ _subtract_elt_from_list (t_list *, t_elt ) ;
  * @param : solution
  * @param : agent1
  * @param : agent2
- * return : liste de taches
+ * @return : liste de taches
  */
 static t_list
 _job_agt_list (t_gap_instance *, t_gap_solution *, t_agent , t_agent ) ;
 
 /** job_swap0_list : retourne la liste des taches pour un agent1 donné, sans condition 
- * param : instance
- * param : solution
- * param : agent1
- * param : agent2 (ne sert à rien pour le moment
- * return : liste de tâches
+ * @param : instance
+ * @param : solution
+ * @param : agent1
+ * @param : agent2 (ne sert à rien pour le moment
+ * @return : liste de tâches
  */
 static t_list
 _job_swap0_list (t_gap_instance *, t_gap_solution *, t_agent , t_agent ) ;
 
-/** job_swap0_list : pour un agent1 et une tache job donnée, retourne la liste des taches acceptable par un agent2 
- * param : instance
- * param : solution
- * param : agent1
- * param : agent2
- * param : tache
- * return : liste de tâches 
+/** job_swap0_list : pour un agent1 et une tache job donnée, retourne la liste des taches acceptables par un agent2 
+ * @param : instance
+ * @param : solution
+ * @param : agent1
+ * @param : agent2
+ * @param : tache
+ * @return : liste de tâches 
  */
 static t_list
 _job_swap_list (t_gap_instance *, t_gap_solution *, t_agent , t_agent , t_job ) ;
 
 /** take_choice : tirage aléatoire d'un élément dans une liste, pondéré selon une fonction 
- * param : instance
- * param : solution
- * param : registre
- * param : liste
- * param : fonction
- * return : un élément
+ * @param : instance
+ * @param : solution
+ * @param : registre
+ * @param : liste
+ * @param : fonction
+ * @return : un élément
  */
 
 static t_elt
@@ -70,13 +70,13 @@ static void
 _unavailable (t_error ) ;
 
 /** increasing: fonction déterminant la meilleure tâche à trasnférer de agt1 à agt2 
- * param : instance
- * param : solution
- * param : registre
- * param : agent1
- * param : agent2
- * param : liste
- * return : job
+ * @param : instance
+ * @param : solution
+ * @param : registre
+ * @param : agent1
+ * @param : agent2
+ * @param : liste
+ * @return : job
  */
 
 static t_job
@@ -89,8 +89,11 @@ _increasing(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_agent
 */
 
 short 
-stochastic_next_solution (t_gap_solution *gap_next , t_gap_instance *gap_inst , t_gap_solution *gap_cur , 
-                          t_gap_solver_registry *registry) 
+stochastic_next_solution (
+  t_solution_change * change,
+  t_gap_instance * gap_inst,
+  t_gap_solution * gap_cur, 
+  t_gap_solver_registry * registry) 
 {
 t_list values_list ;
 int agt_1 , agt_2 , job , job2 ;
@@ -100,9 +103,6 @@ t_bool new_found=FALSE ;
 t_method method=registry->method ;
 if (registry->verbosity == TRUE) printf("=> début de calcul de voisinage %d ...\n" , registry->transfert_count) ;
 /* copie de la solution de départ vers la solution suivante , avant modification */
-if (registry->verbosity == TRUE) printf("=> clonage\n") ;
-  clone_gap_solution (gap_next , gap_cur) ;
-  // memcpy(gap_next , gap_cur , sizeof(t_gap_solution)) ;
 /* Sélection de la structure de voisinage */ 
 if (registry->verbosity == TRUE) printf("=> bouclage\n") ;
 while ((new_found == FALSE) && (try_count < registry->max_try_count))
@@ -171,21 +171,21 @@ switch (method)
            } ;
         if (registry->verbosity == TRUE) printf("\t tache n°%d.\n" , job) ;
         /* transférer la tâche de agt_1 vers agt_2 */
-        if (registry->verbosity == TRUE) printf("\nTRANS:: agt=%d(%d)  pour job=%d(%d) // agt =%d(%d) cout=%d\n",
+/*        if (registry->verbosity == TRUE) printf("\nTRANS:: agt=%d(%d)  pour job=%d(%d) // agt =%d(%d) cout=%d\n",
              agt_1,gap_next->capacity_left[agt_1], job, gap_inst->cost[agt_1][job], 
              agt_2,gap_next->capacity_left[agt_2], gap_inst->cost[agt_2][job]) ; 
-        gap_next->assignment[agt_1][job]=0 ;
+*/
+//printf("gain: + %d - %d\n",gap_inst->gain[agt_2][job],gap_inst->gain[agt_1][job]) ;
+        change->type= SOLUTION_CHANGE_TRANSFER ;
+        change->contents.transfer.source=agt_1 ;
+        change->contents.transfer.destination=agt_2 ;
+        change->contents.transfer.job=job ;
+        change->delta_value= gap_inst->gain[agt_2][job] - gap_inst->gain[agt_1][job];
+/*        gap_next->assignment[agt_1][job]=0 ;
         gap_next->assignment[agt_2][job]=1 ;
         gap_next->capacity_left[agt_1]+=gap_inst->cost[agt_1][job] ;
         gap_next->capacity_left[agt_2]-=gap_inst->cost[agt_2][job] ;
-        if (gap_next->capacity_left[agt_1] < 0) 
-          {
-          printf("negatif 01\n") ;
-          } ;
-        if (gap_next->capacity_left[agt_2] < 0) 
-          {
-          printf("negatif 02\n") ;
-          } ;
+*/
         new_found=TRUE ;
         registry->transfert_count++ ;
         } ;      
@@ -257,8 +257,15 @@ switch (method)
       if (registry->verbosity == TRUE) printf("\t tache n°%d.\n" , job) ;
       /* faire l'échange la tâche de agt_1 et agt_2 */
       if (registry->verbosity == TRUE) printf("\nSWAP:: agt=%d(%d)  pour job=%d(%d) // agt =%d(%d) pour job=%d(%d)\n",
-          agt_1,gap_next->capacity_left[agt_1], job, gap_inst->cost[agt_1][job], 
-          agt_2,gap_next->capacity_left[agt_2], job2, gap_inst->cost[agt_2][job2]) ; 
+          agt_1,gap_cur->capacity_left[agt_1], job, gap_inst->cost[agt_1][job], 
+          agt_2,gap_cur->capacity_left[agt_2], job2, gap_inst->cost[agt_2][job2]) ; 
+      change->type= SOLUTION_CHANGE_SWAP ;
+      change->contents.swap.source=agt_1 ;
+      change->contents.swap.destination=agt_2 ;
+      change->contents.swap.source_swapped_job=job ;
+      change->contents.swap.destination_swapped_job=job2 ;
+      change->delta_value= gap_inst->gain[agt_2][job] - gap_inst->gain[agt_1][job] + gap_inst->gain[agt_1][job2] - gap_inst->gain[agt_2][job2] ;
+/*
       gap_next->assignment[agt_1][job]=0 ;
       gap_next->assignment[agt_1][job2]=1 ;
       gap_next->assignment[agt_2][job2]=0 ;
@@ -281,6 +288,7 @@ switch (method)
              agt_1,gap_next->capacity_left[agt_1], job, gap_inst->cost[agt_1][job], 
              agt_2,gap_next->capacity_left[agt_2], job2, gap_inst->cost[agt_2][job2]) ; 
         } ;
+*/
       new_found=TRUE ;
       registry->swap_count++ ;
       if (registry->verbosity == TRUE) printf("\tfin de méthode par transfert ...\n") ;
@@ -519,6 +527,70 @@ _unavailable(t_error error)
 //exit(error) ;
 }
 
+void ROMAIN_neighbourhood_stochastic_try (
+  t_gap_solution * solution,
+  t_gap_instance * instance,
+  t_gap_solver_registry * registry)
+{
+  int test_b=100 ;
+  t_solution_change change ;
+//   printf("\n______________________________________\ndebut de paramétrage pour voisinage\n") ;
+registry->problem_type = MINIMIZATION  ;
+registry->verbosity = FALSE  ;
+if (registry->problem_type == MAXIMIZATION)
+  {
+  printf("problème en MAXIMISATION\n") ;
+  }
+else
+  {
+  printf("problème en MINIMISATION\n") ;
+  } ;
+printf("ponderation agent= _capacity_left\n") ;
+printf("ponderation job  = _uniform\n") ;
+registry->agtponderate=&_capacity_left ;
+registry->jobponderate=&_uniform ;
+printf("méthode = TRANSFERT\n") ;
+registry->method=TRANSFERT ;
+registry->unavailable_count=0 ;
+registry->max_try_count = 50 ;
+printf("échec voisinage à %d\n",registry->max_try_count) ;
+registry->max_try_count_failure = 0 ;
+printf("Le voisinage sera ") ;
+if (registry->verbosity) printf("bavard\n") ;
+if (! registry->verbosity) printf("silencieux\n") ;
+printf("fin de paramétrage pour voisinage\n") ;
+//  test voisinage stochastique
+srand(time(NULL));
+printf("solution initiale:: %d\n",solution->value) ;
+printf("\n pour %d tests \n", test_b) ;
+  while (test_b > 0)
+    {
+    stochastic_next_solution ( & change ,  instance ,  solution,  registry) ;
+    printf("%3d variation proposée %d\t",test_b,change.delta_value) ;
+    if (change.type == SOLUTION_CHANGE_TRANSFER) printf("par transfert\tde l'agent %d à l'agent %d de la tâche %d\n",
+        change.contents.transfer.source, change.contents.transfer.destination, change.contents.transfer.job) ;
+    if (change.type == SOLUTION_CHANGE_SWAP) printf("par échange\t" ) ;
+    if (((change.delta_value > 0) && (registry->problem_type == MAXIMIZATION))
+       || ((change.delta_value < 0) && (registry->problem_type == MINIMIZATION)))
+      {
+      printf("suivie\n") ;
+      solution_apply_change( instance , solution, & change) ;
+      printf("mémorisation\n") ;
+      memorize_solution( instance , solution, registry ) ;     
+      }
+    else
+      {
+      printf("abandonnée\n") ;
+      } ;
+    test_b-- ;
+    } ;
+  printf(" nb blocages   =%d\n", registry->unavailable_count) ;
+  printf(" nb échec      =%d\n", registry->max_try_count_failure) ;
+  printf(" nb transferts =%d\n", registry->transfert_count) ;
+  printf(" nb swap       =%d\n", registry->swap_count) ;
+//  
+
+}
 
 
 
