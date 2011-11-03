@@ -110,7 +110,7 @@ main (int argc, char ** argv)
       printf ("%s", "no possible assignment\n") ;
       exit (0) ;
     }
-  neighbourhood_determinist_try (
+  XAVIER_neighbourhood_determinist_try (
     & solution,
     & instance,
     & registry
