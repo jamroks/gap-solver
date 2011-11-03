@@ -152,7 +152,7 @@ typedef struct {
 } t_gap_solver_registry ;
 
 typedef enum {
-  SOLUTION_CHANGE_SWAP ,
+  SOLUTION_CHANGE_SWAP,
   SOLUTION_CHANGE_TRANSFER
 } t_solution_change_type ;
 

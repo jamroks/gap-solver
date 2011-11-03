@@ -29,19 +29,18 @@ print_result (t_gap_instance * instance, t_gap_solution * solution)
   printf ("%-5d \n\n", solution->value);
   for (agent = 0 ; agent < instance->agent_count ; agent ++)
     {
-      printf("agent n°%d\n",agent) ;
+      printf("%d\n",agent) ;
       assignments=0 ;
       for (job = 0 ; job < instance->job_count ; job++)
         {
           if (solution->assignment[agent][job] == 1)
               assignments ++ ;
         }
-      printf ("assignations=%-5d \tcapacité résiduelle=\t %-5d capacité initiale=\t %-5d\n\n",
+      printf ("%-5d:\t%-5d/%-5d\n\n",
         assignments,
         solution->capacity_left[agent],
         instance->capacity[agent]
       );
-      printf("liste des tâches assignées  (n°:cout)\n") ;
       ll_job_elt = solution->ll_assignment[agent] ;
       while (ll_job_elt = ll_job_elt->next)
         printf ("%5d : %-5d\t", ll_job_elt->job, instance->cost[agent][ll_job_elt->job]) ;
