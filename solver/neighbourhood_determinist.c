@@ -39,6 +39,8 @@ static t_gap_instance * _instance ;
 
 static t_gap_solver_registry * _registry ;
 
+static t_solution_change * _change ;
+
 /**
  *
  * Offer a new practicable solution to the GAP instance, from a current one.
@@ -70,6 +72,7 @@ determinist_next_solution (
 {
   t_job_list * job, *job1 ;
   int i, j, source, destination;
+  _change = change ;
   _instance = instance ;
   _registry = registry ;
   for (i = 0 ; i < instance->agent_count ; i ++)
@@ -125,21 +128,24 @@ void neighbourhood_determinist_try (
   t_gap_instance * instance,
   t_gap_solver_registry * registry)
 {
+  t_solution_change change ;
   print_result (instance, solution) ;
-/*
   determinist_next_solution (
-    solution,
+    & change,
     instance,
     solution ,
     registry
   ) ;
-*/
   print_result (instance, solution) ;
 }
 
 static void
-_job_transfer(t_job job, t_agent source, t_agent destination)
+_job_transfer (t_job job, t_agent source, t_agent destination)
 {
+  _change->type = SOLUTION_CHANGE_TRANSFER ;
+  _change->contents.transfer.source = source ;
+  _change->contents.transfer.destination = destination ;
+  _change->contents.transfer.job = job ;
   _job_remove (job, source) ;
   _job_add (job, destination) ;
 }
@@ -147,6 +153,11 @@ _job_transfer(t_job job, t_agent source, t_agent destination)
 static void
 _job_swap (t_job job1, t_agent agent1, t_agent agent2, t_job job2)
 {
+  _change->type = SOLUTION_CHANGE_SWAP ;
+  _change->contents.swap.source_swapped_job = job1 ;
+  _change->contents.swap.source = agent1 ;
+  _change->contents.swap.destination_swapped_job = job2 ;
+  _change->contents.swap.destination = agent1 ;
   _job_remove (job1, agent1) ;
   _job_add (job1, agent2) ;
   _job_remove (job2, agent2) ;
@@ -156,23 +167,13 @@ _job_swap (t_job job1, t_agent agent1, t_agent agent2, t_job job2)
 static void
 _job_remove (t_job job, t_agent agent)
 {
-/*
-  remove_job_from_job_list (_nwill always propose ext_solution->ll_assignment[agent], job) ;
-  _next_solution->assignment[agent][job] = 0 ;
-  _next_solution->capacity_left[agent] += _instance->cost[agent][job] ;
-  _next_solution->value -= _instance->gain[agent][job] ;
-*/
+  _change->delta_value -= _instance->gain[agent][job] ;
 }
 
 static void
 _job_add (t_job job, t_agent agent)
 {
-/*
-  add_job_to_job_list (_next_solution->ll_assignment[agent], job) ;
-  _next_solution->assignment[agent][job] = 1 ;
-  _next_solution->capacity_left[agent] -= _instance->cost[agent][job] ;
-  _next_solution->value += _instance->gain[agent][job] ;
-*/
+  _change->delta_value += _instance->gain[agent][job] ;
 }
 
 static void
