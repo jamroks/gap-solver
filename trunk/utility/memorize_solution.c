@@ -24,7 +24,7 @@ if (reg->verbosity == TRUE) printf("\tmemorize_solution ...\n") ;
 fic=fopen("resultats.csv", "a"); 
 if (fic==NULL)
   { 
-  unavailable(3) ;
+  printf("Impossible d'ouvrir le fichier des résultats\n") ;
   } 
   else
   {

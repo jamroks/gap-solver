@@ -20,118 +20,45 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #define FUNCTION_H
 #include "../header/type.h"
 
-int 
-equity(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *reg, t_elt elt) ;
-
-/**
- *  agent_list : permet de lister dans un tableau (de type t_list) les agents disponibles 
- *  @param : instance
- *  @ return : liste des agents disponibles 
- */
-t_list 
-agent_list (t_gap_instance *gap_inst);
-
-/** subtract_elt_from_list : permet d'enlever un élément dans la liste  
- * @param : adresse de la liste à examiner
- * @return : rien
- */
-void
-subtract_elt_from_list (t_list *, t_elt ) ;
-
-/** job_agt_list : retourne la liste des taches pour un agent1 donné, acceptable par un agent2 cible 
- * @param : instance
- * @param : solution
- * @param : agent1
- * @param : agent2
- * return : liste de taches
- */
-t_list
-job_agt_list (t_gap_instance *, t_gap_solution *, t_agent , t_agent ) ;
-
-/** job_swap0_list : retourne la liste des taches pour un agent1 donné, sans condition 
- * param : instance
- * param : solution
- * param : agent1
- * param : agent2 (ne sert à rien pour le moment
- * return : liste de tâches
- */
-t_list
-job_swap0_list (t_gap_instance *, t_gap_solution *, t_agent , t_agent ) ;
-
-/** job_swap0_list : pour un agent1 et une tache job donnée, retourne la liste des taches acceptable par un agent2 
- * param : instance
- * param : solution
- * param : agent1
- * param : agent2
- * param : tache
- * return : liste de tâches 
- */
-t_list
-job_swap_list (t_gap_instance *, t_gap_solution *, t_agent , t_agent , t_job ) ;
-
-/** take_choice : tirage aléatoire d'un élément dans une liste, pondéré selon une fonction 
- * param : instance
- * param : solution
- * param : registre
- * param : liste
- * param : fonction
- * return : un élément
- */
-
-t_elt
-take_choice(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, 
-            t_list *, int (*ponderate)()) ;
 
 // <[Start]> fonctions de ponderation
 
 /** uniform : fonction de pondération uniforme (pour take_choice) 
- * param : instance
- * param : solution
- * param : registre
- * param : élément
- * return : entier
+ * @param : instance
+ * @param : solution
+ * @param : registre
+ * @param : élément
+ * @return : entier
  */
 
 int 
-uniform(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
+_uniform(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
 
 /* capacity_left : fonction de pondération basée sur la capacité résiduelle des agents (pour take_choice sur agent) 
- * param : instance
- * param : solution
- * param : registre
- * param : élément
- * return : entier
+ * @param : instance
+ * @param : solution
+ * @param : registre
+ * @param : élément
+ * @return : entier
  */
+
 int 
-capacity_left(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
+_capacity_left(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
 
 /* capacity : fonction de pondération basée sur la capacité des agents (pour take_choice sur agent)
- * param : instance
- * param : solution
- * param : registre
- * param : élément
- * return : entier
+ * @param : instance
+ * @param : solution
+ * @param : registre
+ * @param : élément
+ * @return : entier
  */
+
 int 
-capacity(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
+_capacity(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
 
 // <[End]> fonctions de ponderation
 
-/* unavailable : fonction appelée pour chaque occurrence d'une impossibilité d'avoir un élement dans une liste */
-void 
-unavailable (t_error ) ;
 
-/** increasing: fonction déterminant la meilleure tâche à trasnférer de agt1 à agt2 
- * param : instance
- * param : solution
- * param : registre
- * param : agent1
- * param : agent2
- * param : liste
- * return : job
- */
-t_job
-increasing(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_agent , t_agent , t_list *) ;
 
 void
 memorize_solution(t_gap_instance *, t_gap_solution *, t_gap_solver_registry * ) ;

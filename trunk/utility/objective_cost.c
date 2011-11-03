@@ -1,5 +1,5 @@
 
-/* fonction de listage des agents */
+/* fonction de calcul de la fonction objective */
 /* ============================ */
 #include <stdio.h>
 #include <string.h>
