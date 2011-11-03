@@ -693,6 +693,17 @@ parse_configuration_annealing (t_configuration_annealing *, char *) ;
 
 // <[End]> Configuration annealing
 
+// <[Start]> Utility
+
+void
+solution_apply_change (
+  t_gap_instance * instance,
+  t_gap_solution * solution,
+  t_solution_change * change
+) ;
+
+// <[End]> Utility
+
 // Tests
 
 void XAVIER_neighbourhood_determinist_try (
