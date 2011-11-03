@@ -16,12 +16,6 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "../header/common.h"
 
-static int _agent_source = 0 ;
-static int _agent_destination = 1 ;
-static t_gap_solution * _next_solution ;
-static t_gap_instance * _instance ;
-static t_gap_solver_registry * _registry ;
-
 static void
 _job_transfer(t_job job, t_agent source, t_agent destination) ;
 
@@ -37,9 +31,40 @@ _job_swap (t_job job1, t_agent agent1, t_agent agent2, t_job job2) ;
 static void
 _agents_update () ;
 
+static int _agent_source = 0 ;
+
+static int _agent_destination = 1 ;
+
+static t_gap_solution * _next_solution ;
+
+static t_gap_instance * _instance ;
+
+static t_gap_solver_registry * _registry ;
+
+/**
+ *
+ * Offer a new practicable solution to the GAP instance, from a current one.
+ * Operates in a determinist fashion ;
+ * if consecutively called from a given solution,
+ * at the same time, from different program calls,
+ * the same changes will always be proposed at the same step.
+ * A turnover occurs on agents, from one call to the next.
+ * Because of this turnover, several calls from the same solution,
+ * will not result in the same change proposition.
+ * It is deterministic at the program execution level.
+ *
+ * @param change	Changes to be made to the current solution
+ *
+ * @param instance	GAP instance
+ *
+ * @param current	Current solution
+ *
+ * @param registry	Application level variables
+ *
+ */
 short
 determinist_next_solution (
-  t_gap_solution * next,
+  t_solution_change * change,
   t_gap_instance * instance,
   t_gap_solution * current,
   t_gap_solver_registry * registry
@@ -53,15 +78,12 @@ determinist_next_solution (
   for (i = 0 ; i < instance->agent_count ; i ++)
     {
       source = (_agent_source + i) % instance->agent_count ;
-      for (
-        j = 0 ;
-        j < instance->agent_count ;
-        j ++
-      )
+      for (j = 0 ; j < instance->agent_count ; j ++)
         {
           destination = (_agent_destination + j) % instance->agent_count ;
           if (destination == source)
             continue ;
+          // First we look for any possible transfer
           job = current->ll_assignment[source] ;
           while (job = job->next)
             {
@@ -73,6 +95,7 @@ determinist_next_solution (
                   return 1 ;
                 }
             }
+          // Then, we look for any possible swap
           job = current->ll_assignment[source] ;
           while (job = job->next)
             {

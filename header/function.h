@@ -151,7 +151,12 @@ stochastic_next_solution (t_gap_solution *, t_gap_instance *, t_gap_solution *, 
 // <[Start]> Determinist neighbourhood
 
 short
-determinist_next_solution (t_gap_solution *, t_gap_instance *, t_gap_solution *, t_gap_solver_registry *) ;
+determinist_next_solution (
+  t_solution_change * change,
+  t_gap_instance * instance,
+  t_gap_solution * current,
+  t_gap_solver_registry * registry
+) ;
 
 // <[End]> Determinist neighbourhood
 
