@@ -177,6 +177,7 @@ typedef union {
 typedef struct {
   t_solution_change_type type ;
   t_solution_change_contents contents ;
+  int delta_value ;
 } t_solution_change ;
 
 #endif
