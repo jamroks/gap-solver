@@ -115,7 +115,6 @@ main (int argc, char ** argv)
     & instance,
     & registry
   ) ;
-  return 0 ;
 /*
   countdown : a thread that will stop the process after a given duration
   temperature : a thread that will lower the temperature at the given steps
@@ -181,7 +180,6 @@ printf("\n pour %d tests \n", test_b) ;
   printf(" nb transferts =%d\n", registry.transfert_count) ;
   printf(" nb swap       =%d\n", registry.swap_count) ;
 //
-  print_result (& instance, & solution) ;
 }
 
 static void
