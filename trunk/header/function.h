@@ -54,6 +54,17 @@ _capacity_left(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_el
  */
 
 int 
+_assignments(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
+
+/* capacity : fonction de pondération basée sur le nombre de tâches assignées à l'agent (pour take_choice sur agent)
+ * @param : instance
+ * @param : solution
+ * @param : registre
+ * @param : élément
+ * @return : entier
+ */
+
+int 
 _capacity(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
 
 // <[End]> fonctions de ponderation
@@ -70,7 +81,7 @@ solution_evaluation (int, int, t_problem_type, float);
 
 /* à partir d'une solution réalisable, fournit une autre solution réalisable aléatoirement dans le voisinage */
 short
-stochastic_next_solution (t_gap_solution *, t_gap_instance *, t_gap_solution *, t_gap_solver_registry *) ;
+stochastic_next_solution (t_solution_change * change, t_gap_instance *, t_gap_solution *, t_gap_solver_registry *) ;
 
 // <[End]> stochastic neighbourhood
 
