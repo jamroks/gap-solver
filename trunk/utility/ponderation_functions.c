@@ -33,3 +33,16 @@ if (reg->verbosity == TRUE) printf(" (via capacity_left !) ") ;
 return(sol->capacity_left[elt]+MIN_VALUE) ;
 }
 
+int 
+/* fonction de ponderation : nombre de tâches assignées (agent) */
+_assignments(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *reg, t_elt elt)
+{
+int assignments=0 ;
+t_job job ;
+  for (job = 0 ; job < inst->job_count ; job++)
+    {
+    if (sol->assignment[elt][job] == 1)
+      assignments ++ ;
+    }
+return(assignments) ;
+}
