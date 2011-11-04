@@ -93,7 +93,8 @@ determinist_next_solution (
   t_solution_change * change,
   t_gap_instance * instance,
   t_gap_solution * current,
-  t_gap_solver_registry * registry
+  t_gap_solver_registry * registry,
+  t_bool improvement
 ) ;
 
 // <[End]> Determinist neighbourhood
