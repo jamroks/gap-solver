@@ -85,11 +85,6 @@ main (int argc, char ** argv)
     configuration_annealing.temperature_last,
     configuration_annealing.step_count
   ) ;
-
-  int i;
-  for (i = 0 ; i < configuration_annealing.step_count ; i++)
-    printf ("%d:%d\n", registry.step_duration[i], registry.step_temperature[i]) ;
-
   switch (configuration_execution.input_source)
     {
       case INPUT_SOURCE_FILE:
@@ -115,6 +110,7 @@ main (int argc, char ** argv)
     & instance,
     & registry
   ) ;
+  exit (0) ;
   ROMAIN_neighbourhood_stochastic_try (
     & solution,
     & instance,

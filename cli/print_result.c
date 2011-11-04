@@ -25,25 +25,32 @@ print_result (t_gap_instance * instance, t_gap_solution * solution)
   int nb_line=0 ;
   int assignments ;
   t_job_list * ll_job_elt ;
-  printf ("%-5d %-5d\n\n", instance->agent_count, instance->job_count);
-  printf ("%-5d \n\n", solution->value);
+  printf (
+    "%-5d\n\n%-5d\n\n%-5d\n\n",
+    solution->value,
+    instance->agent_count,
+    instance->job_count
+  );
   for (agent = 0 ; agent < instance->agent_count ; agent ++)
     {
-      printf("%d\n",agent) ;
-      assignments=0 ;
-      for (job = 0 ; job < instance->job_count ; job++)
-        {
-          if (solution->assignment[agent][job] == 1)
-              assignments ++ ;
-        }
-      printf ("%-5d:\t%-5d/%-5d\n\n",
+      printf("%d\t", agent + 1) ;
+      assignments = 0 ;
+      ll_job_elt = solution->ll_assignment[agent] ;
+      while (ll_job_elt = ll_job_elt->next)
+        assignments ++ ;
+      printf ("%5d / %-5d\t%5d / %-5d\n\n",
         assignments,
+        instance->job_count,
         solution->capacity_left[agent],
         instance->capacity[agent]
       );
       ll_job_elt = solution->ll_assignment[agent] ;
       while (ll_job_elt = ll_job_elt->next)
-        printf ("%5d : %-5d\t", ll_job_elt->job, instance->cost[agent][ll_job_elt->job]) ;
+        printf (
+          "%5d : %-5d\t",
+          ll_job_elt->job,
+          instance->cost[agent][ll_job_elt->job]
+        ) ;
       printf ("%s", "\n\n");
 
     };

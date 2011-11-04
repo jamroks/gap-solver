@@ -21,10 +21,10 @@ static t_gap_instance * _instance ;
 static t_gap_solution * _solution ;
 
 static void
-_job_add (t_agent agent, t_job job) ;
+_job_add (t_job job, t_agent agent) ;
 
 static void
-_job_remove (t_agent agent, t_job job) ;
+_job_remove (t_job job, t_agent agent) ;
 
 void
 solution_apply_change (
@@ -39,49 +39,48 @@ solution_apply_change (
   switch (change->type)
     {
       case SOLUTION_CHANGE_TRANSFER:
-        _job_remove (          
-          change->contents.transfer.source,
-          change->contents.transfer.job
+        _job_remove (
+          change->contents.transfer.job,      
+          change->contents.transfer.source
         ) ;
         _job_add (
-          change->contents.transfer.destination,
-          change->contents.transfer.job
-       ) ;
+          change->contents.transfer.job,
+          change->contents.transfer.destination
+        ) ;
         break ;
       case SOLUTION_CHANGE_SWAP:
-        _job_remove (          
-          change->contents.swap.source,
-          change->contents.swap.source_swapped_job
+        _job_remove (
+          change->contents.swap.source_swapped_job,
+          change->contents.swap.source
         ) ;
         _job_add (
-          change->contents.swap.source,
-          change->contents.swap.destination_swapped_job
-       ) ;
-        _job_remove (          
-          change->contents.swap.destination,
-          change->contents.swap.destination_swapped_job
+          change->contents.swap.destination_swapped_job,
+          change->contents.swap.source
+        ) ;
+        _job_remove (
+          change->contents.swap.destination_swapped_job,
+          change->contents.swap.destination
         ) ;
         _job_add (
-          change->contents.swap.destination,
-          change->contents.swap.source_swapped_job
-       ) ;
+          change->contents.swap.source_swapped_job,
+          change->contents.swap.destination
+        ) ;
         break ;
     }
 }
 
 static void
-_job_add (t_agent agent, t_job job)
-{
-  _solution->assignment[agent][job] = 1 ;
-  _solution->capacity_left[agent] -= _instance->cost[agent][job] ;
-  add_job_to_job_list (_solution->ll_assignment[agent], job) ;
-}
-
-static void
-_job_remove (t_agent agent, t_job job)
+_job_remove (t_job job, t_agent agent)
 {
   _solution->assignment[agent][job] = 0 ;
   _solution->capacity_left[agent] += _instance->cost[agent][job] ;
   remove_job_from_job_list (_solution->ll_assignment[agent], job) ;
 }
 
+static void
+_job_add (t_job job, t_agent agent)
+{
+  _solution->assignment[agent][job] = 1 ;
+  _solution->capacity_left[agent] -= _instance->cost[agent][job] ;
+  add_job_to_job_list (_solution->ll_assignment[agent], job) ;
+}
