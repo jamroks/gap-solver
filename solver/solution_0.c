@@ -115,7 +115,7 @@ _assign (t_gap_instance * instance, t_gap_solution * solution, int agent, int jo
   solution->value += instance->gain[agent][job] ;
   solution->capacity_left[agent] -= instance->cost[agent][job] ;
   solution->assignment[agent][job] = 1 ;
-  add_job_to_job_list (solution->ll_assignment[agent], job) ;
+  job_list_add_job (solution->ll_assignment[agent], job) ;
   _assigned[job] = 1 ;
   _assigned_count ++ ;
 }

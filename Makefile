@@ -11,7 +11,7 @@ solver : cli_parser cli_print_result input_orlibrary\
  utility_objective_cost configuration_allowed_annealing\
  configuration_allowed_execution configuration_validate configuration_validate_annealing\
  configuration_validate_execution step_duration step_initialization utility_memorize_solution\
- step_temperature memory_error\
+ step_temperature memory_error memory_job_list_list\
  utility_solution
 
 	$(CC) -D_REENTRANT gap_solver.c cli_parser.o cli_print_result.o\
@@ -23,7 +23,7 @@ solver : cli_parser cli_print_result input_orlibrary\
  lib_ini_parser_dictionary.o configuration_allowed_annealing.o\
  configuration_allowed_execution.o configuration_validate.o configuration_validate_annealing.o\
  configuration_validate_execution.o step_initialization.o memorize_solution.o\
- step_duration.o step_temperature.o memory_error.o\
+ step_duration.o step_temperature.o memory_error.o memory_job_list_list.o\
  solution.o\
  -o gap_solver -lm -lpthread ; make clean
 
@@ -44,6 +44,9 @@ memory_gap_solution :
 
 memory_job_list: 
 	$(CC) -c memory/job_list.c -o memory_job_list.o
+
+memory_job_list_list: 
+	$(CC) -c memory/job_list_list.c -o memory_job_list_list.o
 
 memory_error:
 	$(CC) -c memory/error.c -o memory_error.o

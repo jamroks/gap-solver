@@ -26,6 +26,15 @@ _job_add (t_job job, t_agent agent) ;
 static void
 _job_remove (t_job job, t_agent agent) ;
 
+/**
+ * Apply the given change to the solution. 
+ *
+ * @param	instance
+ *
+ * @param	solution
+ *
+ * @param	change
+ */
 void
 solution_apply_change (
   t_gap_instance * instance,
@@ -33,6 +42,7 @@ solution_apply_change (
   t_solution_change * change
 )
 {
+  t_job_list * elt ;
   _solution = solution ;
   _instance = instance ;
   solution->value += change->delta_value ;
@@ -66,6 +76,28 @@ solution_apply_change (
           change->contents.swap.destination
         ) ;
         break ;
+      case SOLUTION_CHANGE_MULTI_SWAP:
+        _job_remove (
+          change->contents.multi_swap.source_swapped_job,
+          change->contents.multi_swap.source
+        ) ;
+        elt = change->contents.multi_swap.destination_swapped_job ;
+        while (elt = elt->next)
+          {
+            _job_add (
+              elt->job,
+              change->contents.swap.source
+            ) ;
+            _job_remove (
+              elt->job,
+              change->contents.swap.destination_swapped_job
+            ) ;
+          }
+        _job_add (
+          change->contents.multi_swap.source_swapped_job,
+          change->contents.swap.destination
+        ) ;
+        break ;
     }
 }
 
@@ -74,7 +106,7 @@ _job_remove (t_job job, t_agent agent)
 {
   _solution->assignment[agent][job] = 0 ;
   _solution->capacity_left[agent] += _instance->cost[agent][job] ;
-  remove_job_from_job_list (_solution->ll_assignment[agent], job) ;
+  job_list_delete_job (_solution->ll_assignment[agent], job) ;
 }
 
 static void
@@ -82,5 +114,5 @@ _job_add (t_job job, t_agent agent)
 {
   _solution->assignment[agent][job] = 1 ;
   _solution->capacity_left[agent] -= _instance->cost[agent][job] ;
-  add_job_to_job_list (_solution->ll_assignment[agent], job) ;
+  job_list_add_job (_solution->ll_assignment[agent], job) ;
 }

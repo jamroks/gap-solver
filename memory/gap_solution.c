@@ -45,7 +45,7 @@ alloc_gap_solution (t_gap_solution * solution, int agent_count, int job_count)
         (t_bool *) calloc (sizeof (t_cost), job_count) ;
       if (NULL == solution->assignment[agent])
         return 0 ;
-      solution->ll_assignment[agent] = alloc_job_list_head () ;
+      solution->ll_assignment[agent] = job_list_alloc_head () ;
       if (NULL == solution->ll_assignment[agent])
         return 0 ;
       for (job = 0; job < job_count; job ++)
@@ -64,7 +64,7 @@ free_gap_solution (t_gap_solution * solution)
   for (agent = 0 ; agent < solution->agent_count; agent ++)
   {
       free (solution->assignment[agent]) ;
-      free_job_list (solution->ll_assignment[agent]) ;
+      job_list_free (solution->ll_assignment[agent]) ;
       free (solution->ll_assignment) ;
   }
   free (solution->assignment) ;
@@ -91,7 +91,7 @@ clone_gap_solution (t_gap_solution * destination, t_gap_solution * source)
   destination->value = source->value;
   for (agent = 0 ; agent < source->agent_count ; agent ++)
     {
-      clone_job_list (
+      job_list_clone (
         destination->ll_assignment[agent],
         source->ll_assignment[agent]
       ) ;
