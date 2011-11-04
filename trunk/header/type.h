@@ -135,6 +135,9 @@ typedef struct {
   char * input_file ;
   t_input_source input_source ;
   t_neighbourhood_exploration neighbourhood_exploration ;
+  t_bool neighbourhood_swap ;
+  t_bool neighbourhood_multi_swap ;
+  t_bool neighbourhood_transfer ;
   t_problem_type problem_type ;
   t_bool verbose ;
 } t_configuration_execution ;
@@ -148,6 +151,9 @@ typedef struct {
   int step_count ;
   short verbosity ;
   short timeout ;
+  t_bool neighbourhood_swap ;
+  t_bool neighbourhood_multi_swap ;
+  t_bool neighbourhood_transfer ;
   long transfert_count ;
   long iteration_count ;
   long unavailable_count ;

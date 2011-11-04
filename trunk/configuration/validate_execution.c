@@ -19,6 +19,7 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Performs a whole check on the annealing configuration structure informations.
+ *
  * @param annealing
  */
 short
@@ -58,7 +59,9 @@ validate_configuration_execution (t_configuration_execution * execution)
  * The expected values are defined as constants.
  *
  * @param value A string that should match the expected param value (ie. equ li1 ex1 lo1 ...)
+ *
  * @return The t_problem_type enum value of the given string if correct, -1 otherwise.
+ *
  */
 short
 validate_problem_type (char * value)
@@ -75,6 +78,7 @@ validate_problem_type (char * value)
  * The expected values are defined as constants.
  *
  * @param value A string that should match the expected param value (ie. equ no1 as1 de1 ...)
+ *
  * @return The t_neighbourhood_exploration enum value of the given string if correct, -1 otherwise.
  */
 short

@@ -64,5 +64,41 @@ load_configuration_execution (
       fprintf (stderr, "warning: missing or unexpected neighbourhood exploration value in \"%s\"\n", file) ;
       fprintf (stderr, "found: %s\n", string_value) ;
     }
+  int_value = iniparser_getint (
+    dictionary,
+    ":neighbourhood_swap",
+    -1
+  ) ;
+  if (-1 != int_value)
+    configuration->neighbourhood_swap = int_value ;
+  else
+    {
+      fprintf (stderr, "warning: missing or unexpected neighbourhood swap value in \"%s\"\n", file) ;
+      fprintf (stderr, "found: %d\n", int_value) ;
+    }
+  int_value = iniparser_getint (
+    dictionary,
+    ":neighbourhood_multi_swap",
+    -1
+  ) ;
+  if (-1 != int_value)
+    configuration->neighbourhood_multi_swap = int_value ;
+  else
+    {
+      fprintf (stderr, "warning: missing or unexpected neighbourhood multi swap value in \"%s\"\n", file) ;
+      fprintf (stderr, "found: %d\n", int_value) ;
+    }
+  int_value = iniparser_getint (
+    dictionary,
+    ":neighbourhood_transfer",
+    -1
+  ) ;
+  if (-1 != int_value)
+    configuration->neighbourhood_transfer = int_value ;
+  else
+    {
+      fprintf (stderr, "warning: missing or unexpected neighbourhood transfer value in \"%s\"\n", file) ;
+      fprintf (stderr, "found: %d\n", int_value) ;
+    }
   return 1 ;
 }
