@@ -34,11 +34,37 @@ _agents_update () ;
 static t_bool
 _change_is_improving () ;
 
+static t_bool
+_job_multi_swap_is_potential (
+  t_job job1,
+  t_agent agent1,
+  t_job_list * job2,
+  t_job new
+) ;
+
+static t_bool
+_job_multi_swap_is_valid (
+  t_job job1,
+  t_agent agent1,
+  t_job_list * job2,
+  t_agent agent2
+) ;
+
+static int
+_job_multi_swap_value (
+  t_job job1,
+  t_agent agent1,
+  t_job_list * job2,
+  t_agent agent2
+) ;
+
 static t_agent _agent_source = 0 ;
 
 static t_agent _agent_destination = 1 ;
 
 static t_gap_instance * _instance ;
+
+static t_gap_solution * _solution ;
 
 static t_gap_solver_registry * _registry ;
 
@@ -55,7 +81,7 @@ static t_job _job_destination = -1 ;
  *
  * @param instance	GAP instance
  *
- * @param current	Current solution
+ * @param solution	Current solution
  *
  * @param registry	Application level variables
  *
@@ -67,15 +93,16 @@ short
 determinist_next_solution (
   t_solution_change * change,
   t_gap_instance * instance,
-  t_gap_solution * current,
+  t_gap_solution * solution,
   t_gap_solver_registry * registry,
   t_bool improvement
 )
 {
-  t_job_list * job, *job1 ;
+  t_job_list * job_s, * job_d ;
   int i, j, source, destination;
   _change = change ;
   _instance = instance ;
+  _solution = solution ;
   _registry = registry ;
   change->delta_value = 0 ;
   for (i = 0 ; i < instance->agent_count ; i ++)
@@ -87,65 +114,97 @@ determinist_next_solution (
           if (destination == source)
             continue ;
           // First we look for any possible transfer
-          job = current->ll_assignment[source] ;
-          while (job = job->next)
+          job_s = solution->ll_assignment[source] ;
+          while (job_s = job_s->next)
             {
 
-// printf("considering transfer %d %d %d\n", source, destination, job->job);
+// printf("considering transfer %d %d %d\n", source, destination, job_s->job);
 
-              if (instance->cost[destination][job->job]
-                    <= current->capacity_left[destination])
+              if (instance->cost[destination][job_s->job]
+                    <= solution->capacity_left[destination])
                 {
-                  _job_transfer (job->job, source, destination) ;
+                  _job_transfer (job_s->job, source, destination) ;
                   if (improvement && ! _change_is_improving())
                     {
                       change->delta_value = 0 ;
                       continue ;
                     }
 
-// printf("%d transfer done: %d %d %d\n", change->delta_value, job->job, source, destination);
+// printf("%d transfer done: %d %d %d\n", change->delta_value, job_s->job, source, destination);
 
                   _agents_update() ;
                   return TRUE ;
                 }
             }
           // Then, we look for any possible swap
-          job = current->ll_assignment[source] ;
-          while (job = job->next)
+          job_s = solution->ll_assignment[source] ;
+          while (job_s = job_s->next)
             { 
 
-// printf("considering job swap : %d %d\n", source, job->job);
+// printf("considering job swap : %d %d\n", source, job_s->job);
 
-              job1 = current->ll_assignment[destination] ;
-              while (job1 = job1->next)
+              job_d = solution->ll_assignment[destination] ;
+              while (job_d = job_d->next)
                 {
 
-// printf("with %d : %d\n", destination, job1->job);
+// printf("with %d : %d\n", destination, job_d->job);
 
                   if (
-                    (instance->cost[destination][job->job] <=
-                      (current->capacity_left[destination]
-                        + instance->cost[destination][job1->job]))
+                    (instance->cost[destination][job_s->job] <=
+                      (solution->capacity_left[destination]
+                        + instance->cost[destination][job_d->job]))
                     &&
-                    (instance->cost[source][job1->job] <=
-                      (current->capacity_left[source]
-                        + instance->cost[source][job->job]))
+                    (instance->cost[source][job_d->job] <=
+                      (solution->capacity_left[source]
+                        + instance->cost[source][job_s->job]))
                   )
                     {
-                      _job_swap (job->job, source, job1->job, destination) ;
+                      _job_swap (job_s->job, source, job_d->job, destination) ;
                       if (improvement && ! _change_is_improving())
                         {
                           change->delta_value = 0 ;
                           continue ;
                         }
 
-// printf("%d swap done: %d %d %d %d\n", change->delta_value, job->job, source, job1->job, destination);
+// printf("%d swap done: %d %d %d %d\n", change->delta_value, job_s->job, source, job_d->job, destination);
 
                       _agents_update () ;
                       return TRUE ;
                     }
                 }
             }
+/*
+          // Finally, we try a multi swap
+          t_job_list_list * list, * list_i, * list_j ;
+          t_job_list * elt, elt1 ;
+          job_s = solution->ll_assignment[source] ;
+          job_d = solution->ll_assignment[destination] ;
+          elt = job_list_alloc_head () ;
+          list_i = list_j = list = job_list_list_alloc_head () ;
+          job_list_list_add_job_list (list, elt) ;
+          while (job_d = job_d->next)
+            {
+              while (list_i = list_i->next)
+                {
+                  if (
+                    _job_multi_swap_is_potential (
+                      job_s->job,
+                      source,
+                      list_i->job_list,
+                      job_d->job
+                    )
+                  )
+                    {
+                      elt = job_list_alloc_head () ;
+                      job_list_clone (elt, list_i->job_list) ;
+                      job_list_add_job (elt, job_d->job) ;
+                    }
+                  else {
+                  }
+                  list_j = list_i ;
+                }
+            }
+*/
         }
     }
   return FALSE ;
@@ -178,7 +237,7 @@ void XAVIER_neighbourhood_determinist_try (
         break ;
     }
 //    printf("%d\n", delta);
-//    print_result (instance, solution) ;
+ //   print_result (instance, solution) ;
 }
 
 static t_bool
@@ -244,4 +303,73 @@ _agents_update ()
     _agent_destination = (_agent_destination + 1) % _instance->agent_count ;
     _agent_source = 0 ;
   }
+}
+
+static t_bool
+_job_multi_swap_is_potential (
+  t_job job1,
+  t_agent agent1,
+  t_job_list * job2,
+  t_job new
+)
+{
+  t_job_list * elt ;
+  int cost ;
+  elt = job2 ;
+  cost = _instance->cost[agent1][new] ;
+  while (elt = elt->next)
+      cost += _instance->cost[agent1][elt->job] ;
+  return cost 
+    < ( _solution->capacity_left[agent1] - _instance->cost[agent1][job1] ) ;
+}
+
+static t_bool
+_job_multi_swap_is_valid (
+  t_job job1,
+  t_agent agent1,
+  t_job_list * job2,
+  t_agent agent2
+)
+{
+  t_job_list * elt ;
+  int cost1, cost2 ;
+  elt = job2 ;
+  cost1 = cost2 = 0 ;
+  while (elt = elt->next)
+    {
+      cost1 += _instance->cost[agent1][elt->job] ;
+      cost2 -= _instance->cost[agent2][elt->job] ;
+    }
+  return 
+    (
+      (_solution->capacity_left[agent1] + _instance->cost[agent1][job1] - cost1)
+        >= 0
+    )
+    &&
+   (
+     (_solution->capacity_left[agent2] - _instance->cost[agent2][job1] - cost2)
+       >= 0
+   ) ;
+}
+
+static int
+_job_multi_swap_value (
+  t_job job1,
+  t_agent agent1,
+  t_job_list * job2,
+  t_agent agent2
+)
+{
+  t_job_list * elt ;
+  int gain, cost ;
+  elt = job2 ;
+  gain = cost = 0 ;
+  while (elt = elt->next)
+    {
+      gain += _instance->gain[agent1][elt->job] ;
+      cost += _instance->gain[agent2][elt->job] ;
+    }
+  gain -= _instance->gain[agent1][job1] ;
+  cost -= _instance->gain[agent2][job1] ;
+  return gain - cost ; 
 }

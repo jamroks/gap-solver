@@ -155,7 +155,7 @@ clone_gap_solution (t_gap_solution *, t_gap_solution *) ;
  * and gives it the NULL value.
  */
 t_job_list *
-alloc_job_list_head (void) ;
+job_list_alloc_head (void) ;
 
 /**
  * Add a job to the given linked list.
@@ -163,15 +163,15 @@ alloc_job_list_head (void) ;
  * @param head	Linked list head
  * @param job	Job index
  */
-short
-add_job_to_job_list (t_job_list *, t_elt) ;
+t_bool
+job_list_add_job (t_job_list *, t_elt) ;
 
 /**
  * Free the memory allocated to job element.
  * Doesn't free the linked list head.
  */
-short
-free_job_list (t_job_list * list) ;
+t_bool
+job_list_free (t_job_list * list) ;
 
 /**
  * Clone the job element from a given list.
@@ -180,8 +180,8 @@ free_job_list (t_job_list * list) ;
  * @param destination_head	Destination linked list head
  * @param source_head		Source linked list head
  */
-short
-clone_job_list (t_job_list * destination_head, t_job_list * source_head) ;
+t_bool
+job_list_clone (t_job_list * destination_head, t_job_list * source_head) ;
 
 /**
  * Removes the given job from the linked list
@@ -191,8 +191,8 @@ clone_job_list (t_job_list * destination_head, t_job_list * source_head) ;
  * @param job	Job to remove
  *
  */
-short
-remove_job_from_job_list (t_job_list * head, t_elt job) ;
+t_bool
+job_list_delete_job (t_job_list * head, t_elt job) ;
 
 void
 memory_allocation_error () ;

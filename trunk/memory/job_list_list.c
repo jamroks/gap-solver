@@ -18,61 +18,65 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #include "../header/common.h"
 
 /**
- * Add a job at end of the given linked list.
+ * Add a job list at the beginning of the given linked list.
  *
  * @param head	Linked list head
+ *
  * @param job	Job index
+ *
+ * @return	TRUE if memory successfuly allocated, FALSE otherwise
  */
 t_bool
-job_list_add_job (t_job_list * head, t_job job)
+job_list_list_add_job_list (t_job_list_list * head, t_job_list * job_list)
 {
-  t_job_list * new_element, * i;
-  if (NULL == (new_element = (t_job_list *) malloc (sizeof (t_job_list))))
-    return 0 ;
-  i = head ;
-  while (i->next)
-    i = i->next ;
-  i->next = new_element ;
-  new_element->next = NULL ;
-  new_element->job = job ;
-  return 1 ;
+  t_job_list_list * new_element, * i;
+  new_element = (t_job_list_list *) malloc (sizeof (t_job_list_list)) ;
+  if (NULL == new_element)
+    return FALSE ;
+  i = head->next ;
+  head->next = new_element ;
+  new_element->next = i ;
+  new_element->job_list = job_list ;
+  return TRUE ;
 }
 
 /**
- * Removes the given job from the linked list
+ * Delete the linked list element containing the given job list and free its memory.
  *
  * @param head	Linked list head
  *
  * @param job	Job to remove
+ *
+ * @return	TRUE if found, FALSE otherwise
  */
 t_bool
-job_list_delete_job (t_job_list * head, t_job job)
+job_list_list_remove_job_list (t_job_list_list * head, t_job_list * job_list)
 {
-  t_job_list * i, * j ;
+  t_job_list_list * i, * j ;
   i = j = head ;
   while (i = i->next)
     {
-      if (i->job == job)
+      if (i->job_list == job_list)
         {
           i = i->next ;
           free (j->next) ;
           j->next = i ;
-          return 1 ;
+          return FALSE ;
         }
       j = i ;
     }
-  return 0 ;
+  return TRUE ;
 }
 
 /**
  * Creates the linked list head,
  * and gives it the NULL value.
  */
-t_job_list *
-job_list_alloc_head ()
+t_job_list_list *
+job_list_list_alloc_head ()
 {
-  t_job_list * head;
-  if (NULL == (head = (t_job_list *) malloc (sizeof (t_job_list))))
+  t_job_list_list * head;
+  if (NULL == (head = (t_job_list_list *) malloc (sizeof (t_job_list_list))))
     return NULL ;
   head->next = NULL ;
   return head ;
@@ -83,25 +87,10 @@ job_list_alloc_head ()
  * Doesn't free the linked list head.
  */
 t_bool
-job_list_free (t_job_list * list)
+job_list_free_list (t_job_list_list * list)
 {
-  t_job_list * elt, * tmp ;
+  t_job_list_list * elt, * tmp ;
   tmp = elt = list ;
   while (tmp = elt = tmp->next)
     free (elt) ;
-}
-
-/**
- * Clone the job elements from a given list.
- *
- * @param destination_head	Destination linked list head
- *
- * @param source_head		Source linked list head
- */
-t_bool
-job_list_clone (t_job_list * destination_head, t_job_list * source_head)
-{
-  t_job_list * iterator = source_head ;
-  while (iterator = iterator->next)
-    job_list_add_job (destination_head, iterator->job) ;
 }

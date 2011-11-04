@@ -49,7 +49,14 @@ struct t_job_list {
   struct t_job_list * next ;
 } ;
 
-typedef struct t_job_list t_job_list;
+typedef struct t_job_list t_job_list ;
+
+struct t_job_list_list {
+  t_job_list * job_list ;
+  struct t_job_list_list * next ;
+} ;
+
+typedef struct t_job_list_list t_job_list_list ;
 
 typedef struct { 
   char name[50] ;
@@ -155,8 +162,9 @@ typedef struct {
 } t_gap_solver_registry ;
 
 typedef enum {
+  SOLUTION_CHANGE_TRANSFER,
   SOLUTION_CHANGE_SWAP,
-  SOLUTION_CHANGE_TRANSFER
+  SOLUTION_CHANGE_MULTI_SWAP
 } t_solution_change_type ;
 
 typedef struct {
@@ -172,9 +180,17 @@ typedef struct {
   t_job destination_swapped_job ;
 } t_solution_change_swap ;
 
+typedef struct {
+  t_agent source ;
+  t_agent destination ;
+  t_job source_swapped_job ;
+  t_job_list * destination_swapped_job ;
+} t_solution_change_multi_swap ;
+
 typedef union {
   t_solution_change_transfer transfer ;
   t_solution_change_swap swap ;
+  t_solution_change_multi_swap multi_swap ;
 } t_solution_change_contents ;
 
 typedef struct {
