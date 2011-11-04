@@ -30,10 +30,9 @@ _init_registry (
   t_configuration_execution * execution
 ) ;
 
-int 
+int
 main (int argc, char ** argv)
 {
-
   short error = 0 ;
   t_gap_instance instance ;
   t_gap_solution solution ;
@@ -52,7 +51,7 @@ main (int argc, char ** argv)
     argv
   ) ;
   if ( ! validate_configuration_annealing (& configuration_annealing))
-    error = 1 ; 
+    error = 1 ;
   if ( ! validate_configuration_execution (& configuration_execution))
     error = 1 ;
   if (error)
@@ -61,17 +60,17 @@ main (int argc, char ** argv)
       exit (1) ;
     }
   registry.step_duration = (int *) calloc (
-    configuration_annealing.step_count,
-    sizeof (int)
-  ) ;
+                             configuration_annealing.step_count,
+                             sizeof (int)
+                           ) ;
   if ( ! registry.step_duration)
-      memory_allocation_error () ;
+    memory_allocation_error () ;
   registry.step_temperature = (int *) calloc (
-    configuration_annealing.step_count,
-    sizeof (int)
-  ) ;
+                                configuration_annealing.step_count,
+                                sizeof (int)
+                              ) ;
   if ( ! registry.step_temperature)
-      memory_allocation_error () ;
+    memory_allocation_error () ;
   init_step_schedule (
     registry.step_duration,
     configuration_annealing.step_schedule,
@@ -87,12 +86,12 @@ main (int argc, char ** argv)
   ) ;
   switch (configuration_execution.input_source)
     {
-      case INPUT_SOURCE_FILE:
-        read_orlibrary_input_file (
-          configuration_execution.input_file,
-          & instance,
-          & solution
-        );
+    case INPUT_SOURCE_FILE:
+      read_orlibrary_input_file (
+        configuration_execution.input_file,
+        & instance,
+        & solution
+      );
       break ;
     }
   _init_registry (
@@ -117,12 +116,12 @@ main (int argc, char ** argv)
     & registry
   ) ;
 
-/*
-  countdown : a thread that will stop the process after a given duration
-  temperature : a thread that will lower the temperature at the given steps
-*/
- // pthread_t * countdown, * temperature ;
- // pthread_create (temperature, NULL, & thread_temperature, & registry) ;
+  /*
+    countdown : a thread that will stop the process after a given duration
+    temperature : a thread that will lower the temperature at the given steps
+  */
+// pthread_t * countdown, * temperature ;
+// pthread_create (temperature, NULL, & thread_temperature, & registry) ;
 //  pthread_create (countdown, NULL, & thread_countdown, & registry) ;
 }
 
@@ -154,6 +153,9 @@ _init_registry (
 )
 {
   registry->problem_type = execution->problem_type ;
+  registry->neighbourhood_swap = execution->neighbourhood_swap ;
+  registry->neighbourhood_multi_swap = execution->neighbourhood_multi_swap ;
+  registry->neighbourhood_transfer = execution->neighbourhood_transfer ;
   registry->step_current = 0 ;
   registry->step_count = annealing->step_count ;
   registry->timeout = 0 ;

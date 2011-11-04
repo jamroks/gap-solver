@@ -110,107 +110,56 @@ search_solution_0 (t_gap_instance *, t_gap_solution *) ;
 
 // <[Start]> Memory allocation
 
-/**
- * Allocates memory for the nested objects.
- *
- * @param agent_count	Instance agent count
- * @param job_count	Instance job count
- */
 short
 alloc_gap_instance (t_gap_instance *, int, int) ;
 
-/**
- * Free memory allocated to the nested objects.
- */
 short 
 free_gap_instance (t_gap_instance *) ;
 
-/**
- * Allocates memory for the nested objects.
- *
- * @param agent_count	Instance agent count
- * @param job_count	Instance job count
- */
 short
 alloc_gap_solution (t_gap_solution *, int, int) ;
 
-/**
- * Free memory allocated to the nested objects.
- */
 short
 free_gap_solution (t_gap_solution *) ;
 
-/**
- * Recursively copy the given source.
- * Memory for nested objects will be allocated.
- *
- * @param destination	
- * @param source
- */
 short
 clone_gap_solution (t_gap_solution *, t_gap_solution *) ;
 
-/**
- * Creates the linked list head,
- * and gives it the NULL value.
- */
 t_job_list *
-job_list_alloc_head (void) ;
+job_list_allocate_head (void) ;
 
-/**
- * Add a job to the given linked list.
- *
- * @param head	Linked list head
- * @param job	Job index
- */
 t_bool
 job_list_add_job (t_job_list *, t_elt) ;
 
-/**
- * Free the memory allocated to job element.
- * Doesn't free the linked list head.
- */
 t_bool
 job_list_free (t_job_list * list) ;
 
-/**
- * Clone the job element from a given list.
- * Works from a given head.
- *
- * @param destination_head	Destination linked list head
- * @param source_head		Source linked list head
- */
 t_bool
 job_list_clone (t_job_list * destination_head, t_job_list * source_head) ;
 
-/**
- * Removes the given job from the linked list
- *
- * @param head	Linked list head
- *
- * @param job	Job to remove
- *
- */
 t_bool
 job_list_delete_job (t_job_list * head, t_elt job) ;
 
 void
 memory_allocation_error () ;
 
+t_bool
+job_list_list_add_job_list (t_job_list_list * head, t_job_list * job_list) ;
+
+t_bool
+job_list_list_remove_job_list (t_job_list_list * head, t_job_list * job_list) ;
+
+t_job_list_list *
+job_list_list_allocate_head () ;
+
+t_bool
+job_list_free_list (t_job_list_list * list) ;
+
 // <[End]> Memory allocation
 
 
 // <[Start]> Input file 
 
-/**
- * Scan an instance file in the operational research library format,
- * and populate the given structures with its values.
- * http://people.brunel.ac.uk/~mastjjb/jeb/orlib/gapinfo.html
- *
- * @param file_name
- * @param instance	Memory for nested objects will be allocated in this function
- * @param solution	Memory for nested objects will be allocated in this function
- */
 short 
 read_orlibrary_input_file (char *, t_gap_instance *, t_gap_solution *) ;
 
@@ -218,282 +167,83 @@ read_orlibrary_input_file (char *, t_gap_instance *, t_gap_solution *) ;
 
 // <[Start]> Allowed configuration values
 
-/**
- * Return an array holding allowed values for the *TEMPERATURE* schedule string parameter.
- * This array is indexed by enum values, and contains char array pointers.
- * The pointed string are the expected values.
- */
 char ** configuration_get_allowed_temperature_schedule () ;
 
-/**
- * Return an array holding allowed values for the *STEP* schedule string parameter.
- * This array is indexed by enum values, and contains char array pointers.
- * The pointed string are the expected values.
- */
 char ** configuration_get_allowed_step_schedule () ;
 
-/**
- * Return an array holding allowed values for the problem type string parameter.
- * This array is indexed by enum values, and contains char array pointers.
- * The pointed string are the expected values.
- */
 char ** configuration_get_allowed_problem_type () ;
 
-/**
- * Return an array holding allowed values for the neighbourhood exploration string parameter.
- * This array is indexed by enum values, and contains char array pointers.
- * The pointed string are the expected values.
- */
 char ** configuration_get_allowed_neighbourhood_exploration () ;
 
 // <[End]>  Allowed configuration values
 
 // <[Start]> Generic validation
 
-/**
- * Returns 1 if the given file exists and can be open,
- * 0 otherwise
- * @param file File path
- */
 short
 validate_file (char * file) ;
 
-/**
- * Return the position of the searched string in the allowed array,
- * -1 if it is not present.
- * @param string Searched string
- * @param string Allowed strings
- */
 short validate_string (char * string, char ** allowed) ;
 
-/**
- * Return 1 if the given int is in the given range,
- * 0 otherwise
- * @param min Range start inclusive
- * @param max Range end inclusive
- */
 short validate_int (int value, int min, int max) ;
 
 // <[End]> Generic validation
 
 // <[Start]> Execution parameter validation
 
-// <[End]> Execution parameter validation
-
-/**
- * Checks if the given input string value is valid for a problem type,
- * and returns the scalar value to which it is mapped.
- * The expected values are defined as constants.
- *
- * @param value A string that should match the expected param value (ie. equ li1 ex1 lo1 ...)
- * @return The t_problem_type enum value of the given string if correct, -1 otherwise.
- */
 short validate_problem_type (char * value) ;
 
-/**
- * Checks if the given input string value is valid for a neighbourhood exploration,
- * and returns the scalar value to which it is mapped.
- * The expected values are defined as constants.
- *
- * @param value A string that should match the expected param value (ie. equ no1 as1 de1 ...)
- * @return The t_neighbourhood_exploration enum value of the given string if correct, -1 otherwise.
- */
 short validate_neighbourhood_exploration (char * value) ;
+
+// <[End]> Execution parameter validation
 
 // <[Start]> Annealing parameter validation
 
-/**
- * Checks if the given input int value is valid for a duration.
- * @param value Given duration
- */
 short validate_duration (int value) ;
 
-/**
- * Checks if the given input int value is valid for a step count.
- * @param value Given step count
- */
 short validate_step_count (int value) ;
 
-/**
- * Checks if the given temperature is valid
- * @param value Given temperature
- */
 short validate_temperature (int value) ;
 
-/**
- * Checks if the given temperature bounds are valid as a range
- * @param value1 Lower bound
- * @param value2 Upper bound
- */
 short validate_temperatures (int value1, int value2) ;
 
-/**
- * Checks if the given input string value is valid for a *STEP* schedule,
- * and returns the scalar value to which it is mapped.
- * The expected values are defined as constants.
- *
- * @param value A string that should match the expected param value (ie. equ no1 as1 de1 ...)
- * @return The t_step_schedule enum value of the given string if correct, -1 otherwise.
- */
 short validate_step_schedule (char * value) ;
 
-/**
- * Checks if the given input string value is valid for a *TEMPERATURE* schedule,
- * and returns the scalar value to which it is mapped.
- * The expected values are defined as constants.
- *
- * @param value A string that should match the expected param value (ie. equ li1 ex1 lo1 ...)
- * @return The t_temperature_schedule enum value of the given string if correct, -1 otherwise.
- */
 short validate_temperature_schedule (char * value) ;
 
 // <[End]> Annealing parameter validation
 
 // <[Start]> Step repartition function
 
-/**
- * The following functions have an in/out array parameter,
- * which holds every step duration for the given step count.
- */
-
-/**
- * Gives a time repartition with equal step.
- */
 void
 duration_equal (int * step_duration, int duration, int step_count) ;
 
-/**
- * Gives a time repartition with slowly ascending step duration.
- * Its values belongs to a geometric progression which sums
- * to the given duration argument.
- * The common ratio is 1.3.
- *
- * @param step_duration	Array
- * @param duration	The sum of every step duration
- * @param step_count
- */
 void
 duration_ascending_1 (int * step_duration, int duration, int step_count) ;
 
-/**
- * Gives a time repartition with medium ascending step duration.
- * Its values belongs to a geometric progression which sums to
- * the given duration argument.
- * The common ratio is 1.6.
- *
- * @param step_duration	Array
- * @param duration	The sum of every step duration
- * @param step_count
- */
 void
 duration_ascending_2 (int * step_duration, int duration, int step_count) ;
 
-/**
- * Gives a time repartition with fast ascending step duration.
- * Its values belongs to a geometric progression which sums
- * to the given duration argument.
- * The common ratio is 1.9.
- *
- * @param step_duration	Array
- * @param duration	The sum of every step duration
- * @param step_count
- */
 void
 duration_ascending_3 (int * step_duration, int duration, int step_count) ;
 
-/**
- * Gives a time repartition with slow descending step duration.
- * Its values belongs to a geometric progression which sums
- * to the given duration argument.
- * The common ratio is 0.7.
- *
- * @param step_duration	Array
- *
- * @param duration	The sum of every step duration
- *
- * @param step_count
- */
 void
 duration_descending_1 (int * step_duration, int duration, int step_count) ;
 
-/**
- * Gives a time repartition with medium descending step duration.
- * Its values belongs to a geometric progression which sums
- * to the given duration argument.
- * The common ratio is 0.4.
- *
- * @param step_duration	Array
- *
- * @param duration	The sum of every step duration
- *
- * @param step_count
- */
 void
 duration_descending_2 (int * step_duration, int duration, int step_count) ;
 
-/**
- * Gives a time repartition with fast descending step duration.
- * Its values belongs to a geometric progression which sums
- * to the given duration argument.
- * The common ratio is 0.2.
- *
- * @param step_duration	Array
- *
- * @param duration	The sum of every step duration
- *
- * @param step_count
- */
 void
 duration_descending_3 (int * step_duration, int duration, int step_count) ;
 
-/**
- * Gives a time repartition with a pseudo normal distribution.
- * Low slope.
- *
- * @param step_duration	Array
- *
- * @param duration	The sum of every step duration
- *
- * @param step_count
- */
 void
 duration_normal_1 (int * step_duration, int duration, int step_count) ;
 
-/**
- * Gives a time repartition with a pseudo normal distribution.
- * Medium slope.
- *
- * @param step_duration	Array
- *
- * @param duration	The sum of every step duration
- *
- * @param step_count
- */
 void
 duration_normal_2 (int * step_duration, int duration, int step_count) ;
 
-/**
- * Gives a time repartition with a pseudo normal distribution.
- * High slope.
- *
- * @param step_duration	Array
- *
- * @param duration	The sum of every step duration
- *
- * @param step_count
- */
 void
 duration_normal_3 (int * step_duration, int duration, int step_count) ;
 
-/**
- * Gives a temperature schedule with exponential temperature decrease.
- *
- * @param schedule_temperature	Array
- *
- * @param temperature	The sum of every step temperature
- *
- * @param step_count
- */
 void
 temperature_exponential (
   int * schedule_temperature,
@@ -502,16 +252,6 @@ temperature_exponential (
   int step_count
 ) ;
 
-
-/**
- * Gives a temperature schedule with linear temperature decrease.
- *
- * @param schedule_temperature	Array
- *
- * @param temperature	The sum of every step temperature
- *
- * @param step_count
- */
 void
 temperature_linear (
   int * schedule_temperature,
@@ -524,17 +264,6 @@ temperature_linear (
 
 // <[Start]> Schedules initialization
 
-/**
- * Create a time repartition with the given schedule type.
- *
- * @param step		Array
- *
- * @param schedule	Step schedule type
- *
- * @param duration	The sum of every step duration
- *
- * @param step_count
- */
 void init_step_schedule (
   int * step,
   t_step_schedule schedule,
@@ -542,14 +271,6 @@ void init_step_schedule (
   int step_count
 ) ;
 
-/**
- * Create a temperature repartition with the given schedule type.
- *
- * @param temperature	Array
- * @param step_schedule	Temperature schedule type
- * @param start		Max temperature
- * @param end		Min temperature
- */
 void init_temperature_schedule (
   int * temperature,
   t_temperature_schedule schedule,
@@ -577,36 +298,12 @@ print_result (t_gap_instance *,t_gap_solution *) ;
 
 // <[Start]> Configuration file
 
-/*
- * Parse the simulated annealing parameter file, expected in INI format.
- * The parameters control the annealing process.
- * They define the temperature schedule and the step schedule,
- * which are later computed from them.
- *
- * @param	configuration	An in/out parameter which holds
- *				the annealing settings.
- *
- * @param	file		The INI file to parse the parameter from.
- *
- * @return	A numeric value, 1 for success, 0 for failure	
- */
 short
 load_configuration_annealing (
   t_configuration_annealing * configuration,
   char * file
 );
 
-/*
- * Parse the execution parameter file, expected in INI format.
- * The parameters control some of the execution process.
- *
- * @param	configuration	An in/out parameter which holds
- *				the execution settings.
- *
- * @param	file		The INI file to parse the parameter from.
- *
- * @return	A numeric value, 1 for success, 0 for failure	
- */
 short
 load_configuration_execution (
   t_configuration_execution * configuration,

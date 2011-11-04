@@ -73,7 +73,7 @@ job_list_list_remove_job_list (t_job_list_list * head, t_job_list * job_list)
  * and gives it the NULL value.
  */
 t_job_list_list *
-job_list_list_alloc_head ()
+job_list_list_allocate_head ()
 {
   t_job_list_list * head;
   if (NULL == (head = (t_job_list_list *) malloc (sizeof (t_job_list_list))))

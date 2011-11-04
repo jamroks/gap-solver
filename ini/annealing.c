@@ -24,8 +24,11 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
  * which are later computed from them.
  *
  * @param	configuration	An in/out parameter which holds the annealing settings.
+ *
  * @param	file		The INI file to parse the parameter from.
- * @return	1 for success, 0 for failure	
+ *
+ * @return	TRUE for success, FALSE for failure
+ *
  */
 short
 load_configuration_annealing (
