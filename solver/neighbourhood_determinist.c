@@ -175,16 +175,17 @@ determinist_next_solution (
             }
 /*
           // Finally, we try a multi swap
-          t_job_list_list * list, * list_i, * list_j ;
+          t_job_list_list * list, * list_i ;
           t_job_list * elt, elt1 ;
           job_s = solution->ll_assignment[source] ;
           job_d = solution->ll_assignment[destination] ;
           elt = job_list_alloc_head () ;
-          list_i = list_j = list = job_list_list_alloc_head () ;
+          list = job_list_list_alloc_head () ;
           job_list_list_add_job_list (list, elt) ;
           while (job_d = job_d->next)
             {
-              while (list_i = list_i->next)
+              list_i = list ;
+              do
                 {
                   if (
                     _job_multi_swap_is_potential (
@@ -198,11 +199,10 @@ determinist_next_solution (
                       elt = job_list_alloc_head () ;
                       job_list_clone (elt, list_i->job_list) ;
                       job_list_add_job (elt, job_d->job) ;
+                      job_list_list_add_job_list (list, elt) ;
                     }
-                  else {
-                  }
-                  list_j = list_i ;
                 }
+              while (list_i = list_i->next) ;
             }
 */
         }
