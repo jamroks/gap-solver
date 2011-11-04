@@ -34,7 +34,10 @@ typedef int t_gain ;
 
 typedef int t_cost ;
 
-typedef unsigned short t_bool ;
+typedef enum {
+  FALSE,
+  TRUE
+} t_bool ;
 
 typedef struct {
   t_elt list[MAX_JOB] ;
