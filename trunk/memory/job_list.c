@@ -18,42 +18,48 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #include "../header/common.h"
 
 /**
- * Add a job to the given linked list.
+ * Add a job at end of the given linked list.
  *
  * @param head	Linked list head
  * @param job	Job index
  */
 short
-add_job_to_job_list (t_job_list * head, t_elt job)
+add_job_to_job_list (t_job_list * head, t_job job)
 {
-  t_job_list * new_element ;
+  t_job_list * new_element, * i;
   if (NULL == (new_element = (t_job_list *) malloc (sizeof (t_job_list))))
     return 0 ;
+  i = head ;
+  while (i->next)
+    i = i->next ;
+  i->next = new_element ;
+  new_element->next = NULL ;
   new_element->job = job ;
-  new_element->next = head->next ;
-  head->next = new_element ;
   return 1 ;
 }
 
 /**
  * Removes the given job from the linked list
+ *
  * @param head	Linked list head
+ *
  * @param job	Job to remove
  */
 short
-remove_job_from_job_list (t_job_list * head, t_elt job)
+remove_job_from_job_list (t_job_list * head, t_job job)
 {
-  t_job_list * i, * tmp ;
-  i = head ;
-  while (i->next)
+  t_job_list * i, * j ;
+  i = j = head ;
+  while (i = i->next)
     {
-      if (i->next->job == job)
+      if (i->job == job)
         {
-          if (tmp = i->next->next)         
-            free (i->next) ;
-          i->next = tmp ;
+          i = i->next ;
+          free (j->next) ;
+          j->next = i ;
           return 1 ;
         }
+      j = i ;
     }
   return 0 ;
 }
@@ -86,10 +92,10 @@ free_job_list (t_job_list * list)
 }
 
 /**
- * Clone the job element from a given list.
- * Works from a given head.
+ * Clone the job elements from a given list.
  *
  * @param destination_head	Destination linked list head
+ *
  * @param source_head		Source linked list head
  */
 short

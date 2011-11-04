@@ -42,7 +42,7 @@ typedef struct {
 } t_list ;
 
 struct t_job_list {
-  t_elt job ;
+  t_job job ;
   struct t_job_list * next ;
 } ;
 

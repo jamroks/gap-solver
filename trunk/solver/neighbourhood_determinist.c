@@ -31,15 +31,17 @@ _job_swap (t_job job1, t_agent agent1, t_agent agent2, t_job job2) ;
 static void
 _agents_update () ;
 
-static int _agent_source = 0 ;
+static t_agent _agent_source = 0 ;
 
-static int _agent_destination = 1 ;
+static t_agent _agent_destination = 1 ;
 
 static t_gap_instance * _instance ;
 
 static t_gap_solver_registry * _registry ;
 
 static t_solution_change * _change ;
+
+static t_job _job_destination = -1 ;
 
 /**
  *
@@ -87,10 +89,11 @@ determinist_next_solution (
           job = current->ll_assignment[source] ;
           while (job = job->next)
             {
+printf("transfer %d %d %d\n", source, destination, job->job);
               if (instance->cost[destination][job->job]
                     <= current->capacity_left[destination])
                 {
-                  _job_transfer(job->job, source, destination) ;
+                  _job_transfer (job->job, source, destination) ;
                   _agents_update() ;
                   return 1 ;
                 }
@@ -98,10 +101,10 @@ determinist_next_solution (
           // Then, we look for any possible swap
           job = current->ll_assignment[source] ;
           while (job = job->next)
-            {
+            { printf("%d swap job : %d\n", source, job->job);
               job1 = current->ll_assignment[destination] ;
               while (job1 = job1->next)
-                {
+                { printf("%d swap job1 : %d\n", destination, job1->job);
                   if (
                     (instance->cost[destination][job->job] <=
                       (current->capacity_left[destination]
@@ -131,17 +134,20 @@ void XAVIER_neighbourhood_determinist_try (
   t_solution_change change ;
   print_result (instance, solution) ;
   int i ;
-  for (i = 0 ; i < 5000 ; i ++)
-  {
+  for (i = 0 ; i < 87 ; i ++)
+  { printf("%i ", i) ;
   change.delta_value = 0 ;
   determinist_next_solution (
     & change,
     instance,
-    solution ,
+    solution,
     registry
   ) ;
- // printf("%d\n", change.delta_value) ;
+  solution_apply_change (    instance,
+    solution ,  & change) ;
+  printf("%d\n", change.delta_value); 
   }
+ print_result(instance, solution) ;
 }
 
 static void
@@ -156,13 +162,13 @@ _job_transfer (t_job job, t_agent source, t_agent destination)
 }
 
 static void
-_job_swap (t_job job1, t_agent agent1, t_agent agent2, t_job job2)
+_job_swap (t_job job1, t_agent agent1, t_job job2, t_agent agent2)
 {
   _change->type = SOLUTION_CHANGE_SWAP ;
   _change->contents.swap.source_swapped_job = job1 ;
   _change->contents.swap.source = agent1 ;
   _change->contents.swap.destination_swapped_job = job2 ;
-  _change->contents.swap.destination = agent1 ;
+  _change->contents.swap.destination = agent2 ;
   _job_remove (job1, agent1) ;
   _job_add (job1, agent2) ;
   _job_remove (job2, agent2) ;
@@ -184,6 +190,9 @@ _job_add (t_job job, t_agent agent)
 static void
 _agents_update ()
 {
-  _agent_source = (_agent_source + 1) % _instance->agent_count ;
-  _agent_destination = (_agent_destination + 1) % _instance->agent_count ;
+  _agent_source ++ ;
+  if (_agent_source != 0 && _agent_source % _instance->agent_count == 0) {
+    _agent_destination = (_agent_destination + 1) % _instance->agent_count ;
+    _agent_source = 0 ;
+  }
 }
