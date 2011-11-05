@@ -9,6 +9,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <getopt.h>
+#include <libgen.h>
 #include "../header/constant.h"
 #include "../header/type.h"
 #include "../header/function.h"

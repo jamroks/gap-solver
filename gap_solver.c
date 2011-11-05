@@ -92,6 +92,9 @@ main (int argc, char ** argv)
         & instance,
         & solution
       );
+      configuration_execution.instance_name = basename (
+        configuration_execution.input_file
+      ) ;
       break ;
     }
   _init_registry (
@@ -104,7 +107,6 @@ main (int argc, char ** argv)
       printf ("%s", "no possible assignment\n") ;
       exit (0) ;
     }
-
   if (registry.simple_search)
     {
       simple_search (& instance, & solution, & registry) ;
@@ -155,6 +157,7 @@ _init_registry (
   t_configuration_execution * execution
 )
 {
+  registry->instance_name = execution->instance_name ;
   registry->simple_search = execution->simple_search ;
   registry->problem_type = execution->problem_type ;
   registry->verbose = execution->verbose ;

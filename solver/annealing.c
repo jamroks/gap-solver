@@ -60,6 +60,20 @@ void annealing (
       )
         solution_apply_change (instance, solution, & change) ;
     }
- pthread_join (operator, NULL) ;
-
+    char file[300] ;
+    sprintf (
+      file,
+      "%s/%s_%d_%d",
+      DIRECTORY_RESULT_DUMP,
+      registry->instance_name,
+      solution->value,
+      time (NULL)
+    ) ;
+    FILE * dump = fopen (file, "w") ;
+    print_result(
+      dump,
+      instance,
+      solution
+    ) ;
+    fclose (dump) ;
 }
