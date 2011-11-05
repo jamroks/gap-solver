@@ -21,7 +21,7 @@ solution_evaluation (int delta, t_problem_type type, float temperature)
 {
   if (type == MAXIMIZATION)
     delta *= -1;
-  if (delta <= 0)
+  if (delta < 0)
     return TRUE ;
   if (
     ((double) random () / (double) RAND_MAX)
