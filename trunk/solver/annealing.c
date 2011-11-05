@@ -83,6 +83,15 @@ void annealing (
     ) ;
     FILE * conf = fopen (file, "w") ;
     int i ;
+    switch (registry->problem_type)
+    {
+      case MAXIMIZATION:
+        fprintf (conf, "%s\n", "max");
+        break ;
+      case MINIMIZATION:
+        fprintf (conf, "%s\n", "min");
+        break ;
+    }
     switch (registry->neighbourhood_exploration)
     {
       case NEIGHBOURHOOD_EXPLORATION_DETERMINIST:
