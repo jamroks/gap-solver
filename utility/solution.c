@@ -42,47 +42,45 @@ solution_apply_change (
   t_solution_change * change
 )
 {
-  t_job_list * elt ;
+  t_job_list * tmp, * elt ;
   _solution = solution ;
   _instance = instance ;
   solution->value += change->delta_value ;
   switch (change->type)
     {
       case SOLUTION_CHANGE_TRANSFER:
-        _job_remove (
-          change->contents.transfer.job,      
-          change->contents.transfer.source
-        ) ;
         _job_add (
           change->contents.transfer.job,
           change->contents.transfer.destination
         ) ;
+        _job_remove (
+          change->contents.transfer.job,      
+          change->contents.transfer.source
+        ) ;
         break ;
       case SOLUTION_CHANGE_SWAP:
-        _job_remove (
+        _job_add (
           change->contents.swap.source_swapped_job,
-          change->contents.swap.source
+          change->contents.swap.destination
         ) ;
         _job_add (
           change->contents.swap.destination_swapped_job,
           change->contents.swap.source
         ) ;
         _job_remove (
+          change->contents.swap.source_swapped_job,
+          change->contents.swap.source
+        ) ;
+        _job_remove (
           change->contents.swap.destination_swapped_job,
           change->contents.swap.destination
         ) ;
-        _job_add (
-          change->contents.swap.source_swapped_job,
-          change->contents.swap.destination
-        ) ;
+
         break ;
       case SOLUTION_CHANGE_MULTI_SWAP:
         elt = change->contents.multi_swap.destination_swapped_job ;
         while (elt = elt->next)
           {
-
-// printf ("%d ", elt->job) ;
-
             _job_add (
               elt->job,
               change->contents.swap.source
@@ -91,20 +89,50 @@ solution_apply_change (
               elt->job,
               change->contents.swap.destination
             ) ;
-
+            tmp = elt->next ;
           }
-
-// printf ("\n") ;
-
-        _job_remove (
-          change->contents.multi_swap.source_swapped_job,
-          change->contents.multi_swap.source
-        ) ;
         _job_add (
           change->contents.multi_swap.source_swapped_job,
           change->contents.swap.destination
         ) ;
+        _job_remove (
+          change->contents.multi_swap.source_swapped_job,
+          change->contents.multi_swap.source
+        ) ;
+        job_list_free (change->contents.multi_swap.destination_swapped_job) ;
+        free (change->contents.multi_swap.destination_swapped_job) ;
         break ;
+      case SOLUTION_CHANGE_FULL_SWAP:
+        tmp = job_list_allocate_head () ;
+        job_list_clone (
+          tmp,
+          solution->ll_assignment[change->contents.full_swap.source]
+        ) ;
+        job_list_free (
+          solution->ll_assignment[change->contents.full_swap.source]
+        ) ;
+        elt = solution->ll_assignment[change->contents.full_swap.destination] ;
+        while (elt = elt->next)
+          {
+            _job_add (
+              elt->job,
+              change->contents.full_swap.source
+            ) ;
+          }
+        job_list_free (
+          solution->ll_assignment[change->contents.full_swap.destination]
+        ) ;
+        elt = tmp ;
+        while (elt = elt->next)
+          {
+            _job_add (
+              elt->job,
+              change->contents.full_swap.destination
+            ) ;
+          }
+        job_list_free (tmp) ;
+        free (tmp) ;
+      break ;
     }
 }
 

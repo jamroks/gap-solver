@@ -97,15 +97,9 @@ job_list_list_free (t_job_list_list * list)
       tmp = elt->next ;
       if (elt->job_list)
         {
-
-// printf("free ") ;
-
           job_list_free (elt->job_list) ;
           free (elt->job_list) ;
         }
       free (elt) ;
     }
-
-// printf("\n ") ;
-
 }

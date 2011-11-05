@@ -104,18 +104,19 @@ main (int argc, char ** argv)
       printf ("%s", "no possible assignment\n") ;
       exit (0) ;
     }
-/*  XAVIER_neighbourhood_determinist_try (
-    & solution,
-    & instance,
-    & registry
-  ) ;
-*/
-    ROMAIN_neighbourhood_stochastic_try (
+  XAVIER_neighbourhood_determinist_try (
     & solution,
     & instance,
     & registry
   ) ;
 
+/*
+    ROMAIN_neighbourhood_stochastic_try (
+    & solution,
+    & instance,
+    & registry
+  ) ;
+*/
   /*
     countdown : a thread that will stop the process after a given duration
     temperature : a thread that will lower the temperature at the given steps
@@ -155,10 +156,11 @@ _init_registry (
 )
 {
   registry->problem_type = execution->problem_type ;
+  registry->neighbourhood_transfer = execution->neighbourhood_transfer ;
   registry->memorization.problem_type = execution->problem_type ;
   registry->neighbourhood_swap = execution->neighbourhood_swap ;
   registry->neighbourhood_multi_swap = execution->neighbourhood_multi_swap ;
-  registry->neighbourhood_transfer = execution->neighbourhood_transfer ;
+  registry->neighbourhood_full_swap = execution->neighbourhood_full_swap ;
   registry->step_current = 0 ;
   registry->step_count = annealing->step_count ;
   registry->timeout = 0 ;
@@ -168,7 +170,7 @@ _init_registry (
   registry->memorization.iteration_count = 0 ;
   registry->memorization.temperature_first = annealing->temperature_first ;
   registry->memorization.temperature_last = annealing->temperature_last ;
-  registry->memorization.agtponderate = annealing->agtponderate ;                      ///
+  registry->memorization.agtponderate = annealing->agtponderate ;
   registry->memorization.jobponderate = annealing->jobponderate ;
   if (execution->neighbourhood_transfer == TRUE) 
     registry->ng_structure = SOLUTION_CHANGE_TRANSFER ;

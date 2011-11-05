@@ -83,9 +83,16 @@ load_configuration_execution (
   ) ;
   if (-1 != int_value)
     configuration->neighbourhood_multi_swap = int_value ;
+  int_value = iniparser_getint (
+    dictionary,
+    ":neighbourhood_full_swap",
+    -1
+  ) ;
+  if (-1 != int_value)
+    configuration->neighbourhood_full_swap = int_value ;
   else
     {
-      fprintf (stderr, "warning: missing or unexpected neighbourhood multi swap value in \"%s\"\n", file) ;
+      fprintf (stderr, "warning: missing or unexpected neighbourhood full swap value in \"%s\"\n", file) ;
       fprintf (stderr, "found: %d\n", int_value) ;
     }
   int_value = iniparser_getint (
