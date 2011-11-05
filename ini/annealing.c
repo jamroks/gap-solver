@@ -122,6 +122,43 @@ load_configuration_annealing (
       fprintf (stderr, "warning: missing or unexpected temperature schedule value in \"%s\"\n", file) ;
       fprintf (stderr, "found: %s\n", string_value) ;
     }
+
+  string_value = iniparser_getstring (
+    dictionary,
+    ":agent_ponderation",
+    "@@@"
+  ) ;
+   if (-1 != (int_value = validate_agent_ponderation (string_value)))
+    {
+      switch (int_value)
+        {
+          case AGENT_PONDERATION_UNIFORM :
+            configuration->agtponderate= & _uniform ;
+            break ;
+          case AGENT_PONDERATION_CAPACITY :
+            configuration->agtponderate= & _capacity ;
+            break ;
+          case AGENT_PONDERATION_CAPACITY_LEFT :
+            configuration->agtponderate= & _capacity_left ;
+            break ;
+          case AGENT_PONDERATION_ASSIGNMENT :
+            configuration->agtponderate= & _assignment ;
+            break ;
+        } ; 
+    }
+  else
+    {
+      fprintf (stderr, "warning: missing or unexpected temperature schedule value in \"%s\"\n", file) ;
+      fprintf (stderr, "found: %s\n", string_value) ;
+    }
+
+
+
+
+
+
+
+
   iniparser_freedict (dictionary) ;
   return 1 ;
 }
