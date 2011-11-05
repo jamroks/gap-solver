@@ -28,7 +28,7 @@ typedef t_elt t_agent ;
 
 typedef t_elt t_job ;
 
-typedef short t_method ;
+//typedef short t_method ;
 
 typedef int t_gain ;
 
@@ -92,6 +92,12 @@ typedef enum {
 } t_step_schedule ;
 
 typedef enum {
+  AGENT_PONDERATION_UNIFORM ,
+  AGENT_PONDERATION_CAPACITY ,
+  AGENT_PONDERATION_CAPACITY_LEFT ,
+  AGENT_PONDERATION_ASSIGNMENT ,
+} t_agent_ponderation ;
+typedef enum {
   TEMPERATURE_SCHEDULE_UNASSIGNED ,
   TEMPERATURE_SCHEDULE_LINEAR ,
   TEMPERATURE_SCHEDULE_EXPONENTIAL ,
@@ -110,6 +116,13 @@ typedef enum {
 } t_problem_type ;
 
 typedef enum {
+  SOLUTION_CHANGE_TRANSFER,
+  SOLUTION_CHANGE_SWAP,
+  SOLUTION_CHANGE_MULTI_SWAP,
+  SOLUTION_CHANGE_FULL	_SWAP,
+} t_solution_change_type ;
+
+typedef enum {
   INPUT_SOURCE_FILE ,
   INPUT_SOURCE_STDIN
 } t_input_source ;
@@ -123,6 +136,8 @@ typedef struct {
   t_temperature_schedule temperature_schedule ;
   t_problem_type problem_type ;
   t_problem_type_exploration neighbourhood_exploration ;
+  int (*agtponderate)() ; 
+  int (*jobponderate)() ;
 } t_configuration_annealing ;
 
 typedef struct {
@@ -144,11 +159,15 @@ typedef struct {
   long iteration_count ;
   long unavailable_count ;
   int max_try_count_failure ;
-  t_problem_type method ;
+  t_solution_change_type ng_structure;
+  t_problem_type_exploration neighbourhood_exploration ;
   t_temperature_schedule temperature_schedule ;
+  t_step_schedule step_schedule ;
   int temperature_first ;
   int temperature_last ;
   t_problem_type problem_type ;
+  t_gap_solution * best_solution ;
+  t_gap_solution * current_solution ;
 } t_memorization ;
 
 typedef struct {
@@ -166,18 +185,11 @@ typedef struct {
   int max_try_count ;
   t_gap_solution * best_solution ;
   t_gap_solution * current_solution ;
-  int (*agtponderate)() ; 	// intance + solution + registre
-  int (*jobponderate)() ; 	// intance + solution + registre
-  t_problem_type method ;
+  int (*agtponderate)() ; 
+  int (*jobponderate)() ; 
+  t_solution_change_type ng_structure ;
   t_memorization memorization ;
 } t_gap_solver_registry ;
-
-typedef enum {
-  SOLUTION_CHANGE_TRANSFER,
-  SOLUTION_CHANGE_SWAP,
-  SOLUTION_CHANGE_MULTI_SWAP,
-  SOLUTION_CHANGE_FULL_SWAP
-} t_solution_change_type ;
 
 typedef struct {
   t_agent source ;
