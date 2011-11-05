@@ -12,9 +12,9 @@ solver : cli_parser cli_print_result input_orlibrary\
  configuration_allowed_execution configuration_validate configuration_validate_annealing\
  configuration_validate_execution step_duration step_initialization utility_memorize_solution\
  step_temperature memory_error memory_job_list_list\
- utility_solution
+ utility_solution solver_annealing solver_simple_search
 
-	$(CC) -D_REENTRANT gap_solver.c cli_parser.o cli_print_result.o\
+	$(CC) gap_solver.c cli_parser.o cli_print_result.o\
  input_orlibrary.o memory_gap_instance.o memory_gap_solution.o\
  memory_job_list.o solver_solution_0.o next_solution_sequential.o\
  stochastic_next_solution.o ponderation_functions.o solution_evaluation.o\
@@ -24,7 +24,7 @@ solver : cli_parser cli_print_result input_orlibrary\
  configuration_allowed_execution.o configuration_validate.o configuration_validate_annealing.o\
  configuration_validate_execution.o step_initialization.o memorize_solution.o\
  step_duration.o step_temperature.o memory_error.o memory_job_list_list.o\
- solution.o\
+ solution.o solver_annealing.o solver_simple_search.o\
  -o gap_solver -lm -lpthread ; make clean
 
 cli_parser : cli/parser.c
@@ -53,6 +53,12 @@ memory_error:
 
 solver_solution_0:
 	$(CC) -c solver/solution_0.c -o solver_solution_0.o
+
+solver_annealing:
+	$(CC) -c solver/annealing.c -o solver_annealing.o
+
+solver_simple_search:
+	$(CC) -c solver/simple_search.c -o solver_simple_search.o
 
 next_solution_sequential:
 	$(CC) -c solver/next_solution_sequential.c -o next_solution_sequential.o	
@@ -113,6 +119,7 @@ step_initialization:
 
 step_temperature:
 	$(CC) -c step/temperature.c -o step_temperature.o
+
 lib_ini_parser:
 	$(CC) -c lib/iniparser/iniparser.c -o lib_ini_parser.o
 

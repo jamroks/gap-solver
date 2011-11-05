@@ -16,6 +16,10 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "../header/common.h"
 
+static void _set_simple_search () ;
+
+static void _set_full_result () ;
+
 static void _set_problem_type () ;
 
 static void _set_neighbourhood_exploration () ;
@@ -82,6 +86,8 @@ _get_option_parameters (
   int option_index, c ;
   struct option long_option[] =
   {
+    {"simple_search", no_argument, NULL, 'S'},
+    {"full_result", no_argument, NULL, 'M'},
     {"problem_type", required_argument, NULL, 'P'},
     {"neighbourhood_exploration", required_argument, NULL, 'N'},
     {"duration", required_argument, NULL, 'D'},
@@ -96,9 +102,14 @@ _get_option_parameters (
     {"help", no_argument, NULL, 'H'},
     {NULL, 0, NULL, 0}
   };
-  while (-1 != (c = getopt_long (argc, argv, "P:N:D:X:C:Y:F:L:A:J:V:H", long_option, & option_index)))
+  while (-1 != (c = getopt_long (argc, argv, "S:F:P:N:D:X:C:Y:F:L:A:J:V:H", long_option, & option_index)))
     switch (c)
       {
+        case 'M':
+         _set_full_result () ;
+        case 'S':
+         _set_simple_search () ;
+        break ;
         case 'P':
          _set_problem_type () ;
         break ;
@@ -121,7 +132,7 @@ _get_option_parameters (
 /*        case 'J':
           _set_job_ponderation () ;
         break ;
-*/        case 'A':
+*/      case 'A':
           _set_agt_ponderation () ;
         break ;
         case 'F':
@@ -137,6 +148,18 @@ _get_option_parameters (
           _display_help ();
         break ;
       }
+}
+
+static void
+_set_simple_search ()
+{
+  _execution->simple_search = TRUE ;
+}
+
+static void
+_set_full_result ()
+{
+  _execution->full_result = TRUE ;
 }
 
 static void

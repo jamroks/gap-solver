@@ -40,6 +40,20 @@ load_configuration_execution (
       fprintf (stderr, "error: couldn\'t load \"%s\"\n", file) ;
       return 0 ;
     }
+  int_value = iniparser_getint (
+    dictionary,
+    ":full_result",
+    -1
+  ) ;
+  if (-1 != int_value)
+    configuration->full_result = int_value ;
+  int_value = iniparser_getint (
+    dictionary,
+    ":simple_search",
+    -1
+  ) ;
+  if (-1 != int_value)
+    configuration->simple_search = int_value ;
   string_value = iniparser_getstring (
     dictionary,
     ":problem_type",
@@ -83,6 +97,13 @@ load_configuration_execution (
   ) ;
   if (-1 != int_value)
     configuration->neighbourhood_multi_swap = int_value ;
+  int_value = iniparser_getint (
+    dictionary,
+    ":neighbourhood_multi_swap_max_iteration",
+    -1
+  ) ;
+  if (-1 != int_value)
+    configuration->neighbourhood_multi_swap_max_iteration = int_value ;
   int_value = iniparser_getint (
     dictionary,
     ":neighbourhood_full_swap",

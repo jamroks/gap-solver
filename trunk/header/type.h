@@ -107,7 +107,7 @@ typedef enum {
   NEIGHBOURHOOD_EXPLORATION_UNASSIGNED ,
   NEIGHBOURHOOD_EXPLORATION_DETERMINIST ,
   NEIGHBOURHOOD_EXPLORATION_STOCHASTIC
-} t_problem_type_exploration ;
+} t_neighbourhood_exploration ;
 
 typedef enum {
   UNASSIGNED ,
@@ -135,16 +135,19 @@ typedef struct {
   int temperature_last ;
   t_temperature_schedule temperature_schedule ;
   t_problem_type problem_type ;
-  t_problem_type_exploration neighbourhood_exploration ;
+  t_neighbourhood_exploration neighbourhood_exploration ;
   int (*agtponderate)() ; 
   int (*jobponderate)() ;
 } t_configuration_annealing ;
 
 typedef struct {
   char * input_file ;
+  t_bool simple_search ;
+  t_bool full_result ;
   t_input_source input_source ;
-  t_problem_type_exploration neighbourhood_exploration ;
+  t_neighbourhood_exploration neighbourhood_exploration ;
   t_bool neighbourhood_swap ;
+  int neighbourhood_multi_swap_max_iteration ; 
   t_bool neighbourhood_multi_swap ;
   t_bool neighbourhood_full_swap ;
   t_bool neighbourhood_transfer ;
@@ -161,7 +164,7 @@ typedef struct {
   long unavailable_count ;
   int max_try_count_failure ;
   t_solution_change_type ng_structure;
-  t_problem_type_exploration neighbourhood_exploration ;
+  t_neighbourhood_exploration neighbourhood_exploration ;
   t_temperature_schedule temperature_schedule ;
   t_step_schedule step_schedule ;
   int temperature_first ;
@@ -172,6 +175,8 @@ typedef struct {
 } t_memorization ;
 
 typedef struct {
+  t_bool simple_search ;
+  t_bool full_result ;
   t_problem_type problem_type ;
   short ( * get_next_solution) (t_gap_solution *, t_gap_instance *, t_gap_solution *) ;
   int * step_temperature ;
@@ -184,6 +189,7 @@ typedef struct {
   t_bool neighbourhood_full_swap ;
   t_bool neighbourhood_multi_swap ;
   t_bool neighbourhood_transfer ;
+  int neighbourhood_multi_swap_max_iteration ;
   int max_try_count ;
   t_gap_solution * best_solution ;
   t_gap_solution * current_solution ;

@@ -140,13 +140,8 @@ next_solution_sequential (
             if (_search_multi_swap (source, destination))
               return TRUE ;
           if (registry->neighbourhood_full_swap)
- {
-printf("trying full swap\n") ; 
            if (_full_swap (source, destination))
               return TRUE ;
-printf("fail\n") ;
-
-}
         }
     }
   return FALSE ;
@@ -214,9 +209,11 @@ static t_bool _search_multi_swap (
 {
   t_job_list_list * list, * list_i ;
   t_job_list * job_s, * job_d, * elt ;
+  int iteration ;
   job_s = _solution->ll_assignment[source] ;
   while (job_s = job_s->next)
     {
+      iteration = 0 ;
       list = job_list_list_allocate_head () ;
       elt = job_list_allocate_head () ;
       job_list_list_add_job_list (list, elt) ;
@@ -227,7 +224,7 @@ static t_bool _search_multi_swap (
           while (list_i = list_i->next)
             {
               if (
-                _job_multi_swap_is_seed(
+                _job_multi_swap_is_seed (
                   job_s->job,
                   source,
                   list_i->job_list,
@@ -258,6 +255,10 @@ static t_bool _search_multi_swap (
                       return TRUE ;
                     }
                 }
+                  
+              iteration ++ ;
+              if (iteration > _registry->neighbourhood_multi_swap_max_iteration)
+                 return FALSE ;
             }
         }
       _job_list_list_free (list) ;
@@ -341,8 +342,8 @@ void XAVIER_neighbourhood_determinist_try (
     }
 
 //printf("%d\n", delta) ;
-//  printf("%d\n", solution->value) ;
-print_result (instance, solution);
+  printf("%d\n", solution->value) ;
+//print_result (instance, solution);
 }
 
 static t_bool

@@ -96,7 +96,7 @@ _ng_struct_name (char *f_name, t_solution_change_type ng_s )
  * @return : rien
  *    */
 static void
-_neighbourhood_name (char *f_name, t_problem_type_exploration t_ng)
+_neighbourhood_name (char *f_name, t_neighbourhood_exploration t_ng)
 {
   if (t_ng == NEIGHBOURHOOD_EXPLORATION_DETERMINIST )
     strcpy(f_name, "déterministe") ;

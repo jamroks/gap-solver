@@ -86,19 +86,15 @@ t_bool
 job_list_free (t_job_list * list)
 {
   t_job_list * elt, * tmp ;
-  tmp = elt = list ;
-  while (tmp && (elt = tmp->next))
+  tmp = elt = list->next ;
+  while (elt && (elt = elt->next))
     {
-
-//printf("free ") ;
-
-
+      free (tmp) ;
       tmp = elt->next ;
-      free (elt) ;
     }
-
-//printf("\n ") ;
-
+  if (tmp == list->next)
+    free (tmp) ;
+  list->next = NULL ;
 }
 
 /**
