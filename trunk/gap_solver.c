@@ -104,21 +104,18 @@ main (int argc, char ** argv)
       printf ("%s", "no possible assignment\n") ;
       exit (0) ;
     }
-/*
-  XAVIER_neighbourhood_determinist_try (
+/*  XAVIER_neighbourhood_determinist_try (
     & solution,
     & instance,
     & registry
   ) ;
 */
-
-/*
     ROMAIN_neighbourhood_stochastic_try (
     & solution,
     & instance,
     & registry
   ) ;
-*/
+
   /*
     countdown : a thread that will stop the process after a given duration
     temperature : a thread that will lower the temperature at the given steps
@@ -136,6 +133,8 @@ _init_configuration_annealing (t_configuration_annealing * annealing)
   annealing->step_schedule = STEP_SCHEDULE_UNASSIGNED ;
   annealing->temperature_first = -1 ;
   annealing->temperature_last = -1 ;
+  annealing->agtponderate = & _uniform ;
+  annealing->jobponderate = & _uniform ;
   annealing->temperature_schedule = TEMPERATURE_SCHEDULE_UNASSIGNED ;
 }
 
@@ -156,6 +155,7 @@ _init_registry (
 )
 {
   registry->problem_type = execution->problem_type ;
+  registry->memorization.problem_type = execution->problem_type ;
   registry->neighbourhood_swap = execution->neighbourhood_swap ;
   registry->neighbourhood_multi_swap = execution->neighbourhood_multi_swap ;
   registry->neighbourhood_transfer = execution->neighbourhood_transfer ;
@@ -168,9 +168,14 @@ _init_registry (
   registry->memorization.iteration_count = 0 ;
   registry->memorization.temperature_first = annealing->temperature_first ;
   registry->memorization.temperature_last = annealing->temperature_last ;
-  registry->memorization.agtponderate = &_capacity_left ;
-  registry->memorization.jobponderate = &_uniform ;
-  registry->memorization.method = SOLUTION_CHANGE_TRANSFER ;
-  registry->memorization.problem_type = execution->problem_type ;
-  registry->memorization.temperature_schedule = execution->neighbourhood_exploration ; 
+  registry->memorization.agtponderate = annealing->agtponderate ;                      ///
+  registry->memorization.jobponderate = annealing->jobponderate ;
+  if (execution->neighbourhood_transfer == TRUE) 
+    registry->ng_structure = SOLUTION_CHANGE_TRANSFER ;
+  if (execution->neighbourhood_swap == TRUE) 
+    registry->ng_structure = SOLUTION_CHANGE_SWAP ;
+  registry->memorization.ng_structure = registry->ng_structure ;
+  registry->memorization.neighbourhood_exploration = execution->neighbourhood_exploration ;
+  registry->memorization.temperature_schedule = annealing->temperature_schedule ; 
+  registry->memorization.step_schedule = annealing->step_schedule ;
 }
