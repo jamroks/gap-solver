@@ -50,22 +50,23 @@ job_list_list_add_job_list (t_job_list_list * head, t_job_list * job_list)
  * @return	TRUE if found, FALSE otherwise
  */
 t_bool
-job_list_list_remove_job_list (t_job_list_list * head, t_job_list * job_list)
+job_list_list_delete_job_list (t_job_list_list * head, t_job_list * job_list)
 {
   t_job_list_list * i, * j ;
   i = j = head ;
   while (i = i->next)
     {
       if (i->job_list == job_list)
-        {
-          i = i->next ;
+        { 
+          i = i->next ; 
+          job_list_free (j->next->job_list) ;
           free (j->next) ;
           j->next = i ;
-          return FALSE ;
+          return TRUE ;
         }
       j = i ;
     }
-  return TRUE ;
+  return FALSE ;
 }
 
 /**
@@ -75,7 +76,7 @@ job_list_list_remove_job_list (t_job_list_list * head, t_job_list * job_list)
 t_job_list_list *
 job_list_list_allocate_head ()
 {
-  t_job_list_list * head;
+  t_job_list_list * head; 
   if (NULL == (head = (t_job_list_list *) malloc (sizeof (t_job_list_list))))
     return NULL ;
   head->next = NULL ;
@@ -87,10 +88,24 @@ job_list_list_allocate_head ()
  * Doesn't free the linked list head.
  */
 t_bool
-job_list_free_list (t_job_list_list * list)
+job_list_list_free (t_job_list_list * list)
 {
   t_job_list_list * elt, * tmp ;
   tmp = elt = list ;
-  while (tmp = elt = tmp->next)
-    free (elt) ;
+  while (tmp && (elt = tmp->next))
+    {
+      tmp = elt->next ;
+      if (elt->job_list)
+        {
+
+// printf("free ") ;
+
+          job_list_free (elt->job_list) ;
+          free (elt->job_list) ;
+        }
+      free (elt) ;
+    }
+
+// printf("\n ") ;
+
 }
