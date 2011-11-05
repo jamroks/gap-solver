@@ -23,7 +23,7 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 
 // <[Start]> fonctions de ponderation
 
-/** uniform : fonction de pondération uniforme (pour take_choice) 
+/** uniform : fonction de pondération uniforme (pour take_choice) agent ou tache
  * @param : instance
  * @param : solution
  * @param : registre
@@ -54,9 +54,9 @@ _capacity_left(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_el
  */
 
 int 
-_assignments(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
+_capacity(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
 
-/* capacity : fonction de pondération basée sur le nombre de tâches assignées à l'agent (pour take_choice sur agent)
+/* assignments : fonction de pondération basée sur le nombre de tâches assignées à l'agent (pour take_choice sur agent)
  * @param : instance
  * @param : solution
  * @param : registre
@@ -65,10 +65,9 @@ _assignments(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt 
  */
 
 int 
-_capacity(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
+_assignment(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_elt ) ;
 
 // <[End]> fonctions de ponderation
-
 
 
 void
@@ -157,7 +156,6 @@ job_list_list_free (t_job_list_list * list) ;
 
 // <[End]> Memory allocation
 
-
 // <[Start]> Input file 
 
 short 
@@ -174,6 +172,8 @@ char ** configuration_get_allowed_step_schedule () ;
 char ** configuration_get_allowed_problem_type () ;
 
 char ** configuration_get_allowed_neighbourhood_exploration () ;
+
+char ** configuration_get_allowed_agent_ponderation () ;
 
 // <[End]>  Allowed configuration values
 
