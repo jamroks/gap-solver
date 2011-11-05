@@ -36,6 +36,10 @@ static void _set_verbose () ;
 
 static void _display_help () ;
 
+static void _set_agt_ponderation () ;
+
+//static void _job_ponderation () ;
+
 static short _get_option_parameters (int argc, char ** argv) ;
 
 static t_configuration_annealing * _annealing ;
@@ -86,11 +90,13 @@ _get_option_parameters (
     {"temperature_schedule", required_argument, NULL, 'Y'},
     {"temperature_first", required_argument, NULL, 'F'},
     {"temperature_last", required_argument, NULL, 'L'},
+    {"job_ponderation", required_argument, NULL, 'J'},
+    {"agt_ponderation", required_argument, NULL, 'A'},
     {"verbose", no_argument, NULL, 'V'},
     {"help", no_argument, NULL, 'H'},
     {NULL, 0, NULL, 0}
   };
-  while (-1 != (c = getopt_long (argc, argv, "P:N:D:X:C:Y:F:L:VH", long_option, & option_index)))
+  while (-1 != (c = getopt_long (argc, argv, "P:N:D:X:C:Y:F:L:A:J:V:H", long_option, & option_index)))
     switch (c)
       {
         case 'P':
@@ -111,6 +117,12 @@ _get_option_parameters (
         break ;
         case 'Y':
           _set_temperature_schedule () ;
+        break ;
+/*        case 'J':
+          _set_job_ponderation () ;
+        break ;
+*/        case 'A':
+          _set_agt_ponderation () ;
         break ;
         case 'F':
           _set_temperature_first () ;
@@ -188,6 +200,42 @@ _set_temperature_schedule ()
     fprintf (stderr, "warning: unexpected temperature schedule argument \"%s\"\n", optarg) ;
 }
 
+static void
+_set_agt_ponderation ()
+{
+  int value ;
+  if (-1 != (value = validate_agent_ponderation (optarg)))
+    {
+      switch (value)
+        {
+          case AGENT_PONDERATION_UNIFORM :
+            _annealing->agtponderate= & _uniform ;
+            break ;
+          case AGENT_PONDERATION_CAPACITY :
+            _annealing->agtponderate= & _capacity ;
+            break ;
+          case AGENT_PONDERATION_CAPACITY_LEFT :
+            _annealing->agtponderate= & _capacity_left ;
+            break ;
+          case AGENT_PONDERATION_ASSIGNMENT :
+            _annealing->agtponderate= & _assignment ;
+            break ;
+        } ; 
+    }
+  else
+    fprintf (stderr, "warning: unexpected agent ponderation function argument \"%s\"\n", optarg) ;
+}
+/*
+static void
+_set_job_ponderation ()
+{
+  int value ;
+  if (-1 != (value = validate_job_ponderation (optarg)))
+    _annealing->job_ponderation = value;
+  else
+    fprintf (stderr, "warning: unexpected job ponderation function argument \"%s\"\n", optarg) ;
+}
+*/
 static void
 _set_temperature_first ()
 {
