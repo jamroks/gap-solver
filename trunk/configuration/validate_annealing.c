@@ -138,3 +138,22 @@ short validate_temperature_schedule (char * value)
     configuration_get_allowed_temperature_schedule ()
   ) ;
 }
+
+
+/**
+ * Checks if the given input string value is valid for a *AGENT PONDERATION* ,
+ * and returns the function value to which it is mapped.
+ * The expected values are defined as constants.
+ *
+ * @param value A string that should match the expected param value (ie. uni cap ...)
+ * @return The adress of function if valid, NULL otherwise.
+ */
+short validate_agent_ponderation (char * value)
+{
+  return validate_string (
+    value,
+    configuration_get_allowed_agent_ponderation ()
+  ) ;
+}
+
+
