@@ -117,7 +117,6 @@ _get_option_parameters (
           _set_neighbourhood_exploration () ;
         break ;
         case 'D':
-          printf("%s", "ici") ;
           _set_duration () ;
         break ;
         case 'X':
@@ -185,7 +184,6 @@ _set_neighbourhood_exploration ()
 static void
 _set_duration ()
 {
-  printf("arg: %s\n\n", optarg);
   int value = atoi (optarg) ;
   if (validate_duration (value))
     _annealing->duration = value ;
