@@ -153,6 +153,7 @@ typedef struct {
   t_bool neighbourhood_transfer ;
   t_problem_type problem_type ;
   t_bool verbose ;
+  char * instance_name ;
 } t_configuration_execution ;
 
 typedef struct {
@@ -199,6 +200,7 @@ typedef struct {
   int (*jobponderate)() ; 
   t_solution_change_type ng_structure ;
   t_memorization memorization ;
+  char * instance_name ;
 } t_gap_solver_registry ;
 
 typedef struct {

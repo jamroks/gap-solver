@@ -76,4 +76,6 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #define STEP_REPARTITION_DESCENDING_2_COMMON_RATIO 0.4
 #define STEP_REPARTITION_DESCENDING_3_COMMON_RATIO 0.2
 
+#define DIRECTORY_RESULT_DUMP "result_dump"
+
 #endif
