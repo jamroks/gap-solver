@@ -75,7 +75,6 @@ solution_apply_change (
           change->contents.swap.destination_swapped_job,
           change->contents.swap.destination
         ) ;
-
         break ;
       case SOLUTION_CHANGE_MULTI_SWAP:
         elt = change->contents.multi_swap.destination_swapped_job ;

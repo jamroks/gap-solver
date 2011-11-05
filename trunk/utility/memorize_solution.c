@@ -158,7 +158,7 @@ memorize_solution(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_regist
   char temp_schedule[20] ;
   char step_schedule[20] ;
   FILE *fic ;
-  if (reg->verbosity == TRUE) printf("\tmemorize_solution ...\n") ;
+  if (reg->verbose == TRUE) printf("\tmemorize_solution ...\n") ;
   fic=fopen("detail_tir.csv", "a");
   if (fic==NULL)
     {
@@ -224,7 +224,7 @@ memorize_best(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *
   char step_schedule[20] ;
   FILE *shot_file ;
   printf("\tmemorize_best ...\n") ;
-  if (reg->verbosity == TRUE) printf("\tmemorize_solution ...\n") ;
+  if (reg->verbose == TRUE) printf("\tmemorize_solution ...\n") ;
   shot_file=fopen("tirs.csv", "a");
   if (shot_file==NULL)
     {

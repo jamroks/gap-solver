@@ -40,7 +40,6 @@ main (int argc, char ** argv)
   t_configuration_annealing configuration_annealing ;
   t_configuration_execution configuration_execution ;
   t_gap_solver_registry registry ;
-  pthread_t countdown, temperature ;
   _init_configuration_annealing (& configuration_annealing) ;
   _init_configuration_execution (& configuration_execution) ;
   load_configuration_annealing (& configuration_annealing, "annealing.ini") ;
@@ -105,23 +104,25 @@ main (int argc, char ** argv)
       printf ("%s", "no possible assignment\n") ;
       exit (0) ;
     }
-/*
-  XAVIER_neighbourhood_determinist_try (
-    & solution,
-    & instance,
-    & registry
-  ) ;
-*/
-/*
 
-    ROMAIN_neighbourhood_stochastic_try (
-    & solution,
-    & instance,
-    & registry
-  ) ;
-*/
-  pthread_create (& temperature, NULL, & thread_temperature, & registry) ;
-  pthread_create (& countdown, NULL, & thread_countdown, & registry) ;
+  if (registry.simple_search)
+    {
+      simple_search (& instance, & solution, & registry) ;
+      if (registry.full_result)
+        print_result (stdout, & instance, & solution) ;
+      else
+        printf ("simple search found a %d solution\n", solution.value) ;
+      exit (0) ;
+    }
+
+  else
+    {
+      annealing (& instance, & solution, & registry) ;
+      if (registry.full_result)
+        print_result (stdout, & instance, & solution) ;
+      else
+        printf ("simulated annealing found a %d solution\n", solution.value) ;
+    }
 }
 
 static void
@@ -140,6 +141,7 @@ _init_configuration_annealing (t_configuration_annealing * annealing)
 static void
 _init_configuration_execution (t_configuration_execution * execution)
 {
+  execution->simple_search = FALSE ;
   execution->input_source = INPUT_SOURCE_FILE ;
   execution->input_file = NULL ;
   execution->problem_type = UNASSIGNED ;
@@ -155,8 +157,9 @@ _init_registry (
 {
   registry->simple_search = execution->simple_search ;
   registry->problem_type = execution->problem_type ;
+  registry->verbose = execution->verbose ;
+  registry->neighbourhood_exploration = execution->neighbourhood_exploration ;
   registry->neighbourhood_transfer = execution->neighbourhood_transfer ;
-  registry->memorization.problem_type = execution->problem_type ;
   registry->neighbourhood_swap = execution->neighbourhood_swap ;
   registry->neighbourhood_multi_swap = execution->neighbourhood_multi_swap ;
   registry->neighbourhood_multi_swap_max_iteration
@@ -164,9 +167,11 @@ _init_registry (
   registry->neighbourhood_full_swap = execution->neighbourhood_full_swap ;
   registry->step_current = 0 ;
   registry->step_count = annealing->step_count ;
+  registry->step_timeout = FALSE ;
   registry->timeout = FALSE ;
   registry->max_try_count = 50 ;
   registry->memorization.transfert_count = 0 ;
+  registry->memorization.problem_type = execution->problem_type ;
   registry->memorization.swap_count = 0 ;
   registry->memorization.iteration_count = 0 ;
   registry->memorization.temperature_first = annealing->temperature_first ;
