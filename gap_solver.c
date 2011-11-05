@@ -40,6 +40,7 @@ main (int argc, char ** argv)
   t_configuration_annealing configuration_annealing ;
   t_configuration_execution configuration_execution ;
   t_gap_solver_registry registry ;
+  pthread_t countdown, temperature ;
   _init_configuration_annealing (& configuration_annealing) ;
   _init_configuration_execution (& configuration_execution) ;
   load_configuration_annealing (& configuration_annealing, "annealing.ini") ;
@@ -104,26 +105,23 @@ main (int argc, char ** argv)
       printf ("%s", "no possible assignment\n") ;
       exit (0) ;
     }
-/*  XAVIER_neighbourhood_determinist_try (
+/*
+  XAVIER_neighbourhood_determinist_try (
     & solution,
     & instance,
     & registry
   ) ;
 */
+/*
 
     ROMAIN_neighbourhood_stochastic_try (
     & solution,
     & instance,
     & registry
   ) ;
-
-  /*
-    countdown : a thread that will stop the process after a given duration
-    temperature : a thread that will lower the temperature at the given steps
-  */
-//pthread_t * countdown, * temperature ;
-//pthread_create (temperature, NULL, & thread_temperature, & registry) ;
-//pthread_create (countdown, NULL, & thread_countdown, & registry) ;
+*/
+  pthread_create (& temperature, NULL, & thread_temperature, & registry) ;
+  pthread_create (& countdown, NULL, & thread_countdown, & registry) ;
 }
 
 static void
@@ -155,15 +153,18 @@ _init_registry (
   t_configuration_execution * execution
 )
 {
+  registry->simple_search = execution->simple_search ;
   registry->problem_type = execution->problem_type ;
   registry->neighbourhood_transfer = execution->neighbourhood_transfer ;
   registry->memorization.problem_type = execution->problem_type ;
   registry->neighbourhood_swap = execution->neighbourhood_swap ;
   registry->neighbourhood_multi_swap = execution->neighbourhood_multi_swap ;
+  registry->neighbourhood_multi_swap_max_iteration
+    = execution->neighbourhood_multi_swap_max_iteration ;
   registry->neighbourhood_full_swap = execution->neighbourhood_full_swap ;
   registry->step_current = 0 ;
   registry->step_count = annealing->step_count ;
-  registry->timeout = 0 ;
+  registry->timeout = FALSE ;
   registry->max_try_count = 50 ;
   registry->memorization.transfert_count = 0 ;
   registry->memorization.swap_count = 0 ;

@@ -103,15 +103,6 @@ solution_apply_change (
         free (change->contents.multi_swap.destination_swapped_job) ;
         break ;
       case SOLUTION_CHANGE_FULL_SWAP:
-/*
-printf("source : %d destination : %d %d \n", source, destination) ;
-t_job_list i ;
-i = solution->ll_assignment[change->contents.full_swap.source] ;
-while (i = i->next)
-{
-printf("%d ", i->job) ;
-}
-*/
         elt = job_list_allocate_head () ;
         job_list_clone (
           elt,

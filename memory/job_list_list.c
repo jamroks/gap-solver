@@ -29,14 +29,13 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 t_bool
 job_list_list_add_job_list (t_job_list_list * head, t_job_list * job_list)
 {
-  t_job_list_list * new_element, * i;
+  t_job_list_list * new_element ;
   new_element = (t_job_list_list *) malloc (sizeof (t_job_list_list)) ;
   if (NULL == new_element)
     return FALSE ;
-  i = head->next ;
-  head->next = new_element ;
-  new_element->next = i ;
+  new_element->next = head->next ;
   new_element->job_list = job_list ;
+  head->next = new_element ;
   return TRUE ;
 }
 
@@ -60,6 +59,7 @@ job_list_list_delete_job_list (t_job_list_list * head, t_job_list * job_list)
         { 
           i = i->next ; 
           job_list_free (j->next->job_list) ;
+          free (j->next->job_list) ;
           free (j->next) ;
           j->next = i ;
           return TRUE ;
@@ -84,22 +84,31 @@ job_list_list_allocate_head ()
 }
 
 /**
- * Free the memory allocated to job element.
- * Doesn't free the linked list head.
+ * Free the memory allocated to the job list list and its job list
  */
 t_bool
 job_list_list_free (t_job_list_list * list)
 {
   t_job_list_list * elt, * tmp ;
-  tmp = elt = list ;
-  while (tmp && (elt = tmp->next))
-    {
-      tmp = elt->next ;
-      if (elt->job_list)
+  tmp = elt = list->next ;
+  while (elt && (elt = elt->next))
+    {  
+      if (tmp->job_list)
         {
-          job_list_free (elt->job_list) ;
-          free (elt->job_list) ;
+          job_list_free (tmp->job_list) ;
+          free (tmp->job_list) ;
         }
-      free (elt) ;
+      free (tmp) ;
+      tmp = elt ;
     }
+  if (tmp == list->next)
+    {
+      if (tmp->job_list)
+        {
+          job_list_free (tmp->job_list) ;
+          free (tmp->job_list) ;
+        }
+      free (tmp) ;
+    }
+  list->next = NULL ;
 }
