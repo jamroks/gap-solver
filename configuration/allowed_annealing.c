@@ -78,3 +78,28 @@ char ** configuration_get_allowed_step_schedule ()
   }
   return allowed ;
 }
+
+/**
+ * Return for the *AGENT PONDERATION* function.
+ */     
+char ** configuration_get_allowed_agent_ponderation ()
+{
+  static int initialized = 0 ;
+  static char * allowed[INPUT_MAX_STRING_PARAMETER_VALUES] ;
+  if (0 == initialized)
+    {
+      for ( ; initialized < INPUT_MAX_STRING_PARAMETER_VALUES; initialized ++)
+        allowed[initialized] = NULL;
+      allowed[AGENT_PONDERATION_UNIFORM] =
+        INPUT_AGENT_PONDERATION_UNIFORM ;
+      allowed[AGENT_PONDERATION_CAPACITY] =
+        INPUT_AGENT_PONDERATION_CAPACITY ;
+      allowed[AGENT_PONDERATION_CAPACITY_LEFT] =
+        INPUT_AGENT_PONDERATION_CAPACITY_LEFT ;
+      allowed[AGENT_PONDERATION_ASSIGNMENT] =
+        INPUT_AGENT_PONDERATION_ASSIGNMENT ;
+    }
+  return allowed ;
+}
+
+
