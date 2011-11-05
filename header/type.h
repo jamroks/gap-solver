@@ -113,7 +113,7 @@ typedef enum {
   UNASSIGNED ,
   MAXIMIZATION ,
   MINIMIZATION ,
-} t_problem_type ;
+} t_problem_type ; 
 
 typedef enum {
   SOLUTION_CHANGE_TRANSFER,
@@ -146,6 +146,7 @@ typedef struct {
   t_problem_type_exploration neighbourhood_exploration ;
   t_bool neighbourhood_swap ;
   t_bool neighbourhood_multi_swap ;
+  t_bool neighbourhood_full_swap ;
   t_bool neighbourhood_transfer ;
   t_problem_type problem_type ;
   t_bool verbose ;
@@ -180,6 +181,7 @@ typedef struct {
   short verbosity ;
   short timeout ;
   t_bool neighbourhood_swap ;
+  t_bool neighbourhood_full_swap ;
   t_bool neighbourhood_multi_swap ;
   t_bool neighbourhood_transfer ;
   int max_try_count ;
