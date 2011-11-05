@@ -78,12 +78,6 @@ typedef struct {
 } t_gap_solution ;
 
 typedef enum {
-  TRANSFERT ,
-  SWAP ,
-  ROTATION ,
-} t_neighbourhood ;
-
-typedef enum {
   STEP_SCHEDULE_UNASSIGNED ,
   STEP_SCHEDULE_EQUAL ,
   STEP_SCHEDULE_ASCENDING_1 ,
@@ -107,7 +101,7 @@ typedef enum {
   NEIGHBOURHOOD_EXPLORATION_UNASSIGNED ,
   NEIGHBOURHOOD_EXPLORATION_DETERMINIST ,
   NEIGHBOURHOOD_EXPLORATION_STOCHASTIC
-} t_neighbourhood_exploration ;
+} t_problem_type_exploration ;
 
 typedef enum {
   UNASSIGNED ,
@@ -128,19 +122,34 @@ typedef struct {
   int temperature_last ;
   t_temperature_schedule temperature_schedule ;
   t_problem_type problem_type ;
-  t_neighbourhood_exploration neighbourhood_exploration ;
+  t_problem_type_exploration neighbourhood_exploration ;
 } t_configuration_annealing ;
 
 typedef struct {
   char * input_file ;
   t_input_source input_source ;
-  t_neighbourhood_exploration neighbourhood_exploration ;
+  t_problem_type_exploration neighbourhood_exploration ;
   t_bool neighbourhood_swap ;
   t_bool neighbourhood_multi_swap ;
   t_bool neighbourhood_transfer ;
   t_problem_type problem_type ;
   t_bool verbose ;
 } t_configuration_execution ;
+
+typedef struct {
+  int (*agtponderate)() ; 
+  int (*jobponderate)() ;
+  long transfert_count ;
+  long swap_count ;
+  long iteration_count ;
+  long unavailable_count ;
+  int max_try_count_failure ;
+  t_problem_type method ;
+  t_temperature_schedule temperature_schedule ;
+  int temperature_first ;
+  int temperature_last ;
+  t_problem_type problem_type ;
+} t_memorization ;
 
 typedef struct {
   t_problem_type problem_type ;
@@ -154,17 +163,13 @@ typedef struct {
   t_bool neighbourhood_swap ;
   t_bool neighbourhood_multi_swap ;
   t_bool neighbourhood_transfer ;
-  long transfert_count ;
-  long iteration_count ;
-  long unavailable_count ;
-  long swap_count ;
-  int max_try_count_failure ;
   int max_try_count ;
   t_gap_solution * best_solution ;
   t_gap_solution * current_solution ;
   int (*agtponderate)() ; 	// intance + solution + registre
   int (*jobponderate)() ; 	// intance + solution + registre
-  t_neighbourhood method ;
+  t_problem_type method ;
+  t_memorization memorization ;
 } t_gap_solver_registry ;
 
 typedef enum {

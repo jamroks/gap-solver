@@ -101,7 +101,7 @@ int ind ;
 int try_count=0 ;
 t_bool new_found=FALSE ;
 t_method method=registry->method ;
-if (registry->verbosity == TRUE) printf("=> début de calcul de voisinage %d ...\n" , registry->transfert_count) ;
+if (registry->verbosity == TRUE) printf("=> début de calcul de voisinage ...\n") ;
 /* copie de la solution de départ vers la solution suivante , avant modification */
 /* Sélection de la structure de voisinage */ 
 if (registry->verbosity == TRUE) printf("=> bouclage\n") ;
@@ -110,7 +110,7 @@ while ((new_found == FALSE) && (try_count < registry->max_try_count))
 try_count++ ;
 switch (method) 
   {
-  case TRANSFERT :/* selon un transfert d'une tâche entre deux agents */
+  case SOLUTION_CHANGE_TRANSFER :/* selon un transfert d'une tâche entre deux agents */
       {
       if (registry->verbosity == TRUE) printf("\tméthode par transfert ...\n") ;
       /* constituer la liste pondérée des agents */
@@ -121,8 +121,8 @@ switch (method)
         /* pas de tâche possible : saturation de agt_2 */
         if (registry->verbosity == TRUE) printf("aucun agent 1\n") ;
         _unavailable(NO_AGT) ;
-        registry->unavailable_count++ ;
-        method=SWAP ;
+        registry->memorization.unavailable_count++ ;
+        method=SOLUTION_CHANGE_SWAP ;
         break ;
         } ;      
       if (registry->verbosity == TRUE) printf("\t\ttirage au sort un agent\n") ;
@@ -136,7 +136,7 @@ switch (method)
         // pas d'agent disponible ?
         if (registry->verbosity == TRUE) printf("aucun agent 2\n") ;
         _unavailable(NO_AGT) ;
-        registry->unavailable_count++ ;
+        registry->memorization.unavailable_count++ ;
         break ;
         } ;      
       /* tirer au sort un autre agent dans la liste */
@@ -150,8 +150,8 @@ switch (method)
         if (registry->verbosity == TRUE) printf("\n mal barré\n") ;
         _unavailable(NO_JOB) ;
         /* CAS A VOIR : VOISINAGE VIDE ! */
-        registry->unavailable_count++ ;
-        method=SWAP ;
+        registry->memorization.unavailable_count++ ;
+        method=SOLUTION_CHANGE_SWAP ;
         break ;
         }
       else
@@ -161,8 +161,6 @@ switch (method)
         if (MONTEE) 
            {
            /* choisir la tâche qui rapporte le plus  */
-//for (ind=0 ; ind < values_list.nb_elt ; ind++)
-//  printf("[%d]->%d\n",ind,values_list.list[ind]) ;
            job = _increasing(gap_inst , gap_cur , registry , agt_1 , agt_2 , &values_list) ;
            }
         else
@@ -171,28 +169,18 @@ switch (method)
            } ;
         if (registry->verbosity == TRUE) printf("\t tache n°%d.\n" , job) ;
         /* transférer la tâche de agt_1 vers agt_2 */
-/*        if (registry->verbosity == TRUE) printf("\nTRANS:: agt=%d(%d)  pour job=%d(%d) // agt =%d(%d) cout=%d\n",
-             agt_1,gap_next->capacity_left[agt_1], job, gap_inst->cost[agt_1][job], 
-             agt_2,gap_next->capacity_left[agt_2], gap_inst->cost[agt_2][job]) ; 
-*/
-//printf("gain: + %d - %d\n",gap_inst->gain[agt_2][job],gap_inst->gain[agt_1][job]) ;
         change->type= SOLUTION_CHANGE_TRANSFER ;
         change->contents.transfer.source=agt_1 ;
         change->contents.transfer.destination=agt_2 ;
         change->contents.transfer.job=job ;
         change->delta_value= gap_inst->gain[agt_2][job] - gap_inst->gain[agt_1][job];
-/*        gap_next->assignment[agt_1][job]=0 ;
-        gap_next->assignment[agt_2][job]=1 ;
-        gap_next->capacity_left[agt_1]+=gap_inst->cost[agt_1][job] ;
-        gap_next->capacity_left[agt_2]-=gap_inst->cost[agt_2][job] ;
-*/
         new_found=TRUE ;
-        registry->transfert_count++ ;
+        registry->memorization.transfert_count++ ;
         } ;      
       if (registry->verbosity == TRUE) printf("\tfin de méthode par transfert ...\n") ;
       } ;
       break ;
-  case SWAP :  /* selon un transfert d'une tâche entre deux agents */
+  case SOLUTION_CHANGE_SWAP :  /* selon un transfert d'une tâche entre deux agents */
       {
       if (registry->verbosity == TRUE) printf("\tméthode par SWAP ...\n") ;
       /* constituer la liste pondérée des agents */
@@ -203,8 +191,8 @@ switch (method)
         /* pas de tâche possible : saturation de agt_2 */
         if (registry->verbosity == TRUE) printf("aucun agent 1\n") ;
         _unavailable(NO_AGT) ;
-        registry->unavailable_count++ ;
-        method=SWAP ;
+        registry->memorization.unavailable_count++ ;
+        method=SOLUTION_CHANGE_SWAP ;
         break ;
         } ;      
       agt_1 = _take_choice(gap_inst , gap_cur , registry , &values_list , registry->agtponderate) ;
@@ -217,7 +205,7 @@ switch (method)
         // pas d'agent disponible ?
       if (registry->verbosity == TRUE) printf("aucun agent 2\n") ;
         _unavailable(NO_AGT) ;
-        registry->unavailable_count++ ;
+        registry->memorization.unavailable_count++ ;
         break ;
         } ;      
       /* tirer au sort un autre agent dans la liste */
@@ -232,8 +220,8 @@ switch (method)
         if (registry->verbosity == TRUE) printf("\n mal barré20\n") ;
         _unavailable(NO_JOB) ;
         /* CAS A VOIR : VOISINAGE VIDE ! */
-        registry->unavailable_count++ ;
-        method=SWAP ;
+        registry->memorization.unavailable_count++ ;
+        method=SOLUTION_CHANGE_SWAP ;
         break ;
         };
       /* tirer au sort une tache à échanger */
@@ -247,8 +235,8 @@ switch (method)
         if (registry->verbosity == TRUE) printf("\n mal barré21\n") ;
         _unavailable(NO_JOB) ;
         /* CAS A VOIR : VOISINAGE VIDE ! */
-        registry->unavailable_count++ ;
-        method=SWAP ;
+        registry->memorization.unavailable_count++ ;
+        method=SOLUTION_CHANGE_SWAP ;
         break ;
         };
       /* tirer au sort une seconde tache à échanger */
@@ -265,50 +253,29 @@ switch (method)
       change->contents.swap.source_swapped_job=job ;
       change->contents.swap.destination_swapped_job=job2 ;
       change->delta_value= gap_inst->gain[agt_2][job] - gap_inst->gain[agt_1][job] + gap_inst->gain[agt_1][job2] - gap_inst->gain[agt_2][job2] ;
-/*
-      gap_next->assignment[agt_1][job]=0 ;
-      gap_next->assignment[agt_1][job2]=1 ;
-      gap_next->assignment[agt_2][job2]=0 ;
-      gap_next->assignment[agt_2][job]=1 ;
-      gap_next->capacity_left[agt_1]+=gap_inst->cost[agt_1][job] ;
-      gap_next->capacity_left[agt_2]-=gap_inst->cost[agt_2][job] ;
-      gap_next->capacity_left[agt_1]-=gap_inst->cost[agt_1][job2] ;
-      gap_next->capacity_left[agt_2]+=gap_inst->cost[agt_2][job2] ;
-      if (gap_next->capacity_left[agt_1] < 0) 
-        {
-        printf("negatif 1\n") ;
-        printf("\nSWAP:: agt=%d(%d)  pour job=%d(%d) // agt =%d(%d) pour job=%d(%d)\n",
-               agt_1,gap_next->capacity_left[agt_1], job, gap_inst->cost[agt_1][job], 
-               agt_2,gap_next->capacity_left[agt_2], job2, gap_inst->cost[agt_2][job2]) ; 
-        } ;
-      if (gap_next->capacity_left[agt_2] < 0) 
-        {
-        printf("negatif 2\n") ;
-        printf("\nSWAP:: agt=%d(%d)  pour job=%d(%d) // agt =%d(%d) pour job=%d(%d)\n",
-             agt_1,gap_next->capacity_left[agt_1], job, gap_inst->cost[agt_1][job], 
-             agt_2,gap_next->capacity_left[agt_2], job2, gap_inst->cost[agt_2][job2]) ; 
-        } ;
-*/
       new_found=TRUE ;
-      registry->swap_count++ ;
-      if (registry->verbosity == TRUE) printf("\tfin de méthode par transfert ...\n") ;
+      registry->memorization.swap_count++ ;
+      if (registry->verbosity == TRUE) printf("\tfin de méthode par échange ...\n") ;
       } ;
       break ;
-  case ROTATION :  /* selon un transfert d'une tâche entre plusieurs agents */
+  case SOLUTION_CHANGE_MULTI_SWAP :  /* selon un transfert d'une tâche entre plusieurs agents */
       {
       } ;
       break ;
   default :  /* cas d'un bug */
     {
     printf("bug n°1") ;
-    exit(0) ;
+    return(FALSE) ;
     } ;
     break ;
   } ;
 } ; // fin de boucle sur récidive en cas de blocage
 if (try_count == registry->max_try_count)
-	registry->max_try_count_failure++ ;
-return 0 ;
+  {
+  registry->memorization.max_try_count_failure++ ;
+  return FALSE ;
+  } ;
+return TRUE ;
 if (registry->verbosity == TRUE) printf("fin voisinage.\n") ;
 }
 
@@ -465,12 +432,6 @@ while (n_elt < list_of_values->nb_elt)
   n_elt++ ;
   } ;
 list_of_values->nb_elt-- ;
-/*
- * for (n_elt=0;n_elt <5; n_elt++) 
- *   { printf("[%d]=%d  ",n_elt,list_of_values->list[n_elt]) ;
- *   } ;
- * printf("\n") ;
-*/
 }
 
 /* fonction de tirage au sort d'un élément dans la liste */
@@ -533,6 +494,7 @@ void ROMAIN_neighbourhood_stochastic_try (
   t_gap_solver_registry * registry)
 {
   int test_b=100 ;
+  t_bool solution_found ;
   t_solution_change change ;
 //   printf("\n______________________________________\ndebut de paramétrage pour voisinage\n") ;
 registry->problem_type = MINIMIZATION  ;
@@ -550,11 +512,10 @@ printf("ponderation job  = _uniform\n") ;
 registry->agtponderate=&_capacity_left ;
 registry->jobponderate=&_uniform ;
 printf("méthode = TRANSFERT\n") ;
-registry->method=TRANSFERT ;
-registry->unavailable_count=0 ;
-registry->max_try_count = 50 ;
+registry->method=SOLUTION_CHANGE_TRANSFER ;
+registry->memorization.unavailable_count=0 ;
 printf("échec voisinage à %d\n",registry->max_try_count) ;
-registry->max_try_count_failure = 0 ;
+registry->memorization.max_try_count_failure = 0 ;
 printf("Le voisinage sera ") ;
 if (registry->verbosity) printf("bavard\n") ;
 if (! registry->verbosity) printf("silencieux\n") ;
@@ -565,29 +526,39 @@ printf("solution initiale:: %d\n",solution->value) ;
 printf("\n pour %d tests \n", test_b) ;
   while (test_b > 0)
     {
-    stochastic_next_solution ( & change ,  instance ,  solution,  registry) ;
-    printf("%3d variation proposée %d\t",test_b,change.delta_value) ;
-    if (change.type == SOLUTION_CHANGE_TRANSFER) printf("par transfert\tde l'agent %d à l'agent %d de la tâche %d\n",
-        change.contents.transfer.source, change.contents.transfer.destination, change.contents.transfer.job) ;
-    if (change.type == SOLUTION_CHANGE_SWAP) printf("par échange\t" ) ;
-    if (((change.delta_value > 0) && (registry->problem_type == MAXIMIZATION))
-       || ((change.delta_value < 0) && (registry->problem_type == MINIMIZATION)))
+    registry->memorization.iteration_count++ ;
+    solution_found=stochastic_next_solution ( & change ,  instance ,  solution,  registry) ;
+    if (solution_found == TRUE)
       {
-      printf("suivie\n") ;
-      solution_apply_change( instance , solution, & change) ;
-      printf("mémorisation\n") ;
-      memorize_solution( instance , solution, registry ) ;     
+      printf("%3d variation proposée %d\t",test_b,change.delta_value) ;
+      if (change.type == SOLUTION_CHANGE_TRANSFER) printf("par transfert\tde l'agent %d à l'agent %d de la tâche %d\t",
+          change.contents.transfer.source , change.contents.transfer.destination , change.contents.transfer.job) ;
+      if (change.type == SOLUTION_CHANGE_SWAP) printf("par échange\t" ) ;
+      if (((change.delta_value > 0) && (registry->problem_type == MAXIMIZATION))
+         || ((change.delta_value < 0) && (registry->problem_type == MINIMIZATION)))
+        {
+        printf("suivie\t") ;
+        solution_apply_change( instance , solution , & change) ;
+        printf("mémorisation pour %ld\n",solution->value) ;
+        memorize_solution( instance , solution , registry ) ;     
+        }
+      else
+        {
+        printf("abandonnée\n") ;
+        } ;
+      test_b-- ;
       }
     else
       {
-      printf("abandonnée\n") ;
+      printf(" pas de solution\n",test_b) ;
       } ;
-    test_b-- ;
     } ;
-  printf(" nb blocages   =%d\n", registry->unavailable_count) ;
-  printf(" nb échec      =%d\n", registry->max_try_count_failure) ;
-  printf(" nb transferts =%d\n", registry->transfert_count) ;
-  printf(" nb swap       =%d\n", registry->swap_count) ;
+  printf(" nb blocages   =%d\n", registry->memorization.unavailable_count) ;
+  printf(" nb échec      =%d\n", registry->memorization.max_try_count_failure) ;
+  printf(" nb transferts =%d\n", registry->memorization.transfert_count) ;
+  printf(" nb swap       =%d\n", registry->memorization.swap_count) ;
+  memorize_best( instance , solution , registry ) ;     
+
 //  
 
 }
