@@ -500,7 +500,7 @@ void ROMAIN_neighbourhood_stochastic_try (
   t_gap_instance * instance,
   t_gap_solver_registry * registry)
 {
-  int test_b=100 ;
+  int test_b=200 ;
   t_bool solution_found ;
   t_solution_change change ;
   registry->verbosity = FALSE  ;
