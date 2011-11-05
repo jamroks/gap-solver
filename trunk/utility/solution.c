@@ -42,7 +42,7 @@ solution_apply_change (
   t_solution_change * change
 )
 {
-  t_job_list * tmp, * elt ;
+  t_job_list * elt, * tmp ;
   _solution = solution ;
   _instance = instance ;
   solution->value += change->delta_value ;
@@ -103,35 +103,27 @@ solution_apply_change (
         free (change->contents.multi_swap.destination_swapped_job) ;
         break ;
       case SOLUTION_CHANGE_FULL_SWAP:
-        tmp = job_list_allocate_head () ;
+        elt = job_list_allocate_head () ;
         job_list_clone (
-          tmp,
+          elt,
           solution->ll_assignment[change->contents.full_swap.source]
         ) ;
         job_list_free (
           solution->ll_assignment[change->contents.full_swap.source]
         ) ;
-        elt = solution->ll_assignment[change->contents.full_swap.destination] ;
-        while (elt = elt->next)
-          {
-            _job_add (
-              elt->job,
-              change->contents.full_swap.source
-            ) ;
-          }
+        job_list_clone ( 
+           solution->ll_assignment[change->contents.full_swap.source],
+           solution->ll_assignment[change->contents.full_swap.destination]
+        ) ;
         job_list_free (
           solution->ll_assignment[change->contents.full_swap.destination]
         ) ;
-        elt = tmp ;
-        while (elt = elt->next)
-          {
-            _job_add (
-              elt->job,
-              change->contents.full_swap.destination
-            ) ;
-          }
-        job_list_free (tmp) ;
-        free (tmp) ;
+        job_list_clone ( 
+           solution->ll_assignment[change->contents.full_swap.destination],
+           elt
+        ) ;
+        job_list_free (elt) ;
+        free (elt) ;
       break ;
     }
 }

@@ -29,7 +29,7 @@ char ** configuration_get_allowed_temperature_schedule ()
   if (0 == initialized)
     {
       for ( ; initialized < INPUT_MAX_STRING_PARAMETER_VALUES; initialized ++)
-        allowed[initialized] = NULL;
+        allowed[initialized] = NULL ;
       allowed[TEMPERATURE_SCHEDULE_UNASSIGNED] =
         INPUT_UNASSIGNED ;
       allowed[TEMPERATURE_SCHEDULE_LINEAR] =
@@ -52,7 +52,7 @@ char ** configuration_get_allowed_step_schedule ()
   if (0 == initialized)
     {
       for ( ; initialized < INPUT_MAX_STRING_PARAMETER_VALUES; initialized ++)
-        allowed[initialized] = NULL;
+        allowed[initialized] = NULL ;
       allowed[STEP_SCHEDULE_UNASSIGNED] =
         INPUT_UNASSIGNED ;
       allowed[STEP_SCHEDULE_EQUAL] =
