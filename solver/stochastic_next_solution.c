@@ -100,7 +100,7 @@ stochastic_next_solution (
   int ind ;
   int try_count=0 ;
   t_bool new_found=FALSE ;
-  t_method method=registry->method ;
+  t_solution_change_type ng_structure=registry->ng_structure ;
   if (registry->verbosity == TRUE) printf("=> début de calcul de voisinage ...\n") ;
   /* copie de la solution de départ vers la solution suivante , avant modification */
   /* Sélection de la structure de voisinage */
@@ -108,10 +108,10 @@ stochastic_next_solution (
   while ((new_found == FALSE) && (try_count < registry->max_try_count))
     {
       try_count++ ;
-      switch (method)
+      switch (ng_structure)
         {
         case SOLUTION_CHANGE_TRANSFER :/* selon un transfert d'une tâche entre deux agents */
-        {
+        { 
           if (registry->verbosity == TRUE) printf("\tméthode par transfert ...\n") ;
           /* constituer la liste pondérée des agents */
           values_list=_agent_list(gap_inst) ;
@@ -122,7 +122,8 @@ stochastic_next_solution (
               if (registry->verbosity == TRUE) printf("aucun agent 1\n") ;
               _unavailable(NO_AGT) ;
               registry->memorization.unavailable_count++ ;
-              method=SOLUTION_CHANGE_SWAP ;
+	      if (registry->neighbourhood_swap == TRUE)   
+                 ng_structure=SOLUTION_CHANGE_SWAP ;
               break ;
             } ;
           if (registry->verbosity == TRUE) printf("\t\ttirage au sort un agent\n") ;
@@ -151,7 +152,8 @@ stochastic_next_solution (
               _unavailable(NO_JOB) ;
               /* CAS A VOIR : VOISINAGE VIDE ! */
               registry->memorization.unavailable_count++ ;
-              method=SOLUTION_CHANGE_SWAP ;
+	      if (registry->neighbourhood_swap == TRUE)   
+                 ng_structure=SOLUTION_CHANGE_SWAP ;
               break ;
             }
           else
@@ -181,7 +183,7 @@ stochastic_next_solution (
         } ;
         break ;
         case SOLUTION_CHANGE_SWAP :  /* selon un transfert d'une tâche entre deux agents */
-        {
+        { 
           if (registry->verbosity == TRUE) printf("\tméthode par SWAP ...\n") ;
           /* constituer la liste pondérée des agents */
           values_list=_agent_list(gap_inst) ;
@@ -192,7 +194,7 @@ stochastic_next_solution (
               if (registry->verbosity == TRUE) printf("aucun agent 1\n") ;
               _unavailable(NO_AGT) ;
               registry->memorization.unavailable_count++ ;
-              method=SOLUTION_CHANGE_SWAP ;
+              ng_structure=SOLUTION_CHANGE_SWAP ;
               break ;
             } ;
           agt_1 = _take_choice(gap_inst , gap_cur , registry , &values_list , registry->agtponderate) ;
@@ -221,7 +223,7 @@ stochastic_next_solution (
               _unavailable(NO_JOB) ;
               /* CAS A VOIR : VOISINAGE VIDE ! */
               registry->memorization.unavailable_count++ ;
-              method=SOLUTION_CHANGE_SWAP ;
+              ng_structure=SOLUTION_CHANGE_SWAP ;
               break ;
             };
           /* tirer au sort une tache à échanger */
@@ -236,7 +238,7 @@ stochastic_next_solution (
               _unavailable(NO_JOB) ;
               /* CAS A VOIR : VOISINAGE VIDE ! */
               registry->memorization.unavailable_count++ ;
-              method=SOLUTION_CHANGE_SWAP ;
+              ng_structure=SOLUTION_CHANGE_SWAP ;
               break ;
             };
           /* tirer au sort une seconde tache à échanger */
@@ -259,18 +261,21 @@ stochastic_next_solution (
         } ;
         break ;
         case SOLUTION_CHANGE_MULTI_SWAP :  /* selon un transfert d'une tâche entre plusieurs agents */
-        {
+        { printf("par MULTI_SWAP, non implémenté\n") ;
+          try_count = registry->max_try_count ;
+          return(FALSE) ;
         } ;
         break ;
         default :  /* cas d'un bug */
         {
+          try_count = registry->max_try_count ;
           printf("bug n°1") ;
           return(FALSE) ;
         } ;
         break ;
         } ;
     } ; // fin de boucle sur récidive en cas de blocage
-  if (try_count == registry->max_try_count)
+  if (try_count >= registry->max_try_count)
     {
       registry->memorization.max_try_count_failure++ ;
       return FALSE ;
@@ -489,7 +494,7 @@ _unavailable(t_error error)
 //printf("Erreur irrécupérable, blocage voisinage n°%d\n",error) ;
 //exit(error) ;
 }
-
+// =========================================================================================================
 void ROMAIN_neighbourhood_stochastic_try (
   t_gap_solution * solution,
   t_gap_instance * instance,
@@ -498,8 +503,6 @@ void ROMAIN_neighbourhood_stochastic_try (
   int test_b=100 ;
   t_bool solution_found ;
   t_solution_change change ;
-//   printf("\n______________________________________\ndebut de paramétrage pour voisinage\n") ;
-  registry->problem_type = MINIMIZATION  ;
   registry->verbosity = FALSE  ;
   if (registry->problem_type == MAXIMIZATION)
     {
@@ -509,56 +512,59 @@ void ROMAIN_neighbourhood_stochastic_try (
     {
       printf("problème en MINIMISATION\n") ;
     } ;
-  printf("ponderation agent= _capacity_left\n") ;
-  printf("ponderation job  = _uniform\n") ;
   registry->agtponderate=&_capacity_left ;
   registry->jobponderate=&_uniform ;
-  printf("méthode = TRANSFERT\n") ;
-  registry->method=SOLUTION_CHANGE_TRANSFER ;
+//  printf("méthode = TRANSFERT\n") ;
+//  registry->ng_structure =SOLUTION_CHANGE_TRANSFER ;
   registry->memorization.unavailable_count=0 ;
-  printf("échec voisinage à %d\n",registry->max_try_count) ;
+//  printf("échec voisinage à %d\n",registry->max_try_count) ;
   registry->memorization.max_try_count_failure = 0 ;
   printf("Le voisinage sera ") ;
   if (registry->verbosity) printf("bavard\n") ;
   if (! registry->verbosity) printf("silencieux\n") ;
-  printf("fin de paramétrage pour voisinage\n") ;
+//  printf("fin de paramétrage pour voisinage\n") ;
 //  test voisinage stochastique
   srand(time(NULL));
-  printf("solution initiale:: %d\n",solution->value) ;
-  printf("\n pour %d tests \n", test_b) ;
+//  printf("solution initiale:: %d\n",solution->value) ;
+//  printf("\n pour %d tests \n", test_b) ;
   while (test_b > 0)
     {
+      registry->current_solution = solution ;
+      registry->memorization.current_solution = solution ;
       registry->memorization.iteration_count++ ;
       solution_found=stochastic_next_solution ( & change ,  instance ,  solution,  registry) ;
       if (solution_found == TRUE)
         {
-          printf("%3d variation proposée %d\t",test_b,change.delta_value) ;
-          if (change.type == SOLUTION_CHANGE_TRANSFER) printf("par transfert\tde l'agent %d à l'agent %d de la tâche %d\t",
-                change.contents.transfer.source , change.contents.transfer.destination , change.contents.transfer.job) ;
-          if (change.type == SOLUTION_CHANGE_SWAP) printf("par échange\t" ) ;
+//          printf("%3d variation proposée %d\t",test_b,change.delta_value) ;
+//          if (change.type == SOLUTION_CHANGE_TRANSFER) printf("par transfert\tde l'agent %d à l'agent %d de la tâche %d\t",
+//                change.contents.transfer.source , change.contents.transfer.destination , change.contents.transfer.job) ;
+//          if (change.type == SOLUTION_CHANGE_SWAP) printf("par échange\t" ) ;
           if (((change.delta_value > 0) && (registry->problem_type == MAXIMIZATION))
               || ((change.delta_value < 0) && (registry->problem_type == MINIMIZATION)))
             {
-              printf("suivie\t") ;
+//              printf("suivie\t") ;
               solution_apply_change( instance , solution , & change) ;
-              printf("mémorisation pour %ld\n",solution->value) ;
+//              printf("mémorisation pour %ld\n",solution->value) ;
+              registry->best_solution = solution ;
               memorize_solution( instance , solution , registry ) ;
             }
           else
             {
-              printf("abandonnée\n") ;
+//              printf("abandonnée\n") ;
+            test_b-- ;
             } ;
-          test_b-- ;
         }
       else
         {
-          printf(" pas de solution\n",test_b) ;
+//          printf(" pas de solution\n",test_b) ;
+          test_b-- ;
         } ;
     } ;
-  printf(" nb blocages   =%d\n", registry->memorization.unavailable_count) ;
-  printf(" nb échec      =%d\n", registry->memorization.max_try_count_failure) ;
-  printf(" nb transferts =%d\n", registry->memorization.transfert_count) ;
-  printf(" nb swap       =%d\n", registry->memorization.swap_count) ;
+//  printf(" nb blocages   =%d\n", registry->memorization.unavailable_count) ;
+//  printf(" nb échec      =%d\n", registry->memorization.max_try_count_failure) ;
+//  printf(" nb transferts =%d\n", registry->memorization.transfert_count) ;
+//  printf(" nb swap       =%d\n", registry->memorization.swap_count) ;
+  registry->memorization.best_solution = registry->best_solution ;
   memorize_best( instance , solution , registry ) ;
 
 //
