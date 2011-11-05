@@ -40,7 +40,7 @@ void annealing (
       case NEIGHBOURHOOD_EXPLORATION_STOCHASTIC:
         next_solution = stochastic_next_solution ;
         break ;
-    }      if (registry->verbose)
+    }
   simple_search (instance, solution, registry) ;
   pthread_create (& operator, NULL, thread_operator, registry) ;
   while ( ! registry->timeout)
@@ -63,7 +63,7 @@ void annealing (
     char file[300] ;
     sprintf (
       file,
-      "%s/%s_%d_%d",
+      "%s/%s_%d_%ld",
       DIRECTORY_RESULT_DUMP,
       registry->instance_name,
       solution->value,
@@ -76,4 +76,27 @@ void annealing (
       solution
     ) ;
     fclose (dump) ;
+    sprintf (
+      file,
+      "%s_conf",
+      file
+    ) ;
+    FILE * conf = fopen (file, "w") ;
+    int i ;
+    switch (registry->neighbourhood_exploration)
+    {
+      case NEIGHBOURHOOD_EXPLORATION_DETERMINIST:
+        fprintf (conf, "%s\n", "sequential");
+        break ;
+      case NEIGHBOURHOOD_EXPLORATION_STOCHASTIC:
+        fprintf (conf, "%s\n", "stochastic");
+        break ;
+    }
+    for (i = 0 ; i < registry->step_count ; i ++)
+      fprintf (conf, "%d ", registry->step_duration[i]) ;
+    fprintf (conf, "\n") ;
+    for (i = 0 ; i < registry->step_count ; i ++)
+      fprintf (conf, "%d ", registry->step_temperature[i]) ;
+    fprintf (conf, "\n") ;
+    fclose (conf) ;
 }
