@@ -104,13 +104,13 @@ main (int argc, char ** argv)
       printf ("%s", "no possible assignment\n") ;
       exit (0) ;
     }
-  XAVIER_neighbourhood_determinist_try (
+/*  XAVIER_neighbourhood_determinist_try (
     & solution,
     & instance,
     & registry
   ) ;
-  exit (0) ;
-  ROMAIN_neighbourhood_stochastic_try (
+*/
+    ROMAIN_neighbourhood_stochastic_try (
     & solution,
     & instance,
     & registry
@@ -159,7 +159,15 @@ _init_registry (
   registry->step_current = 0 ;
   registry->step_count = annealing->step_count ;
   registry->timeout = 0 ;
-  registry->transfert_count = 0 ;
-  registry->swap_count = 0 ;
-  registry->iteration_count = 0 ;
+  registry->max_try_count = 50 ;
+  registry->memorization.transfert_count = 0 ;
+  registry->memorization.swap_count = 0 ;
+  registry->memorization.iteration_count = 0 ;
+  registry->memorization.temperature_first = annealing->temperature_first ;
+  registry->memorization.temperature_last = annealing->temperature_last ;
+  registry->memorization.agtponderate = &_capacity_left ;
+  registry->memorization.jobponderate = &_uniform ;
+  registry->memorization.method = SOLUTION_CHANGE_TRANSFER ;
+  registry->memorization.problem_type = execution->problem_type ;
+  registry->memorization.temperature_schedule = execution->neighbourhood_exploration ; 
 }
