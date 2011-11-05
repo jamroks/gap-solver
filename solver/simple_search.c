@@ -16,3 +16,29 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "../header/common.h"
+
+void simple_search (
+  t_gap_instance * instance,
+  t_gap_solution * solution,
+  t_gap_solver_registry * registry
+)
+{
+  t_solution_change change ;
+  while (TRUE)
+    {
+      if (
+        next_solution_sequential (
+          & change,
+          instance,
+          solution,
+          registry,
+          TRUE
+        )
+      )
+        {
+          solution_apply_change ( instance, solution , & change) ;
+        }
+      else
+        break ;
+    }
+}

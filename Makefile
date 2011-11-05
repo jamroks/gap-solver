@@ -5,8 +5,8 @@ all: solver
 solver : cli_parser cli_print_result input_orlibrary\
  memory_gap_instance memory_gap_solution memory_job_list\
  solver_solution_0 next_solution_sequential solution_evaluation\
- ini_annealing ini_execution thread_countdown\
- thread_temperature lib_ini_parser lib_ini_parser_dictionary \
+ ini_annealing ini_execution thread_operator\
+ lib_ini_parser lib_ini_parser_dictionary \
  stochastic_next_solution utility_ponderation_functions\
  utility_objective_cost configuration_allowed_annealing\
  configuration_allowed_execution configuration_validate configuration_validate_annealing\
@@ -18,7 +18,7 @@ solver : cli_parser cli_print_result input_orlibrary\
  input_orlibrary.o memory_gap_instance.o memory_gap_solution.o\
  memory_job_list.o solver_solution_0.o next_solution_sequential.o\
  stochastic_next_solution.o ponderation_functions.o solution_evaluation.o\
- thread_countdown.o thread_temperature.o objective_cost.o\
+ thread_operator.o objective_cost.o\
  ini_annealing.o ini_execution.o lib_ini_parser.o\
  lib_ini_parser_dictionary.o configuration_allowed_annealing.o\
  configuration_allowed_execution.o configuration_validate.o configuration_validate_annealing.o\
@@ -81,11 +81,8 @@ utility_solution:
 solution_evaluation:
 	$(CC) -c solver/solution_evaluation.c -o solution_evaluation.o
 
-thread_countdown:
-	$(CC) -c thread/countdown.c -o thread_countdown.o
-
-thread_temperature:
-	$(CC) -c thread/temperature.c -o thread_temperature.o
+thread_operator:
+	$(CC) -c thread/operator.c -o thread_operator.o
 
 ini_annealing:
 	$(CC) -c ini/annealing.c -o ini_annealing.o

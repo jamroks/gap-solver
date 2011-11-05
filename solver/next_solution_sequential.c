@@ -105,7 +105,7 @@ static t_bool _improvement ;
  *
  * @return 		TRUE if a new solution was found, FALSE otherwise
  */
-short
+t_bool
 next_solution_sequential (
   t_solution_change * change,
   t_gap_instance * instance,
@@ -300,50 +300,6 @@ _full_swap (t_agent source, t_agent destination)
       return TRUE ;
     }
   return FALSE ;
-}
-
-void XAVIER_neighbourhood_determinist_try (
-  t_gap_solution * solution,
-  t_gap_instance * instance,
-  t_gap_solver_registry * registry)
-{
-  t_solution_change change ;
-
-//int delta = 0 ;
-//int i = 0 ;
-  /*
-  printf("%d\n", next_solution_sequential (
-            & change,
-            instance,
-            solution,
-            registry,
-            TRUE
-          )) ;
-  */
-  printf("%d\n", solution->value) ;
-  while (TRUE)
-    {
-      if (
-        next_solution_sequential (
-          & change,
-          instance,
-          solution,
-          registry,
-          TRUE
-        )
-      )
-        {
-//delta += change.delta_value ;
-          solution_apply_change ( instance, solution , & change) ;
-        }
-      else
-        break ;
-//i ++ ;
-    }
-
-//printf("%d\n", delta) ;
-  printf("%d\n", solution->value) ;
-//print_result (instance, solution);
 }
 
 static t_bool

@@ -74,20 +74,20 @@ void
 memorize_solution(t_gap_instance *, t_gap_solution *, t_gap_solver_registry * ) ;
 
 short
-solution_evaluation (int, int, t_problem_type, float);
+solution_evaluation (int, t_problem_type, float);
 
 // <[Start]> stochastic neighbourhood
 
 /* à partir d'une solution réalisable, fournit une autre solution réalisable aléatoirement dans le voisinage */
-short
-stochastic_next_solution (t_solution_change * change, t_gap_instance *, t_gap_solution *, t_gap_solver_registry *) ;
+t_bool
+stochastic_next_solution (t_solution_change * change, t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_bool) ;
 
 // <[End]> stochastic neighbourhood
 
 
 // <[Start]> Determinist neighbourhood
 
-short
+t_bool
 next_solution_sequential (
   t_solution_change * change,
   t_gap_instance * instance,
@@ -292,7 +292,7 @@ parse_cli_arguments (
 ) ;
 
 short 
-print_result (t_gap_instance *,t_gap_solution *) ;
+print_result (FILE *, t_gap_instance *,t_gap_solution *) ;
 
 // <[End]> CLI
 
@@ -315,10 +315,7 @@ load_configuration_execution (
 // <[Start]> Thread
 
 void 
-* thread_countdown (void * ) ;
-
-void 
-* thread_temperature (void * ) ;
+* thread_operator (void * ) ;
  
 // <[End]> Thread
 
@@ -340,12 +337,20 @@ solution_apply_change (
 
 // <[End]> Utility
 
-// Tests
+// <[Start]> Search
 
-void XAVIER_neighbourhood_determinist_try (
-  t_gap_solution * _next_solution,
-  t_gap_instance * _instance,
-  t_gap_solver_registry * _registry) ;
+void simple_search (
+  t_gap_instance * instance,
+  t_gap_solution * solution,
+  t_gap_solver_registry * registry
+) ;
 
-//
+void annealing (
+  t_gap_instance * instance,
+  t_gap_solution * solution,
+  t_gap_solver_registry * registry
+) ;
+
+// <[End]> Search
+
 #endif

@@ -18,13 +18,14 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #include "../header/common.h"
 
 short 
-print_result (t_gap_instance * instance, t_gap_solution * solution)
+print_result (FILE * stream, t_gap_instance * instance, t_gap_solution * solution)
 {
   int valeur ;
   int agent, job ;
   int assignments, cost, value ;
   t_job_list * ll_job_elt ;
-  printf (
+  fprintf (
+    stream,
     "%-5d\n\n%-5d\n\n%-5d\n\n",
     solution->value,
     instance->agent_count,
@@ -42,23 +43,23 @@ print_result (t_gap_instance * instance, t_gap_solution * solution)
           value += instance->gain[agent][ll_job_elt->job] ;
           assignments ++ ;
         }
-      printf ("%5d / %-5d\t%5d (%d) / %-5d\t%-5d\n\n",
+      fprintf (
+        stream,"%5d/%-5d\t%5d/%-5d\t%-5d\n\n",
         assignments,
         instance->job_count,
         (instance->capacity[agent] - solution->capacity_left[agent]),
-        cost,
         instance->capacity[agent],
         value
       );
       ll_job_elt = solution->ll_assignment[agent] ;
       while (ll_job_elt = ll_job_elt->next)
-        printf (
+        fprintf (
+          stream,
           "%5d : %-5d\t",
           ll_job_elt->job,
           instance->cost[agent][ll_job_elt->job]
         ) ;
-      printf ("%s", "\n\n");
-
+      fprintf (stream, "%s", "\n\n");
     };
   return 0 ;
 }

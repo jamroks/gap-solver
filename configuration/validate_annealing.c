@@ -73,7 +73,7 @@ validate_configuration_annealing (t_configuration_annealing * annealing)
 short
 validate_duration (int value)
 {
-  return validate_int (value, INPUT_TEMPERATURE_MIN, INPUT_TEMPERATURE_MAX) ;
+  return validate_int (value, INPUT_DURATION_MIN, INPUT_DURATION_MAX) ;
 }
 
 /**

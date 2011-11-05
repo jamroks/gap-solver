@@ -88,12 +88,13 @@ _increasing(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_agent
  *
 */
 
-short
+t_bool
 stochastic_next_solution (
   t_solution_change * change,
   t_gap_instance * gap_inst,
   t_gap_solution * gap_cur,
-  t_gap_solver_registry * registry)
+  t_gap_solver_registry * registry,
+  t_bool improvement)
 {
   t_list values_list ;
   int agt_1 , agt_2 , job , job2 ;
@@ -101,10 +102,10 @@ stochastic_next_solution (
   int try_count=0 ;
   t_bool new_found=FALSE ;
   t_solution_change_type ng_structure=registry->ng_structure ;
-  if (registry->verbosity == TRUE) printf("=> début de calcul de voisinage ...\n") ;
+  if (registry->verbose == TRUE) printf("=> début de calcul de voisinage ...\n") ;
   /* copie de la solution de départ vers la solution suivante , avant modification */
   /* Sélection de la structure de voisinage */
-  if (registry->verbosity == TRUE) printf("=> bouclage\n") ;
+  if (registry->verbose == TRUE) printf("=> bouclage\n") ;
   while ((new_found == FALSE) && (try_count < registry->max_try_count))
     {
       try_count++ ;
@@ -112,43 +113,43 @@ stochastic_next_solution (
         {
         case SOLUTION_CHANGE_TRANSFER :/* selon un transfert d'une tâche entre deux agents */
         { 
-          if (registry->verbosity == TRUE) printf("\tméthode par transfert ...\n") ;
+          if (registry->verbose == TRUE) printf("\tméthode par transfert ...\n") ;
           /* constituer la liste pondérée des agents */
           values_list=_agent_list(gap_inst) ;
           /* tirer au sort un élément dans la liste */
           if (values_list.nb_elt == 0)
             {
               /* pas de tâche possible : saturation de agt_2 */
-              if (registry->verbosity == TRUE) printf("aucun agent 1\n") ;
+              if (registry->verbose == TRUE) printf("aucun agent 1\n") ;
               _unavailable(NO_AGT) ;
               registry->memorization.unavailable_count++ ;
 	      if (registry->neighbourhood_swap == TRUE)   
                  ng_structure=SOLUTION_CHANGE_SWAP ;
               break ;
             } ;
-          if (registry->verbosity == TRUE) printf("\t\ttirage au sort un agent\n") ;
+          if (registry->verbose == TRUE) printf("\t\ttirage au sort un agent\n") ;
           agt_1 = _take_choice(gap_inst , gap_cur , registry , &values_list , registry->agtponderate) ;
-          if (registry->verbosity == TRUE) printf("\tagent origine ... %d\t" , agt_1) ;
+          if (registry->verbose == TRUE) printf("\tagent origine ... %d\t" , agt_1) ;
           /* enlever agt_1 de la liste */
-          if (registry->verbosity == TRUE) printf("\tretrait de l'agent ...\n") ;
+          if (registry->verbose == TRUE) printf("\tretrait de l'agent ...\n") ;
           _subtract_elt_from_list(&values_list , agt_1) ;
           if (values_list.nb_elt == 0)
             {
               // pas d'agent disponible ?
-              if (registry->verbosity == TRUE) printf("aucun agent 2\n") ;
+              if (registry->verbose == TRUE) printf("aucun agent 2\n") ;
               _unavailable(NO_AGT) ;
               registry->memorization.unavailable_count++ ;
               break ;
             } ;
           /* tirer au sort un autre agent dans la liste */
           agt_2 = _take_choice(gap_inst , gap_cur , registry , &values_list , registry->agtponderate) ;
-          if (registry->verbosity == TRUE) printf("\tagent cible ... %d\t" , agt_2) ;
+          if (registry->verbose == TRUE) printf("\tagent cible ... %d\t" , agt_2) ;
           /* idem pour choisir une tâche admissible de agt_1 vers agt_2 */
           values_list=_job_agt_list(gap_inst , gap_cur , agt_1 , agt_2) ;
           if (values_list.nb_elt == 0)
             {
               // pas de tâche possible : saturation de agt_2
-              if (registry->verbosity == TRUE) printf("\n mal barré\n") ;
+              if (registry->verbose == TRUE) printf("\n mal barré\n") ;
               _unavailable(NO_JOB) ;
               /* CAS A VOIR : VOISINAGE VIDE ! */
               registry->memorization.unavailable_count++ ;
@@ -159,7 +160,7 @@ stochastic_next_solution (
           else
             {
               /* tirer au sort un élément dans la liste ou montée */
-              if (registry->verbosity == TRUE) printf("\n\ttirage au sort d'une tâche parmi %d...\n",values_list.nb_elt) ;
+              if (registry->verbose == TRUE) printf("\n\ttirage au sort d'une tâche parmi %d...\n",values_list.nb_elt) ;
               if (MONTEE)
                 {
                   /* choisir la tâche qui rapporte le plus  */
@@ -169,7 +170,7 @@ stochastic_next_solution (
                 {
                   job = _take_choice(gap_inst , gap_cur , registry , &values_list , registry->jobponderate) ;
                 } ;
-              if (registry->verbosity == TRUE) printf("\t tache n°%d.\n" , job) ;
+              if (registry->verbose == TRUE) printf("\t tache n°%d.\n" , job) ;
               /* transférer la tâche de agt_1 vers agt_2 */
               change->type= SOLUTION_CHANGE_TRANSFER ;
               change->contents.transfer.source=agt_1 ;
@@ -179,47 +180,47 @@ stochastic_next_solution (
               new_found=TRUE ;
               registry->memorization.transfert_count++ ;
             } ;
-          if (registry->verbosity == TRUE) printf("\tfin de méthode par transfert ...\n") ;
+          if (registry->verbose == TRUE) printf("\tfin de méthode par transfert ...\n") ;
         } ;
         break ;
         case SOLUTION_CHANGE_SWAP :  /* selon un transfert d'une tâche entre deux agents */
         { 
-          if (registry->verbosity == TRUE) printf("\tméthode par SWAP ...\n") ;
+          if (registry->verbose == TRUE) printf("\tméthode par SWAP ...\n") ;
           /* constituer la liste pondérée des agents */
           values_list=_agent_list(gap_inst) ;
           /* tirer au sort un élément dans la liste */
           if (values_list.nb_elt == 0)
             {
               /* pas de tâche possible : saturation de agt_2 */
-              if (registry->verbosity == TRUE) printf("aucun agent 1\n") ;
+              if (registry->verbose == TRUE) printf("aucun agent 1\n") ;
               _unavailable(NO_AGT) ;
               registry->memorization.unavailable_count++ ;
               ng_structure=SOLUTION_CHANGE_SWAP ;
               break ;
             } ;
           agt_1 = _take_choice(gap_inst , gap_cur , registry , &values_list , registry->agtponderate) ;
-          if (registry->verbosity == TRUE) printf("\tagent origine ... %d\t" , agt_1) ;
+          if (registry->verbose == TRUE) printf("\tagent origine ... %d\t" , agt_1) ;
           /* enlever agt_1 de la liste */
-          if (registry->verbosity == TRUE) printf("\tretrait de l'agent ...\n") ;
+          if (registry->verbose == TRUE) printf("\tretrait de l'agent ...\n") ;
           _subtract_elt_from_list(&values_list , agt_1) ;
           if (values_list.nb_elt == 0)
             {
               // pas d'agent disponible ?
-              if (registry->verbosity == TRUE) printf("aucun agent 2\n") ;
+              if (registry->verbose == TRUE) printf("aucun agent 2\n") ;
               _unavailable(NO_AGT) ;
               registry->memorization.unavailable_count++ ;
               break ;
             } ;
           /* tirer au sort un autre agent dans la liste */
           agt_2 = _take_choice(gap_inst , gap_cur , registry , &values_list , registry->agtponderate) ;
-          if (registry->verbosity == TRUE) printf("\tagent cible ... %d\t" , agt_2) ;
+          if (registry->verbose == TRUE) printf("\tagent cible ... %d\t" , agt_2) ;
           /* idem pour choisir une tâche chez agent 1 */
           if (agt_1 == agt_2) printf("bug negatif agent swap\n") ;
           values_list=_job_swap0_list(gap_inst , gap_cur , agt_1 , agt_2) ; //agt2 ne sert à rien
           if (values_list.nb_elt == 0)
             {
               // pas de tache ?
-              if (registry->verbosity == TRUE) printf("\n mal barré20\n") ;
+              if (registry->verbose == TRUE) printf("\n mal barré20\n") ;
               _unavailable(NO_JOB) ;
               /* CAS A VOIR : VOISINAGE VIDE ! */
               registry->memorization.unavailable_count++ ;
@@ -228,13 +229,13 @@ stochastic_next_solution (
             };
           /* tirer au sort une tache à échanger */
           job = _take_choice(gap_inst , gap_cur , registry , &values_list , registry->jobponderate) ;
-          if (registry->verbosity == TRUE) printf("\t tache n°%d.\n" , job) ;
+          if (registry->verbose == TRUE) printf("\t tache n°%d.\n" , job) ;
           /* idem pour choisir une tâche admissible chez agent 2 */
           values_list=_job_swap_list(gap_inst , gap_cur , agt_1 , agt_2 , job) ;
           if (values_list.nb_elt == 0)
             {
               // pas de tâche possible : agent sans tache
-              if (registry->verbosity == TRUE) printf("\n mal barré21\n") ;
+              if (registry->verbose == TRUE) printf("\n mal barré21\n") ;
               _unavailable(NO_JOB) ;
               /* CAS A VOIR : VOISINAGE VIDE ! */
               registry->memorization.unavailable_count++ ;
@@ -242,11 +243,11 @@ stochastic_next_solution (
               break ;
             };
           /* tirer au sort une seconde tache à échanger */
-          if (registry->verbosity == TRUE) printf("\ttirage au sort d'une tâche ...\n") ;
+          if (registry->verbose == TRUE) printf("\ttirage au sort d'une tâche ...\n") ;
           job2 = _take_choice(gap_inst , gap_cur , registry , &values_list , registry->jobponderate) ;
-          if (registry->verbosity == TRUE) printf("\t tache n°%d.\n" , job) ;
+          if (registry->verbose == TRUE) printf("\t tache n°%d.\n" , job) ;
           /* faire l'échange la tâche de agt_1 et agt_2 */
-          if (registry->verbosity == TRUE) printf("\nSWAP:: agt=%d(%d)  pour job=%d(%d) // agt =%d(%d) pour job=%d(%d)\n",
+          if (registry->verbose == TRUE) printf("\nSWAP:: agt=%d(%d)  pour job=%d(%d) // agt =%d(%d) pour job=%d(%d)\n",
                                                     agt_1,gap_cur->capacity_left[agt_1], job, gap_inst->cost[agt_1][job],
                                                     agt_2,gap_cur->capacity_left[agt_2], job2, gap_inst->cost[agt_2][job2]) ;
           change->type= SOLUTION_CHANGE_SWAP ;
@@ -257,7 +258,7 @@ stochastic_next_solution (
           change->delta_value= gap_inst->gain[agt_2][job] - gap_inst->gain[agt_1][job] + gap_inst->gain[agt_1][job2] - gap_inst->gain[agt_2][job2] ;
           new_found=TRUE ;
           registry->memorization.swap_count++ ;
-          if (registry->verbosity == TRUE) printf("\tfin de méthode par échange ...\n") ;
+          if (registry->verbose == TRUE) printf("\tfin de méthode par échange ...\n") ;
         } ;
         break ;
         case SOLUTION_CHANGE_MULTI_SWAP :  /* selon un transfert d'une tâche entre plusieurs agents */
@@ -281,7 +282,7 @@ stochastic_next_solution (
       return FALSE ;
     } ;
   return TRUE ;
-  if (registry->verbosity == TRUE) printf("fin voisinage.\n") ;
+  if (registry->verbose == TRUE) printf("fin voisinage.\n") ;
 }
 
 /* fonction de listage des agents */
@@ -342,7 +343,7 @@ _increasing(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *re
         } ;
     } ;
 //best_job=list_of_values->list[0] ;
-  if (reg->verbosity == TRUE) printf("\nmontée/descente sur %d élts :: %d - %d meilleur=%d job=%d\n",
+  if (reg->verbose == TRUE) printf("\nmontée/descente sur %d élts :: %d - %d meilleur=%d job=%d\n",
                                        list_of_values->nb_elt, inst->gain[agt_2][best_job],inst->gain[agt_1][best_job], best_value, best_job) ;
   if (best_job == NO_VALUE) printf("NO_VALUE !\n") ;
 //printf("fin de Montée ->%d\n",best_job) ;
@@ -451,39 +452,39 @@ _take_choice(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *r
   t_elt elt ;
   t_list ponderate_list ;
   if (list_of_elt->nb_elt <=0) printf("take choice : ZERO\n") ;
-  if (reg->verbosity == TRUE) printf("\t\ttake_choice ...%d élts\n",list_of_elt->nb_elt) ;
+  if (reg->verbose == TRUE) printf("\t\ttake_choice ...%d élts\n",list_of_elt->nb_elt) ;
 // calculer la ponderation pour chaque élément de la liste
   for (n_elt=0; n_elt < list_of_elt->nb_elt; n_elt++)
     {
-      if (reg->verbosity == TRUE) printf("\t\t[%d]",n_elt) ;
+      if (reg->verbose == TRUE) printf("\t\t[%d]",n_elt) ;
       elt = list_of_elt->list[n_elt] ;
       sum+=ponderate(inst , sol , reg , elt) ;
       ponderate_list.list[n_elt]=sum ;
-      if (reg->verbosity == TRUE) printf(" objet n°%d  pondération cumulée=%d\n",elt,ponderate_list.list[n_elt]) ;
+      if (reg->verbose == TRUE) printf(" objet n°%d  pondération cumulée=%d\n",elt,ponderate_list.list[n_elt]) ;
     } ;
   ponderate_list.nb_elt=list_of_elt->nb_elt ;
 // une valeur aléatoire
 // ici pondérée : valeurs cumulées
-  if (reg->verbosity == TRUE) printf("\t\taléatoire") ;
+  if (reg->verbose == TRUE) printf("\t\taléatoire") ;
   n_elt=list_of_elt->nb_elt ;
-  if (reg->verbosity == TRUE) printf("\t avec %d élts\n",n_elt) ;
+  if (reg->verbose == TRUE) printf("\t avec %d élts\n",n_elt) ;
   if (ponderate_list.list[n_elt-1] == 0)
     {
       rnd_value = rand() % n_elt ;
-      if (reg->verbosity == TRUE) printf("\t\tlinéaire ...%d",rnd_value) ;
+      if (reg->verbose == TRUE) printf("\t\tlinéaire ...%d",rnd_value) ;
       n_elt=rnd_value ;
     }
   else
     {
       rnd_value = (rand() % ponderate_list.list[n_elt-1]) + 1 ;
-      if (reg->verbosity == TRUE) printf("\t\tpondérée ...%d sur %d",rnd_value,ponderate_list.list[n_elt-1]) ;
+      if (reg->verbose == TRUE) printf("\t\tpondérée ...%d sur %d",rnd_value,ponderate_list.list[n_elt-1]) ;
       n_elt=0;
       while (rnd_value > ponderate_list.list[n_elt])
         {
           n_elt++ ;
         } ;
     } ;
-  if (reg->verbosity == TRUE) printf("\t\tvaleur aléatoire position=%d \n",n_elt) ;
+  if (reg->verbose == TRUE) printf("\t\tvaleur aléatoire position=%d \n",n_elt) ;
   return (t_elt) list_of_elt->list[n_elt] ;
 }
 
@@ -503,7 +504,7 @@ void ROMAIN_neighbourhood_stochastic_try (
   int test_b=200 ;
   t_bool solution_found ;
   t_solution_change change ;
-  registry->verbosity = FALSE  ;
+  registry->verbose = FALSE  ;
   if (registry->problem_type == MAXIMIZATION)
     {
       printf("problème en MAXIMISATION\n") ;
@@ -520,8 +521,8 @@ void ROMAIN_neighbourhood_stochastic_try (
 //  printf("échec voisinage à %d\n",registry->max_try_count) ;
   registry->memorization.max_try_count_failure = 0 ;
   printf("Le voisinage sera ") ;
-  if (registry->verbosity) printf("bavard\n") ;
-  if (! registry->verbosity) printf("silencieux\n") ;
+  if (registry->verbose) printf("bavard\n") ;
+  if (! registry->verbose) printf("silencieux\n") ;
 //  printf("fin de paramétrage pour voisinage\n") ;
 //  test voisinage stochastique
   srand(time(NULL));
@@ -532,7 +533,7 @@ void ROMAIN_neighbourhood_stochastic_try (
       registry->current_solution = solution ;
       registry->memorization.current_solution = solution ;
       registry->memorization.iteration_count++ ;
-      solution_found=stochastic_next_solution ( & change ,  instance ,  solution,  registry) ;
+      solution_found=stochastic_next_solution ( & change ,  instance ,  solution,  registry, FALSE) ;
       if (solution_found == TRUE)
         {
 //          printf("%3d variation proposée %d\t",test_b,change.delta_value) ;

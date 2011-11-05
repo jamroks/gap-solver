@@ -29,7 +29,7 @@ _capacity(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *reg,
 t_cost
 _capacity_left(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *reg, t_elt elt)
 {
-  if (reg->verbosity == TRUE) printf(" (via capacity_left !) ") ;
+  if (reg->verbose == TRUE) printf(" (via capacity_left !) ") ;
   return(sol->capacity_left[elt]+MIN_VALUE) ;
 }
 

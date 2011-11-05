@@ -183,8 +183,10 @@ typedef struct {
   int * step_duration ;
   int step_current ;
   int step_count ;
-  short verbosity ;
-  short timeout ;
+  t_bool verbose ;
+  t_bool timeout ;
+  t_bool step_timeout ;
+  t_neighbourhood_exploration neighbourhood_exploration ;
   t_bool neighbourhood_swap ;
   t_bool neighbourhood_full_swap ;
   t_bool neighbourhood_multi_swap ;
