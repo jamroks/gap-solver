@@ -119,7 +119,7 @@ typedef enum {
   SOLUTION_CHANGE_TRANSFER,
   SOLUTION_CHANGE_SWAP,
   SOLUTION_CHANGE_MULTI_SWAP,
-  SOLUTION_CHANGE_FULL_SWAP,
+  SOLUTION_CHANGE_FULL	_SWAP,
 } t_solution_change_type ;
 
 typedef enum {
@@ -144,10 +144,9 @@ typedef struct {
   char * input_file ;
   t_input_source input_source ;
   t_problem_type_exploration neighbourhood_exploration ;
-  t_bool neighbourhood_transfer ;
   t_bool neighbourhood_swap ;
   t_bool neighbourhood_multi_swap ;
-  t_bool neighbourhood_full_swap ;
+  t_bool neighbourhood_transfer ;
   t_problem_type problem_type ;
   t_bool verbose ;
 } t_configuration_execution ;
@@ -182,7 +181,6 @@ typedef struct {
   short timeout ;
   t_bool neighbourhood_swap ;
   t_bool neighbourhood_multi_swap ;
-  t_bool neighbourhood_full_swap ;
   t_bool neighbourhood_transfer ;
   int max_try_count ;
   t_gap_solution * best_solution ;
