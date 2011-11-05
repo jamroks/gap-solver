@@ -4,7 +4,7 @@ all: solver
 
 solver : cli_parser cli_print_result input_orlibrary\
  memory_gap_instance memory_gap_solution memory_job_list\
- solver_solution_0 neighbourhood_determinist solution_evaluation\
+ solver_solution_0 next_solution_sequential solution_evaluation\
  ini_annealing ini_execution thread_countdown\
  thread_temperature lib_ini_parser lib_ini_parser_dictionary \
  stochastic_next_solution utility_ponderation_functions\
@@ -16,7 +16,7 @@ solver : cli_parser cli_print_result input_orlibrary\
 
 	$(CC) -D_REENTRANT gap_solver.c cli_parser.o cli_print_result.o\
  input_orlibrary.o memory_gap_instance.o memory_gap_solution.o\
- memory_job_list.o solver_solution_0.o neighbourhood_determinist.o\
+ memory_job_list.o solver_solution_0.o next_solution_sequential.o\
  stochastic_next_solution.o ponderation_functions.o solution_evaluation.o\
  thread_countdown.o thread_temperature.o objective_cost.o\
  ini_annealing.o ini_execution.o lib_ini_parser.o\
@@ -54,8 +54,8 @@ memory_error:
 solver_solution_0:
 	$(CC) -c solver/solution_0.c -o solver_solution_0.o
 
-neighbourhood_determinist:
-	$(CC) -c solver/neighbourhood_determinist.c -o neighbourhood_determinist.o	
+next_solution_sequential:
+	$(CC) -c solver/next_solution_sequential.c -o next_solution_sequential.o	
 
 stochastic_next_solution:
 	$(CC) -c solver/stochastic_next_solution.c -o stochastic_next_solution.o	

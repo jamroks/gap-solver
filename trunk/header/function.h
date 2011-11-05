@@ -88,7 +88,7 @@ stochastic_next_solution (t_solution_change * change, t_gap_instance *, t_gap_so
 // <[Start]> Determinist neighbourhood
 
 short
-determinist_next_solution (
+next_solution_sequential (
   t_solution_change * change,
   t_gap_instance * instance,
   t_gap_solution * current,
