@@ -32,6 +32,11 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 
 #define INPUT_UNASSIGNED "µµµ"
 
+#define INPUT_AGENT_PONDERATION_UNIFORM		"uni"
+#define INPUT_AGENT_PONDERATION_CAPACITY	"cap"
+#define INPUT_AGENT_PONDERATION_CAPACITY_LEFT	"cal"
+#define INPUT_AGENT_PONDERATION_ASSIGNMENT	"asg"
+
 #define INPUT_TEMPERATURE_SCHEDULE_EXPONENTIAL "exp"
 #define INPUT_TEMPERATURE_SCHEDULE_LINEAR      "lin"
 
