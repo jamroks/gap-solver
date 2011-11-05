@@ -21,8 +21,8 @@ short
 print_result (t_gap_instance * instance, t_gap_solution * solution)
 {
   int valeur ;
-  int agent,job ;
-  int assignments, value ;
+  int agent, job ;
+  int assignments, cost, value ;
   t_job_list * ll_job_elt ;
   printf (
     "%-5d\n\n%-5d\n\n%-5d\n\n",
@@ -33,18 +33,20 @@ print_result (t_gap_instance * instance, t_gap_solution * solution)
   for (agent = 0 ; agent < instance->agent_count ; agent ++)
     {
       printf("%d\t", agent + 1) ;
-      assignments = value = 0 ;
+      assignments = value = cost = 0 ;
 
       ll_job_elt = solution->ll_assignment[agent] ;
       while (ll_job_elt = ll_job_elt->next)
         {
+          cost += instance->cost[agent][ll_job_elt->job] ;
           value += instance->gain[agent][ll_job_elt->job] ;
           assignments ++ ;
         }
-      printf ("%5d / %-5d\t%5d / %-5d\t%-5d\n\n",
+      printf ("%5d / %-5d\t%5d (%d) / %-5d\t%-5d\n\n",
         assignments,
         instance->job_count,
         (instance->capacity[agent] - solution->capacity_left[agent]),
+        cost,
         instance->capacity[agent],
         value
       );

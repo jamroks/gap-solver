@@ -104,18 +104,21 @@ main (int argc, char ** argv)
       printf ("%s", "no possible assignment\n") ;
       exit (0) ;
     }
-/*  XAVIER_neighbourhood_determinist_try (
+/*
+  XAVIER_neighbourhood_determinist_try (
     & solution,
     & instance,
     & registry
   ) ;
 */
+
+/*
     ROMAIN_neighbourhood_stochastic_try (
     & solution,
     & instance,
     & registry
   ) ;
-
+*/
   /*
     countdown : a thread that will stop the process after a given duration
     temperature : a thread that will lower the temperature at the given steps

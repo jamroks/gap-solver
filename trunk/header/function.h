@@ -147,13 +147,13 @@ t_bool
 job_list_list_add_job_list (t_job_list_list * head, t_job_list * job_list) ;
 
 t_bool
-job_list_list_remove_job_list (t_job_list_list * head, t_job_list * job_list) ;
+job_list_list_delete_job_list (t_job_list_list * head, t_job_list * job_list) ;
 
 t_job_list_list *
 job_list_list_allocate_head () ;
 
 t_bool
-job_list_free_list (t_job_list_list * list) ;
+job_list_list_free (t_job_list_list * list) ;
 
 // <[End]> Memory allocation
 

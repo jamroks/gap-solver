@@ -175,7 +175,8 @@ typedef struct {
 typedef enum {
   SOLUTION_CHANGE_TRANSFER,
   SOLUTION_CHANGE_SWAP,
-  SOLUTION_CHANGE_MULTI_SWAP
+  SOLUTION_CHANGE_MULTI_SWAP,
+  SOLUTION_CHANGE_FULL_SWAP
 } t_solution_change_type ;
 
 typedef struct {
@@ -198,10 +199,16 @@ typedef struct {
   t_job_list * destination_swapped_job ;
 } t_solution_change_multi_swap ;
 
+typedef struct {
+  t_agent source ;
+  t_agent destination ;
+} t_solution_change_full_swap ;
+
 typedef union {
   t_solution_change_transfer transfer ;
   t_solution_change_swap swap ;
   t_solution_change_multi_swap multi_swap ;
+  t_solution_change_full_swap full_swap ;
 } t_solution_change_contents ;
 
 typedef struct {

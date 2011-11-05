@@ -77,22 +77,29 @@ solution_apply_change (
         ) ;
         break ;
       case SOLUTION_CHANGE_MULTI_SWAP:
-        _job_remove (
-          change->contents.multi_swap.source_swapped_job,
-          change->contents.multi_swap.source
-        ) ;
         elt = change->contents.multi_swap.destination_swapped_job ;
         while (elt = elt->next)
           {
+
+// printf ("%d ", elt->job) ;
+
             _job_add (
               elt->job,
               change->contents.swap.source
             ) ;
             _job_remove (
               elt->job,
-              change->contents.swap.destination_swapped_job
+              change->contents.swap.destination
             ) ;
+
           }
+
+// printf ("\n") ;
+
+        _job_remove (
+          change->contents.multi_swap.source_swapped_job,
+          change->contents.multi_swap.source
+        ) ;
         _job_add (
           change->contents.multi_swap.source_swapped_job,
           change->contents.swap.destination

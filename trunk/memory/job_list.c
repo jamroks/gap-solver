@@ -87,8 +87,18 @@ job_list_free (t_job_list * list)
 {
   t_job_list * elt, * tmp ;
   tmp = elt = list ;
-  while (tmp = elt = tmp->next)
-    free (elt) ;
+  while (tmp && (elt = tmp->next))
+    {
+
+//printf("free ") ;
+
+
+      tmp = elt->next ;
+      free (elt) ;
+    }
+
+//printf("\n ") ;
+
 }
 
 /**
