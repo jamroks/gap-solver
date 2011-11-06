@@ -85,6 +85,9 @@ void annealing (
     free_gap_solution (solution) ;
     clone_gap_solution (solution, & best_solution) ;
 
+    //registry->memorization.best_solution = registry->best_solution ;
+    memorize_best( instance , solution , registry ) ;
+
     char file[300] ;
     sprintf (
       file,
