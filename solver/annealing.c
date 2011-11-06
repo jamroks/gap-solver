@@ -69,15 +69,16 @@ void annealing (
     switch (registry->problem_type)
     {
       case MAXIMIZATION:
-        sprintf (file, "%s_", "max");
+        sprintf (file, "%s%s_", file, "max");
         break ;
       case MINIMIZATION:
-        sprintf (file, "%s_", "min");
+        sprintf (file, "%s%s_", file, "min");
         break ;
     }
     sprintf (
       file,
-      "%s_%d_%ld",
+      "%s%s_%d_%ld",
+      file,
       registry->instance_name,
       solution->value,
       time (NULL)
