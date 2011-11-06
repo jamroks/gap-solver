@@ -98,6 +98,7 @@ _ng_struct_name (char *f_name, t_solution_change_type ng_s )
 static void
 _neighbourhood_name (char *f_name, t_neighbourhood_exploration t_ng)
 {
+  strcpy(f_name, "n.définie") ;
   if (t_ng == NEIGHBOURHOOD_EXPLORATION_DETERMINIST )
     strcpy(f_name, "déterministe") ;
   if (t_ng == NEIGHBOURHOOD_EXPLORATION_STOCHASTIC)
@@ -150,16 +151,17 @@ memorize_solution(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_regist
   char fichier[80] ;
   t_job job ;
   t_agent agt ;
-  char job_function[20] ;
-  char agt_function[20] ;
-  char ng_struct_name[20] ;
-  char problem_type_name[20] ;
-  char ng_name[20] ;
-  char temp_schedule[20] ;
-  char step_schedule[20] ;
+  char job_function[80] ;
+  char agt_function[80] ;
+  char ng_struct_name[80] ;
+  char problem_type_name[80] ;
+  char ng_name[80] ;
+  char temp_schedule[80] ;
+  char step_schedule[80] ;
   FILE *fic ;
+  sprintf(fichier,"%s/%s",DIRECTORY_RESULT_DUMP,"detail_tir.csv") ;
   if (reg->verbose == TRUE) printf("\tmemorize_solution ...\n") ;
-  fic=fopen("detail_tir.csv", "a");
+  fic=fopen(fichier, "a");
   if (fic==NULL)
     {
       printf("Impossible d'ouvrir le fichier detail_tir.csv\n") ;
@@ -167,18 +169,21 @@ memorize_solution(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_regist
   else
     {
       _function_name(agt_function , reg->memorization.agtponderate) ;
-//printf("\n nom=%s\n",agt_function) ;
+//printf("\n agtp nom=%s\n",agt_function) ;
       _function_name(job_function , reg->memorization.jobponderate) ;
-//printf("\n nom=%s\n",job_function) ;
+//printf("\n jobp nom=%s\n",job_function) ;
       _ng_struct_name(ng_struct_name, reg->memorization.ng_structure) ;
       _problem_type_name(problem_type_name, reg->memorization.problem_type) ;
 //printf("\n nom=%s\n",ng_struct_name) ;
       _temp_schedule_name(temp_schedule, reg->memorization.temperature_schedule) ;
 //printf("\n T° nom=%s\n",temp_schedule) ;
       _step_schedule_name(step_schedule, reg->memorization.step_schedule) ;
+//printf("\n step schedule nom=%s\n",step_schedule) ;
       _neighbourhood_name(ng_name, reg->memorization.neighbourhood_exploration) ;  
+//printf("\n ng_name nom=%s\n",ng_name) ;
+//printf("\n nom=%s\n",inst->name) ;
+//printf("\n valeur cr=%d\n",reg->memorization.current_solution->value) ;
       fprintf(fic, "%s ; %s ; %d ; %d ; %d ;",inst->name , problem_type_name , inst->agent_count , inst->job_count , reg->memorization.current_solution->value) ;
-//printf("\n nom=%s",inst->name) ;
       fprintf(fic, "%s ; %s ; %d ; %d ; %s ; ",
               ng_name ,step_schedule , reg->memorization.temperature_first , reg->memorization.temperature_last , temp_schedule) ;
       fprintf(fic, " %s ; %s ; %s ; ", agt_function , job_function , ng_struct_name) ;
@@ -199,6 +204,7 @@ memorize_solution(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_regist
       fprintf(fic, "\n") ;
       fclose(fic) ;
     } ;
+if (reg->verbose == TRUE) printf("\tmemorize_solution fin.\n") ;
 }
 
 /** memorize_best : mémorize le résultat final pour un tir
@@ -223,9 +229,9 @@ memorize_best(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *
   char r_name[20] ;
   char step_schedule[20] ;
   FILE *shot_file ;
-  printf("\tmemorize_best ...\n") ;
   if (reg->verbose == TRUE) printf("\tmemorize_solution ...\n") ;
-  shot_file=fopen("tirs.csv", "a");
+  sprintf(fichier,"%s/%s",DIRECTORY_RESULT_DUMP,"tirs.csv") ;
+  shot_file=fopen(fichier, "a");
   if (shot_file==NULL)
     {
       printf("Impossible d'ouvrir le fichier des tirs \n") ;
