@@ -63,8 +63,21 @@ void annealing (
     char file[300] ;
     sprintf (
       file,
-      "%s/%s_%d_%ld",
-      DIRECTORY_RESULT_DUMP,
+      "%s/",
+      DIRECTORY_RESULT_DUMP
+    ) ;
+    switch (registry->problem_type)
+    {
+      case MAXIMIZATION:
+        sprintf (file, "%s_", "max");
+        break ;
+      case MINIMIZATION:
+        sprintf (file, "%s_", "min");
+        break ;
+    }
+    sprintf (
+      file,
+      "%s_%d_%ld",
       registry->instance_name,
       solution->value,
       time (NULL)
@@ -83,15 +96,7 @@ void annealing (
     ) ;
     FILE * conf = fopen (file, "w") ;
     int i ;
-    switch (registry->problem_type)
-    {
-      case MAXIMIZATION:
-        fprintf (conf, "%s\n", "max");
-        break ;
-      case MINIMIZATION:
-        fprintf (conf, "%s\n", "min");
-        break ;
-    }
+    
     switch (registry->neighbourhood_exploration)
     {
       case NEIGHBOURHOOD_EXPLORATION_DETERMINIST:
