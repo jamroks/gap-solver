@@ -13,7 +13,7 @@
 int
 _uniform(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *reg, t_elt elt)
 {
-//printf(" (via uniform !) ") ;
+  if (reg->verbose == TRUE) printf(" (via uniform !) %d !) \n",elt) ;
   return(0) ;
 }
 
@@ -21,7 +21,7 @@ _uniform(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *reg, 
 t_cost
 _capacity(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *reg, t_elt elt)
 {
-  printf(" (via capacity pour %d !) \n",elt) ;
+  if (reg->verbose == TRUE)   printf(" (via capacity pour %d !) \n",elt) ;
   return(inst->capacity[elt]) ;
 }
 
@@ -29,7 +29,7 @@ _capacity(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *reg,
 t_cost
 _capacity_left(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *reg, t_elt elt)
 {
-  if (reg->verbose == TRUE) printf(" (via capacity_left !) ") ;
+  if (reg->verbose == TRUE)   printf(" (via capacity_left !) ") ;
   return(sol->capacity_left[elt]+MIN_VALUE) ;
 }
 
@@ -37,6 +37,7 @@ int
 /* fonction de ponderation : nombre de tâches assignées (agent) */
 _assignment(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *reg, t_elt elt)
 {
+  if (reg->verbose == TRUE)   printf(" (via assignment !) ") ;
   int assignments=0 ;
   t_job job ;
   for (job = 0 ; job < inst->job_count ; job++)
