@@ -30,6 +30,8 @@ void annealing (
     t_gap_solver_registry *,
     t_bool
   ) ;
+  t_gap_solution best_solution ;
+  clone_gap_solution (& best_solution, solution) ;
   pthread_t operator ;
   t_solution_change change ;
   switch (registry->neighbourhood_exploration)
@@ -58,8 +60,18 @@ void annealing (
           registry->step_temperature[registry->step_current]
         )
       )
+        if (solution->value > best_solution.value)
+          {
+            free_gap_solution (& best_solution) ;
+            clone_gap_solution (& best_solution, solution) ;
+          }
+          
         solution_apply_change (instance, solution, & change) ;
     }
+
+    free_gap_solution (solution) ;
+    clone_gap_solution (solution, & best_solution) ;
+
     char file[300] ;
     sprintf (
       file,
