@@ -1,0 +1,25 @@
+UTILISATION DU PROGRAMME
+Le nom de l’instance doit être fourni comme dernier paramètre.
+Deux fichiers ini à la racine du répertoire de l’application : annealing.ini et execution.ini, fournissent les paramètres par défaut.
+
+MONTEE SUR UNE INSTANCE
+./gap_result --simple_search fichier_instance
+Attention, dans l’état actuel du programme, si l’option simple_search est à 1 dans le fichier execution.ini, il n’est pas possible de forcer l’utilisation du recuit en ligne de commande.
+
+SPÉCIFICATION DE PARAMÈTRES
+./gap_solver --temperature_first 150 --temperature_last 1 --temperature_schedule lin --step_schedule de2 --duration 30 --step_count 10 --problem_type max fichier instance
+Attention, il est autorisé de fournir uniquement des valeurs entières en paramètre lorsqu’un nombre est attendu.
+
+DUREE DES PALIERS
+
+--step_schedule
+•	as1, as2, as3 : les paliers ont des valeurs croissantes
+•	de1, de2, de3 : les paliers ont des valeurs décroissantes
+•	no1, no2, no3 : les paliers ont des valeurs croissantes sur la moitié de la durée puis décroissantes
+
+TEMPERATURE DES PALIERS
+
+--temperature_schedule
+•	lin : la température décroit de manière linéaire
+•	exp : la température décroit de manière exponentielle
+
