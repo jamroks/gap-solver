@@ -17,6 +17,13 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 
 #include "../header/common.h"
 
+static t_bool
+_solution_is_improved (
+  t_gap_solution * best,
+  t_gap_solution * new,
+  t_problem_type type
+) ;
+
 void annealing (
   t_gap_instance * instance,
   t_gap_solution * solution,
@@ -60,7 +67,13 @@ void annealing (
           registry->step_temperature[registry->step_current]
         )
       )
-        if (solution->value > best_solution.value)
+        if (
+          _solution_is_improved (
+            & best_solution,
+            solution,
+            registry->problem_type
+          )
+        )
           {
             free_gap_solution (& best_solution) ;
             clone_gap_solution (& best_solution, solution) ;
@@ -126,4 +139,22 @@ void annealing (
       fprintf (conf, "%d ", registry->step_temperature[i]) ;
     fprintf (conf, "\n") ;
     fclose (conf) ;
+}
+
+static t_bool
+_solution_is_improved (
+  t_gap_solution * best,
+  t_gap_solution * new,
+  t_problem_type type
+)
+{
+   switch (type)
+    {
+      case MAXIMIZATION:
+        return ((best->value - new->value) < 0) ? TRUE : FALSE ;
+        break ;
+      case MINIMIZATION:
+        return ((best->value - new->value) < 0) ? FALSE : TRUE ;
+        break ;
+    }
 }
