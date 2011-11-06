@@ -246,7 +246,7 @@ memorize_best(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *
       _problem_type_name(problem_type_name, reg->memorization.problem_type) ;
       _step_schedule_name(step_schedule, reg->memorization.step_schedule) ;
       _neighbourhood_name(ng_name, reg->memorization.neighbourhood_exploration) ;
-      fprintf(shot_file, "%s ; %s ; %d ; %d ; %d ;",r_name , problem_type_name , inst->agent_count , inst->job_count , reg->memorization.current_solution->value) ;
+      fprintf(shot_file, "%s ; %s ; %d ; %d ; %d ;",r_name , problem_type_name , inst->agent_count , inst->job_count , reg->memorization.best_solution->value) ;
       fprintf(shot_file, "%s ; %s ; %d ; %d ; %s ; ",
               ng_name ,step_schedule , reg->memorization.temperature_first , reg->memorization.temperature_last , temp_schedule) ;
       fprintf(shot_file, " %s ; %s ; %s ; ", agt_function , job_function , ng_struct_name) ;
