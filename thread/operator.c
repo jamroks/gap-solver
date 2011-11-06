@@ -17,8 +17,25 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #include "../header/common.h"
 
 void *
-thread_countdown (void * arg)
+thread_operator (void * arg)
 {
-  t_gap_solver_registry *registry = (t_gap_solver_registry *) arg ;
-  registry->timeout = 1 ;
+  int step ;
+  t_gap_solver_registry * registry = (t_gap_solver_registry *) arg ;
+  for (
+    ; registry->step_current < registry->step_count
+    ; registry->step_current ++
+  )
+    {
+      if (registry->verbose)
+        printf (
+          "entering step %d out of %d, temperature: %d, duration: %d\n",
+          registry->step_current + 1,
+          registry->step_count,
+          registry->step_temperature[registry->step_current],
+          registry->step_duration[registry->step_current]
+        ) ;
+      sleep (registry->step_duration[registry->step_current]) ;
+      registry->step_timeout = TRUE ;
+    }
+  registry->timeout = TRUE ;
 }
