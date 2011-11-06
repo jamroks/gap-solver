@@ -60,12 +60,12 @@ short
 free_gap_solution (t_gap_solution * solution)
 {
   int agent ;
-  free (solution->capacity_left) ;
+  free (solution->capacity_left) ; 
   for (agent = 0 ; agent < solution->agent_count; agent ++)
   {
       free (solution->assignment[agent]) ;
       job_list_free (solution->ll_assignment[agent]) ;
-      free (solution->ll_assignment) ;
+      free (solution->ll_assignment[agent]) ;
   }
   free (solution->assignment) ;
   return 1 ;
