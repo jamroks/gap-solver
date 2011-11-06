@@ -168,22 +168,23 @@ memorize_solution(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_regist
     }
   else
     {
+      reg->memorization.best_solution=sol ;
       _function_name(agt_function , reg->memorization.agtponderate) ;
-//printf("\n agtp nom=%s\n",agt_function) ;
+printf("\n agtp nom=%s\n",agt_function) ;
       _function_name(job_function , reg->memorization.jobponderate) ;
-//printf("\n jobp nom=%s\n",job_function) ;
+printf("\n jobp nom=%s\n",job_function) ;
       _ng_struct_name(ng_struct_name, reg->memorization.ng_structure) ;
       _problem_type_name(problem_type_name, reg->memorization.problem_type) ;
-//printf("\n nom=%s\n",ng_struct_name) ;
+printf("\n nom=%s\n",ng_struct_name) ;
       _temp_schedule_name(temp_schedule, reg->memorization.temperature_schedule) ;
-//printf("\n T° nom=%s\n",temp_schedule) ;
+printf("\n T° nom=%s\n",temp_schedule) ;
       _step_schedule_name(step_schedule, reg->memorization.step_schedule) ;
-//printf("\n step schedule nom=%s\n",step_schedule) ;
+printf("\n step schedule nom=%s\n",step_schedule) ;
       _neighbourhood_name(ng_name, reg->memorization.neighbourhood_exploration) ;  
-//printf("\n ng_name nom=%s\n",ng_name) ;
-//printf("\n nom=%s\n",inst->name) ;
-//printf("\n valeur cr=%d\n",reg->memorization.current_solution->value) ;
-      fprintf(fic, "%s ; %s ; %d ; %d ; %d ;",inst->name , problem_type_name , inst->agent_count , inst->job_count , reg->memorization.current_solution->value) ;
+printf("\n ng_name nom=%s\n",ng_name) ;
+printf("\n nom=%s\n",inst->name) ;
+printf("\n valeur cr=%d\n",reg->memorization.best_solution->value) ;
+      fprintf(fic, "%s ; %s ; %d ; %d ; %d ;",inst->name , problem_type_name , inst->agent_count , inst->job_count , reg->memorization.best_solution->value) ;
       fprintf(fic, "%s ; %s ; %d ; %d ; %s ; ",
               ng_name ,step_schedule , reg->memorization.temperature_first , reg->memorization.temperature_last , temp_schedule) ;
       fprintf(fic, " %s ; %s ; %s ; ", agt_function , job_function , ng_struct_name) ;
@@ -238,6 +239,7 @@ memorize_best(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *
     }
   else
     {
+      reg->memorization.best_solution=sol ;
       _function_name(agt_function , reg->memorization.agtponderate) ;
       _function_name(job_function , reg->memorization.jobponderate) ;
       _ng_struct_name(ng_struct_name, reg->memorization.ng_structure) ;
