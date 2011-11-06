@@ -168,17 +168,23 @@ _init_registry (
   registry->neighbourhood_multi_swap_max_iteration
     = execution->neighbourhood_multi_swap_max_iteration ;
   registry->neighbourhood_full_swap = execution->neighbourhood_full_swap ;
+  registry->memorization.current_solution = registry->current_solution ;
+  registry->current_solution->value=0 ;
   registry->step_current = 0 ;
   registry->step_count = annealing->step_count ;
   registry->step_timeout = FALSE ;
   registry->timeout = FALSE ;
   registry->max_try_count = 50 ;
+  registry->memorization.max_try_count_failure = 0 ;
+  registry->memorization.unavailable_count = 0 ;
   registry->memorization.transfert_count = 0 ;
   registry->memorization.problem_type = execution->problem_type ;
   registry->memorization.swap_count = 0 ;
   registry->memorization.iteration_count = 0 ;
   registry->memorization.temperature_first = annealing->temperature_first ;
   registry->memorization.temperature_last = annealing->temperature_last ;
+  registry->agtponderate = annealing->agtponderate ;
+  registry->jobponderate = annealing->jobponderate ;
   registry->memorization.agtponderate = annealing->agtponderate ;
   registry->memorization.jobponderate = annealing->jobponderate ;
   if (execution->neighbourhood_transfer == TRUE) 
