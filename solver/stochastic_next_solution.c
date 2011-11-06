@@ -82,11 +82,11 @@ _unavailable (t_error ) ;
 static t_job
 _increasing(t_gap_instance *, t_gap_solution *, t_gap_solver_registry *, t_agent , t_agent , t_list *) ;
 
+
+
 /* fonction de calcul de la solution suivante dans un voisinage de la solution précédente */
-/*
- * attention je construis la fonction au fur et à mesure en ajoutant des paramètres ..
- *
-*/
+
+/* ============================================================================= */
 
 t_bool
 stochastic_next_solution (
@@ -128,7 +128,7 @@ stochastic_next_solution (
               break ;
             } ;
           if (registry->verbose == TRUE) printf("\t\ttirage au sort un agent\n") ;
-          agt_1 = _take_choice(gap_inst , gap_cur , registry , &values_list , registry->agtponderate) ;
+          agt_1 = _take_choice(gap_inst , gap_cur , registry , & values_list , registry->agtponderate) ;
           if (registry->verbose == TRUE) printf("\tagent origine ... %d\t" , agt_1) ;
           /* enlever agt_1 de la liste */
           if (registry->verbose == TRUE) printf("\tretrait de l'agent ...\n") ;
@@ -439,13 +439,12 @@ _subtract_elt_from_list(t_list *list_of_values,t_elt agt_1)
     } ;
   list_of_values->nb_elt-- ;
 }
-
 /* fonction de tirage au sort d'un élément dans la liste */
 /* renvoit le rang le n° de l'élément tiré au sort : entre 1 et nb_elt */
 #define max(a,b) (a<=b?b:a)
 static t_elt
 _take_choice(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *reg,
-             t_list *list_of_elt,int (*ponderate)())
+             t_list *list_of_elt, int (*ponderate)())
 {
   int n_elt , sum=0 ;
   int rnd_value ;
@@ -456,9 +455,13 @@ _take_choice(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *r
 // calculer la ponderation pour chaque élément de la liste
   for (n_elt=0; n_elt < list_of_elt->nb_elt; n_elt++)
     {
-      if (reg->verbose == TRUE) printf("\t\t[%d]",n_elt) ;
+      if (reg->verbose == TRUE) printf("\t\t[%d]\n",n_elt) ;
       elt = list_of_elt->list[n_elt] ;
+//printf("\t\ttake_choice elt=%d \n",elt) ;
+//printf("\t\ttake_choice avsum=%d \n",sum) ;      
       sum+=ponderate(inst , sol , reg , elt) ;
+//_capacity(t_gap_instance *inst, t_gap_solution *sol, t_gap_solver_registry *reg, t_elt elt)
+//printf("\t\ttake_choice apsum=%d \n",sum) ;      
       ponderate_list.list[n_elt]=sum ;
       if (reg->verbose == TRUE) printf(" objet n°%d  pondération cumulée=%d\n",elt,ponderate_list.list[n_elt]) ;
     } ;
@@ -533,7 +536,11 @@ void ROMAIN_neighbourhood_stochastic_try (
       registry->current_solution = solution ;
       registry->memorization.current_solution = solution ;
       registry->memorization.iteration_count++ ;
+
+
       solution_found=stochastic_next_solution ( & change ,  instance ,  solution,  registry, FALSE) ;
+
+
       if (solution_found == TRUE)
         {
 //          printf("%3d variation proposée %d\t",test_b,change.delta_value) ;
