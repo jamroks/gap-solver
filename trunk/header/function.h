@@ -20,6 +20,11 @@ along with gap_solver. If not, see <http://www.gnu.org/licenses/>.
 #define FUNCTION_H
 #include "../header/type.h"
 
+/** extremum : calcul des majorants / minorants pour une instance
+ * @param : instance
+ */
+void 
+extremum(t_gap_solution *s, t_gap_instance *i, t_gap_solver_registry *r ) ;
 
 // <[Start]> fonctions de ponderation
 
