@@ -52,7 +52,7 @@ main (int argc, char ** argv)
   ) ;
   if ( ! validate_configuration_annealing (& configuration_annealing))
     error = 1 ;
-  if ( ! validate_configuration_execution (& configuration_execution))
+   if ( ! validate_configuration_execution (& configuration_execution))
     error = 1 ;
   if (error)
     {
@@ -111,10 +111,13 @@ main (int argc, char ** argv)
     {
       simple_search (& instance, & solution, & registry) ;
       if (registry.full_result)
-        print_result (stdout, & instance, & solution) ;
-      else
+        {
+         print_result (stdout, & instance, & solution) ;
+          extremum (& solution , & instance, & registry) ;
+       }
+     else
         printf ("simple search found a %d solution\n", solution.value) ;
-      exit (0) ;
+       exit (0) ;
     }
 
   else
@@ -169,7 +172,7 @@ _init_registry (
     = execution->neighbourhood_multi_swap_max_iteration ;
   registry->neighbourhood_full_swap = execution->neighbourhood_full_swap ;
   registry->memorization.current_solution = registry->current_solution ;
-  registry->current_solution->value=0 ;
+  //registry->current_solution->value=0 ;
   registry->step_current = 0 ;
   registry->step_count = annealing->step_count ;
   registry->step_timeout = FALSE ;
