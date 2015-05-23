@@ -1,0 +1,1 @@
+Operational research, metaheuristic project. Simulated annealing applied to the general assignment problem.
